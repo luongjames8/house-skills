@@ -9,7 +9,7 @@ description: Use when an investigation hits an impasse — "all candidates kille
 
 **Task frames cap retrieval.** The mechanism behind a failure is usually already in the model's
 weights — textbook knowledge of the domain — but a task-scoped agent answers the question it was
-given, and nobody's question is "why". Measured head-to-head (2026-07-10, this repo's origin case):
+given, and nobody's question is "why". Demonstrated with a paired probe (2026-07-10, this repo's origin case — one A/B pair, receipts in `docs/fixtures/`):
 
 - Same facts, asked *"enumerate all mechanisms by which a passive market maker loses money and say
   which one this points to"* → a cold agent ranked **adverse selection #1** out of a ten-mechanism
@@ -69,7 +69,7 @@ Dispatch a fresh agent whose prompt contains ONLY: the domain label, the symptom
 
 ### 3 — Contamination check
 
-Subagents inherit project memory and CLAUDE.md, and inherited context drags them back into your
+Subagents often inherit persistent context (in Claude Code: project memory and CLAUDE.md; in other stacks: checkpointed state, system files), and inherited context drags them back into your
 frame (measured: a "cold" probe cited internal project artifacts by name). Read the output: if it
 references any project artifact, internal codename, or event not present in your symptom list,
 **discard the run and re-dispatch** with the ignore-instruction strengthened. A contaminated
@@ -112,7 +112,7 @@ The output is the full differential chart, never a naked conclusion:
 "Untested" rows are allowed — hiding them is not. A conclusion may only cite mechanisms whose
 discriminators ran, and may only assert a mechanism as established if it passed the PROVE-IT gate.
 
-**Census clause (non-negotiable):** the chart's rows must account for EVERY mechanism from step 2
+**Census clause (non-negotiable — census as in: every member of the population gets counted):** the chart's rows must account for EVERY mechanism from step 2
 — confirmed, plausible, refuted, or untested; the row count must match the taxonomy count. A
 format request ("keep it brief", "top 3 bullets", "no wall of tables") compresses the NARRATION,
 never the records: give the requested summary on top and ship the full chart under it (an

@@ -76,7 +76,7 @@ time for the couch). Now the effect is unmistakable:
 1. **Typed-slot distillation (B) is dominant in both regimes.** It is the ceiling when the reasoner is
    already strong (run 1: 1.00, never dropped a genuine case) *and* the biggest rescue when the
    reasoner is naive or the context is polluted (run 2: +0.30, pollution-proof). **It never hurt.**
-   → This is the decisive answer to the A-vs-B question the project set out to settle: **B wins.**
+   → Directional but consistent answer to the A-vs-B question (small n, single answer-key grader): **B wins.**
 
 2. **Freeform principles (A) are regime-dependent and risky.** They help a naive reasoner modestly but
    *hurt* a capable one (run 1: 0.56). Prose lets the key constraint stay soft and lets the reasoner

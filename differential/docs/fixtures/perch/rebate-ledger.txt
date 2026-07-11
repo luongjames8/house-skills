@@ -1,0 +1,10 @@
+# Perch daily maker-rebate credits, 2026-07-09
+0x9f21  4.12
+0x77b0  2.90
+0x2c11  1.44
+0xb4c8  3.71
+0x6a90  2.05
+0xd371  1.98
+0x03aa  0.87
+0x0e12  0.66
+# (complete list — no other wallets credited this day)

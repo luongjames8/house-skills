@@ -23,8 +23,9 @@ description: >-
 first.** That covers generating ideas, brainstorming, enumerating options or angles, ranking
 candidates, and any subjective evaluation or judgment call. Do not wait to be asked, and do **not** try
 to assess whether your context is "polluted" — a muddied context is precisely the thing you cannot
-judge from inside it, so the trigger must never depend on noticing. The verb is enough: it never hurts
-a clean task (typed distillation matched or beat the raw baseline in every eval cell) and it rescues a
+judge from inside it, so the trigger must never depend on noticing. The verb is enough: it never hurt
+a clean task in single-agent mode (typed distillation matched or beat the raw baseline in every
+single-agent eval cell; debate cells are the documented exception — and the skill says don't debate) and it rescues a
 muddied one.
 
 The only carve-out is the negative trigger: a purely **quantitative or verifiable** call — a number, a
@@ -78,7 +79,7 @@ INPUT: problem (+ any muddled / polluted material or research)
            + BRIEFING SELF-AUDIT (false premises / ungrounded placeholders found in the briefing)
 ```
 
-Run it with subagents (the Agent tool) or the `eval/workflow.js` harness. Never let the raw muddled material leak into the reasoning step — the whole point is a clean reinjection.
+Run it with fresh subagents (in Claude Code, the Agent tool; elsewhere, any zero-history model call) or the `eval/workflow.js` harness. Never let the raw muddled material leak into the reasoning step — the whole point is a clean reinjection.
 
 ### Step 1 — Distiller prompt (typed; this IS the mental-model elicitation)
 

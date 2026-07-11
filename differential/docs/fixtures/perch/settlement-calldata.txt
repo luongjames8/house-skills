@@ -1,0 +1,7 @@
+# Decoded PerchSettlement.matchOrders calldata, 2026-07-09 (sample of 6)
+tx 0xa1: matchOrders(takerOrder{owner: 0xTGT, side: buy, px 0.52}, makerOrders[{owner: 0x9f21}, {owner: 0x03aa}])
+tx 0xa2: matchOrders(takerOrder{owner: 0xTGT, side: sell, px 0.47}, makerOrders[{owner: 0x77b0}])
+tx 0xa3: matchOrders(takerOrder{owner: 0x51de, side: buy, px 0.50}, makerOrders[{owner: 0x2c11}])
+tx 0xa4: matchOrders(takerOrder{owner: 0xTGT, side: buy, px 0.54}, makerOrders[{owner: 0xb4c8}, {owner: 0x0e12}])
+tx 0xa5: matchOrders(takerOrder{owner: 0xTGT, side: sell, px 0.46}, makerOrders[{owner: 0x6a90}])
+tx 0xa6: matchOrders(takerOrder{owner: 0x88f2, side: buy, px 0.49}, makerOrders[{owner: 0xd371}])

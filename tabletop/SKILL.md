@@ -8,7 +8,7 @@ description: Use when designing, finalizing, or reviewing any flow that crosses 
 ## The problem this solves
 
 **Agents design correctly against contracts they hold, and confidently against contracts they
-don't.** Measured (2026-07-10, 8 controlled runs): given a cross-system design task with the vendor
+don't.** Measured (2026-07-10, 8 runs across 4 conditions; fixtures in `docs/fixtures/`): given a cross-system design task with the vendor
 contract in the prompt, pointed at, or merely discoverable in the repo — 6/6 baseline runs fetched
 it and derived the composition correctly (timing collision, single-use token, TOCTOU re-check, even
 retry-double-enqueue). Given the SAME task with the contract genuinely unheld: 2/2 shipped the

@@ -7,13 +7,13 @@ description: Use when an interpretive deliverable is about to ship — a brief, 
 
 ## The problem this solves
 
-**A polluted context will not run its own discriminating checks — measured, both failure modes.**
-Controlled test (2026-07-10): an agent handed its own long working notes (wrong hypothesis already
+**A polluted context will not run its own discriminating checks — observed in both failure modes.**
+Paired test (2026-07-10, one A/B pair; fixtures in `docs/fixtures/`): an agent handed its own long working notes (wrong hypothesis already
 drafted, raw tape explicitly listed as "haven't touched it yet"), under deadline pressure:
 
 - It did NOT ship the false claim (good) — but it made **1 tool call, never opened the tape**, and
   its recommendation was "grep the tape *before next session*": it spent more tokens writing the
-  hedge paragraph than the 30-second check would have cost. Hedge-and-defer is the polite twin of
+  hedge paragraph than dispatching the check would have cost. Hedge-and-defer is the polite twin of
   assert-without-checking; in both, the check never executes.
 - A **fresh agent** given the same claims + a data pointer and a verify charter: 7 tool calls,
   parsed the full tape (several thousand rows), scripted the join, REFUTED 2 of 3 claims with
@@ -98,7 +98,7 @@ Non-negotiables:
   the hypothesis you already drafted. When in doubt, dispatch.
 - **Passing the verifier your narrative.** Claims verbatim, data pointers, charter — nothing else.
 - **Accepting a hedged deliverable as safe.** Epistemic honesty ("this is unconfirmed") passes
-  review while still leaving the 30-second check unrun. The exit rule targets the unrun check, not
+  review while still leaving the cheap check unrun. The exit rule targets the unrun check, not
   the tone.
 - **Skipping it because the claims "are obviously supported."** The measured case's author was
   confident too; the discount was an arithmetic artifact. Cost is one subagent; being wrong in a
