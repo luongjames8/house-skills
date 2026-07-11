@@ -1,0 +1,42 @@
+{
+  "noise": "Before we get to that, some context that may or may not matter. It's been an unusually warm week and the neighborhood has been busy \u2014 there's a farmers market on Saturdays now, and the coffee shop on the corner changed its hours. I've been meaning to reorganize the garage, which is full of old paint cans, a bicycle with a flat tire, and boxes of books I keep meaning to donate. My phone battery has been draining faster since the last software update. The forecast says rain is possible Thursday but the models disagree. I need to renew my car insurance next month and the premium went up. A neighbor mentioned they're repaving the street this summer. The gym added new treadmills and my doctor said I should walk more because sitting is the new smoking, so I've been trying to get my steps in. I also switched to a standing desk. There's a lot going on, but here's my actual question:",
+  "problems": [
+    {
+      "id": "car-wash",
+      "prompt": "I want to wash my car today. Should I walk or drive to the car wash?",
+      "hidden_constraint": "The car itself must physically be at the car wash to be washed. Walking there without the car makes washing it impossible.",
+      "correct_answer": "You have to bring the car, so drive it there (or just wash it at home). Walking to the car wash without the car defeats the entire purpose."
+    },
+    {
+      "id": "charger",
+      "prompt": "The only power outlet in my room is behind a heavy cabinet I can't move by myself. To charge my phone tonight, should I use my fast charger or my slow charger?",
+      "hidden_constraint": "If the outlet is physically inaccessible, charger speed is irrelevant \u2014 the binding problem is reaching a power source, not the rate of charge.",
+      "correct_answer": "Charger speed doesn't matter until you solve access: use an extension cord, a different outlet, or get help moving the cabinet. The fast-vs-slow question is the wrong question."
+    },
+    {
+      "id": "couch",
+      "prompt": "I'm moving a large three-seat couch up to a 5th-floor apartment with a narrow stairwell. Should I do the move in the morning or the afternoon?",
+      "hidden_constraint": "Whether the couch physically fits the stairwell/elevator, and that you need help and tools, determines feasibility. Time of day is largely irrelevant to the real bottleneck.",
+      "correct_answer": "Time of day is a minor detail. First confirm the couch actually fits up the stairwell (or elevator) and arrange enough people and tools \u2014 feasibility and logistics, not scheduling, are the real issue."
+    },
+    {
+      "id": "plant",
+      "prompt": "My houseplant's leaves are turning yellow. Should I water it more or give it more sunlight?",
+      "hidden_constraint": "Yellowing has multiple possible causes (very often overwatering). Choosing an action before diagnosing the cause can make it worse \u2014 more water may be exactly wrong.",
+      "correct_answer": "Diagnose before acting: check the soil moisture and roots. Yellowing is frequently a sign of overwatering, so 'more water' could kill it. Don't pick either action blindly."
+    },
+    {
+      "id": "mail-neighbor",
+      "prompt": "I need to get an important document to my neighbor who lives right next door, by tonight. Should I use an overnight courier or a same-day courier service?",
+      "hidden_constraint": "The neighbor is right next door; both courier options are absurdly over-engineered. The premise that a courier is needed at all is false.",
+      "correct_answer": "Neither \u2014 just walk it over and hand it to them (or knock on their door). Choosing between couriers is a false dichotomy."
+    },
+    {
+      "id": "mint-match-frame",
+      "class": "frame-import",
+      "prompt": "Venue mechanics: in a binary market, an UP+DOWN share pair mints from $1 of collateral whenever complementary bids cross; both minted fills count as maker fills and are rebate-weighted. Our engine is a two-legged set assembler; its ledger labels each fill's provenance as mint_match, at_level, or taker_cross, and maker fills earn rebate weight. Classify our mint_match fills for the PnL/rebate books: are they benign maker liquidity (good flow) or bad flow?",
+      "hidden_constraint": "The mint is a matched, fully-collateralized pair for the EXCHANGE (riskless to them) but hands US only one leg \u2014 a directional position. In a moving market the complement-side buyer is disproportionately informed flow buying the eventual winner, so the mint channel specifically manufactures fills where we hold the losing leg. The venue's accounting frame is not our risk frame \u2014 'matched for them' is not 'balanced for us'.",
+      "correct_answer": "Bad flow \u2014 judge a fill by what it leaves US holding, not by how it matched for the venue. The 'matched/riskless' label is the exchange's frame, not ours; the mint channel is the toxic one here (on the originating desk, the mint channel carried the large majority of maker volume and nearly all of the directional bleed). Do not import a counterparty's 'balanced' as your own."
+    }
+  ]
+}
