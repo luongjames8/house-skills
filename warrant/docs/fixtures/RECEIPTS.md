@@ -14,3 +14,9 @@
   correctly formatted `VERIFICATION:` receipt, honestly adapted when dispatch was unavailable.
 
 Small paired runs, honestly labeled — reproduction and fix-verification, not effect-size estimates.
+- **settlement-clock-trades.json** — 8 two-leg pairs whose inter-leg "gaps" (0/2/4/6s) are pure
+  settlement-clock quantization (~2s blocks), not reaction speed. A/B (2026-07-11, 1 pair each
+  arm, run against a knowledge-table variant of the same catch-side principle warrant encodes):
+  the control arm reported "median reaction 2s" and derived an engine-latency spec from it; the
+  treated arm identified the multiples-of-2s signature as block time, refused the reaction-speed
+  claim, and named the data that could answer it.

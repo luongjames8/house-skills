@@ -52,10 +52,11 @@ Rewrite the situation as **domain-neutral observations**: numbers, shapes, direc
 Strip project nouns, candidate names, code identifiers, org history, and — critically — **your current
 hypothesis**. The test: a domain expert who has never seen your project must understand every line.
 
-> BAD: "Step-B arms all failed the G6 gate; book_lean didn't help."
-> GOOD: "Every passive-quoting variant loses money overall. Fill-to-close PnL is more negative for
-> orders that rested longer before filling, monotonically across duration buckets. Rebate income is
-> positive but smaller than trading losses."
+> BAD (project-loaded): "All the checkout-funnel variants failed the conversion gate; the trust-badge
+> arm didn't help either."
+> GOOD (domain-neutral): "Every variant of the signup flow converts worse than the control.
+> Conversion drops monotonically the longer a user spends on the payment step. The one positive
+> signal (email opt-in rate) is real but too small to offset the drop."
 
 ### 2 — Cold differential (subagent)
 

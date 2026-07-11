@@ -1,35 +1,54 @@
 # house-skills
 
-Your agent doesn't lie to you on purpose — it ships the first coherent story it finds. It reads a
-field named `maker` and reports "maker." It designs against an API it never read. It answers "top
-3 findings please" by silently deleting the other seven. You catch these by asking *"wait — did
-you actually check?"* — on the days you remember. These four skills make that question fire
-automatically, at the right moments, with teeth. (A "skill" is just a markdown instruction file
-whose header states its trigger conditions; Claude Code loads them natively, and anything that can
-read a file can use them.)
+**Four drop-in files that make your AI catch itself before it hands you a confident wrong answer.**
+Install in 30 seconds; they fire themselves; they work for any analysis, not just code.
 
-**What changes after `git clone`:**
+Because here's the failure they're built for:
 
-- Conclusions reach you **pre-verified or labeled UNVERIFIED** — a fresh agent recomputes every
-  claim against the raw data before it ships, and the result carries a receipt (a one-line,
-  machine-checkable stamp you can grep for in CI).
-- "Nothing works" stops being an impasse — you get every candidate mechanism with a verdict and
-  evidence, not a shrug.
-- Designs against external APIs arrive with the **contract table filled or explicitly BLOCKED** —
-  instead of discovered in production.
-- Brainstorms start from stated constraints instead of hidden assumptions.
+Not because the model is weak — because nothing makes it *check*. It reads a column named `maker`
+and assumes that's what the column means. You say "keep it brief" and it silently deletes seven of
+its ten findings. It hits a dead end and reports "nothing works" instead of finding out why. It
+designs against an API whose rules it never read.
 
-Cost: a firing adds one bounded side-task — a distill or a fresh verifier run, a few model calls
-for a minute or two — not a re-run of your session. Each skill says what it's *not* for.
+house-skills is four instruction files. Each is a Claude Code *skill* — a markdown file whose
+header states when it should fire — and the text works in any AI that can read a file. Together they make
+your AI **catch itself at the four moments it is most likely to fool you.** They load once and
+fire themselves — no commands to learn. And they are not just for code: they work anywhere an AI
+reads evidence and tells you what it means — research, data analysis, strategy memos, incident
+reviews, due diligence, engineering.
 
-| Skill | Fires itself when | What it does |
-|---|---|---|
-| [**elucidate**](elucidate/SKILL.md) | about to brainstorm or analyze | distills the problem into typed slots, re-asks in a clean context — surfaces hidden premises |
-| [**tabletop**](tabletop/SKILL.md) | designing against someone else's API | contract table first — an unknown deadline/retry/token rule is a blocker, not a footnote |
-| [**differential**](differential/SKILL.md) | "nothing works" / unexplained anomaly | cold agent enumerates every possible mechanism, then proves the winner against independent data |
-| [**warrant**](warrant/SKILL.md) | shipping a conclusion built on data | fresh verifier recomputes every claim — refuted claims die, survivors get a receipt |
+## Sixty-second demo
 
-## Install (Claude Code)
+**You: "Summarize the investigation — just the top 3 findings."**
+
+- *Without:* three tidy bullets. Findings 4–10 — including the one that would have changed your
+  decision — are gone, and nothing tells you they existed. (In both of our test runs, the
+  baseline AI silently dropped its entire findings table under exactly this request.)
+- *With:* the same three tidy bullets — and the full findings table underneath, every item marked
+  confirmed, refuted, or untested. **Brevity compresses the story, never the evidence.**
+
+**You: "Which support tickets are churn risks? Here's the export."**
+
+- *Without:* "Tickets tagged `urgent` are your churn risks — prioritize those." Confident,
+  actionable, wrong: `urgent` is the tag agents click to *speed up their own queue*, not a
+  customer-sentiment signal. The column name lied and the AI believed it.
+- *With:* a second, fresh AI re-derives the claim from the raw export first, notices `urgent` was
+  set by staff not customers, and flags that the label **doesn't mean what the analysis assumed** —
+  before it reaches your deck.
+
+Both demos condense tests we actually ran; the synthetic data and results ship in this repo
+(`warrant/docs/fixtures/`, `differential/docs/fixtures/`), rerunnable.
+
+## The four skills
+
+| Skill | Fires when your AI is… | The failure it prevents | What it does instead |
+|---|---|---|---|
+| [**elucidate**](elucidate/SKILL.md) | about to brainstorm or analyze | answering the wrong question because a hidden assumption went unexamined | writes the assumptions down first, then thinks in a clean context |
+| [**tabletop**](tabletop/SKILL.md) | building on someone else's API, vendor, or data feed | guessing an external system's rules and finding out in production | turns every unread rule into an explicit UNKNOWN that blocks shipping |
+| [**differential**](differential/SKILL.md) | stuck — "nothing works", a result nobody can explain | giving up, or latching onto the first plausible cause | lists every possible cause like a doctor, then proves the winner two independent ways |
+| [**warrant**](warrant/SKILL.md) | about to hand you a conclusion | shipping a confident claim it never actually checked | has a fresh AI re-derive every claim from raw data — verified answer, or honest UNVERIFIED |
+
+## Install — 30 seconds, Claude Code
 
 ```bash
 git clone https://github.com/luongjames8/house-skills ~/code/house-skills
@@ -39,70 +58,88 @@ for d in ~/code/house-skills/*/; do
 done
 ```
 
-That's it — no commands to learn. The mechanism: Claude Code loads each skill's `description:`
-(its trigger conditions) into every session, and the agent invokes the skill when the moment
-matches. `/warrant` etc. works as a manual fallback.
+Done. The mechanism: Claude Code loads each skill's `description:` — its trigger conditions —
+into every session, and the agent invokes the skill when the moment matches. `/warrant` etc.
+works as a manual fallback.
 
-## Not on Claude Code?
+**How often does it fire?** By design, rarely: each skill's trigger carves out what it must NOT
+fire on, so the default is silence. tabletop and differential wait for genuinely uncommon moments
+(a cross-system design, a stuck investigation — days can pass without one). elucidate and warrant
+fire a few times per analysis-heavy session and not at all in routine back-and-forth. A firing
+costs one bounded side-task — a few model calls, a minute or two — not a re-run of your session.
+If a skill fires when you didn't want it, say so; the agent skips it.
 
-The skill *bodies* are plain process text — in three of the four, Claude Code appears only as the
-worked example next to the generic equivalent. Copy them into any system prompt, LangGraph node, or CLI-agent instruction. What you must
-supply yourself: the auto-firing (inject the four trigger descriptions into your system prompt, or
-just run the right skill at the right pipeline stage), and "fresh subagent" = any zero-history
-model call. Two pieces need no LLM at all: warrant's `VERIFICATION:` receipt is a one-line grep
-gate for CI, and tabletop's contract table works as a PR template for humans.
+### Try it yourself in 2 minutes
+
+The tests in this repo are real files you can rerun. Point your agent at one and watch the skill work:
+
+```
+# in a fresh Claude Code session, from the repo root:
+Read warrant/docs/fixtures/settlement-clock-trades.json and tell me this trader's median
+reaction speed between his two legs.
+```
+
+A bare agent answers "~2 seconds." A warrant-equipped one re-derives it from the raw file, notices
+every gap is an identical rounded interval — the timestamps were snapped to a coarse tick, so they
+can't measure anything finer — and tells you the data *cannot* answer the question as asked. Same
+file, both outcomes, on your own screen.
+
+### What it looks like when one fires
+
+Nothing to invoke — it just happens inline. You ask a normal question; the agent notices the
+moment, runs the check, and folds the result into its answer:
+
+```
+You:  Write up why the migration keeps failing — you've got the logs.
+
+AI:   [differential fires — "keeps failing / nobody can explain" is its trigger]
+      Before concluding, ruling out every cause a failure like this can have:
+      · connection-pool exhaustion  — refuted (pool never above 40%)
+      · migration lock contention   — CONFIRMED (two runners held the lock; logs + pg_locks agree)
+      · disk / OOM                   — refuted (headroom throughout)
+      · schema drift                 — untested (no staging snapshot)
+      Root cause: lock contention. One untested branch flagged, not hidden.
+```
+
+You see the extra reasoning in the reply; you don't manage it. If a skill fires when you didn't
+want it, say so and the agent drops it.
+
+**Not on Claude Code?** The skill bodies are plain process text — in three of the four, Claude
+Code appears only as the worked example beside the generic equivalent. Paste them into any system
+prompt, pipeline node, or agent instruction; "fresh subagent" just means a zero-history model
+call. Two pieces need no LLM at all: warrant's `VERIFICATION:` receipt is a one-line grep gate
+for CI, and tabletop's contract table works as a design-review template for humans.
 
 ---
 
+## Why you can trust it
+
+- **Every rule exists because of a real incident** in a production AI-agent operation — the
+  failure was first reproduced with a baseline agent (watch it fail), then the rule was written as
+  the smallest change that makes the same scenario pass — the red-then-green loop borrowed from
+  test-driven development.
+- **The evidence ships.** Each skill's synthetic test data and per-run results are in its
+  `docs/fixtures/RECEIPTS.md` — you can rerun them. An adversarial reviewer recomputed every number
+  independently and they held, before this was published.
+- **Rejected rules are published too.** Proposals that couldn't be made to fail a test were
+  recorded as negative results instead of shipped ([`warrant/docs/`](warrant/docs/)). If you read
+  one thing to judge this repo, read those.
+- **Honest limits, stated:** small paired tests, not big-n studies; elucidate has the only graded
+  eval (0.60 → 0.90 on hidden-constraint decisions, small n); every skill says what it's *not*
+  for.
+
 ## Genesis
 
-These weren't designed on a whiteboard — they came out of real production work: an operator
-running a fleet of AI agents on high-stakes analysis, catching them fooling themselves the same
-few ways, over and over. The House MD framing stuck because it fit: everybody lies — especially
-your own working notes — so the differential goes on the whiteboard and you run the tests before
-you treat. Every catch was reproduced with a baseline agent, then fixed with the smallest rule that made the
-same scenario pass — RED then GREEN, in the test-driven-development sense — and shipped as a skill. Each has a specific incident
-behind it:
+Real production work, not a whiteboard: an operator running a fleet of AI agents on high-stakes
+analysis kept catching them fooling themselves the same few ways. The name is a nod to the TV
+diagnostician House — everybody lies (especially your own working notes), the possible causes go
+on the whiteboard, and you run the tests before you treat. Four of those catches became these
+four skills; each SKILL.md opens with its incident.
 
-- **elucidate** — an analyst booked a venue's "matched, riskless" fills as benign, importing the
-  exchange's risk frame as its own; the desk was actually holding the losing leg. The entire fix
-  was one sentence said out loud — so the skill exists to force those sentences into text *before*
-  the analysis.
-- **differential** — weeks of "all candidates killed" verdicts while the actual loss mechanism sat
-  unasked; a cold agent named it in under a minute once someone finally asked *why* instead of
-  *whether*. Its PROVE-IT gate was added after an agent read a data field's NAME as its MEANING —
-  a column called `maker` that actually held the opposite party — and every re-read of the same
-  feed "confirmed" the error.
-- **warrant** — an agent with a wrong hypothesis in its own notes wrote a hedge paragraph instead
-  of dispatching the check it was deferring "to next session". Verification had to stop being the
-  author's job.
-- **tabletop** — a production button handler validated before acking and blew the vendor's
-  3-second callback window; the error was swallowed, the user saw nothing, and hundreds of unit
-  tests had passed. The design was written against a contract nobody had read.
+## The idea underneath
 
-## Evidence, honestly
-
-The incidents accumulated over weeks of operation; the controlled reproductions were run in a
-two-day hardening sprint, which is why the receipt dates cluster. What each claim rests on:
-
-- **elucidate** is the only skill with a graded eval (`elucidate/docs/experiment-results.md`):
-  0.60 → 0.90 solve-rate rescue on hidden-constraint decisions — small n (2 trials/cell, 5
-  problems, one answer-key grader), directional not definitive. The ideation mode is
-  field-validated only. The eval harness runs on Claude Code's Workflow tool; porting it elsewhere
-  means reimplementing five small primitives.
-- **differential / tabletop / warrant** carry small paired A/B runs, not distributions — each
-  skill's fixtures and per-run results are in its `docs/fixtures/RECEIPTS.md`, all synthetic and
-  rerunnable. They reproduce the failure and show the rule changes behavior under the same
-  pressure; they don't estimate effect sizes.
-- Proposed rules that **refused to fail a test were not shipped** — recorded as negative results
-  in [`warrant/docs/`](warrant/docs/). If you read one thing to judge this repo, read those.
-
-Two patterns worth stealing even if you never install anything: **catch-side beats author-side**
-(asking a working agent to notice its own mistakes degrades with context length; routing output
-through a fresh reader with a narrow charter caught every failure class we could reproduce) and
-**structure beats prose** (deliverables are tables with a completeness rule — every mechanism /
-claim / interface gets a row; one "keep it brief" request made baseline agents silently drop their
-entire findings table).
-
-Raw field cases from the originating production work live in a private companion repo; published evidence
-keeps measured result shapes with identifying specifics genericized.
+Models only reliably act on what's written in front of them; anything left unstated gets used
+sometimes, and less as the session grows. So every skill is the same move on a different target:
+**write the unstated thing down, and give it to a fresh reader.** A fresh reader catches what a
+deep-in-it author can't, and a table with a completeness rule survives pressure that makes prose
+silently shed its contents.
