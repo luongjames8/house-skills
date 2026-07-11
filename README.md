@@ -4,19 +4,23 @@ Your agent doesn't lie to you on purpose — it ships the first coherent story i
 field named `maker` and reports "maker." It designs against an API it never read. It answers "top
 3 findings please" by silently deleting the other seven. You catch these by asking *"wait — did
 you actually check?"* — on the days you remember. These four skills make that question fire
-automatically, at the right moments, with teeth.
+automatically, at the right moments, with teeth. (A "skill" is just a markdown instruction file
+whose header states its trigger conditions; Claude Code loads them natively, and anything that can
+read a file can use them.)
 
 **What changes after `git clone`:**
 
 - Conclusions reach you **pre-verified or labeled UNVERIFIED** — a fresh agent recomputes every
-  claim against the raw data before it ships, and the result carries a greppable receipt.
+  claim against the raw data before it ships, and the result carries a receipt (a one-line,
+  machine-checkable stamp you can grep for in CI).
 - "Nothing works" stops being an impasse — you get every candidate mechanism with a verdict and
   evidence, not a shrug.
 - Designs against external APIs arrive with the **contract table filled or explicitly BLOCKED** —
   instead of discovered in production.
 - Brainstorms start from stated constraints instead of hidden assumptions.
 
-Cost: each firing is roughly one extra model call. Each skill says what it's *not* for.
+Cost: a firing adds one bounded side-task — a distill or a fresh verifier run, a few model calls
+for a minute or two — not a re-run of your session. Each skill says what it's *not* for.
 
 | Skill | Fires itself when | What it does |
 |---|---|---|
@@ -35,13 +39,14 @@ for d in ~/code/house-skills/*/; do
 done
 ```
 
-That's it — no commands to learn; the skills fire themselves when the moment matches
-(`/warrant` etc. works as a manual fallback).
+That's it — no commands to learn. The mechanism: Claude Code loads each skill's `description:`
+(its trigger conditions) into every session, and the agent invokes the skill when the moment
+matches. `/warrant` etc. works as a manual fallback.
 
 ## Not on Claude Code?
 
-The skill *bodies* are plain process text — three of the four contain no Claude-specific mechanics
-at all. Copy them into any system prompt, LangGraph node, or CLI-agent instruction. What you must
+The skill *bodies* are plain process text — in three of the four, Claude Code appears only as the
+worked example next to the generic equivalent. Copy them into any system prompt, LangGraph node, or CLI-agent instruction. What you must
 supply yourself: the auto-firing (inject the four trigger descriptions into your system prompt, or
 just run the right skill at the right pipeline stage), and "fresh subagent" = any zero-history
 model call. Two pieces need no LLM at all: warrant's `VERIFICATION:` receipt is a one-line grep
@@ -51,10 +56,13 @@ gate for CI, and tabletop's contract table works as a PR template for humans.
 
 ## Genesis
 
-These came out of a live algorithmic-trading operation run by a fleet of AI agents, where the
-operator kept catching the agents fooling themselves — the same few ways, over and over. Every
-catch was reproduced with a baseline agent (RED), fixed with the smallest rule that made the
-reproduction pass (GREEN), and shipped as a skill. Each has a specific incident behind it:
+These weren't designed on a whiteboard — they came out of real production work: an operator
+running a fleet of AI agents on high-stakes analysis, catching them fooling themselves the same
+few ways, over and over. The House MD framing stuck because it fit: everybody lies — especially
+your own working notes — so the differential goes on the whiteboard and you run the tests before
+you treat. Every catch was reproduced with a baseline agent, then fixed with the smallest rule that made the
+same scenario pass — RED then GREEN, in the test-driven-development sense — and shipped as a skill. Each has a specific incident
+behind it:
 
 - **elucidate** — an analyst booked a venue's "matched, riskless" fills as benign, importing the
   exchange's risk frame as its own; the desk was actually holding the losing leg. The entire fix
@@ -62,8 +70,9 @@ reproduction pass (GREEN), and shipped as a skill. Each has a specific incident 
   the analysis.
 - **differential** — weeks of "all candidates killed" verdicts while the actual loss mechanism sat
   unasked; a cold agent named it in under a minute once someone finally asked *why* instead of
-  *whether*. Its PROVE-IT gate was added after a data field literally named `maker` was read as
-  the maker *role* — and every re-read of the same feed "confirmed" it.
+  *whether*. Its PROVE-IT gate was added after an agent read a data field's NAME as its MEANING —
+  a column called `maker` that actually held the opposite party — and every re-read of the same
+  feed "confirmed" the error.
 - **warrant** — an agent with a wrong hypothesis in its own notes wrote a hedge paragraph instead
   of dispatching the check it was deferring "to next session". Verification had to stop being the
   author's job.
@@ -95,5 +104,5 @@ through a fresh reader with a narrow charter caught every failure class we could
 claim / interface gets a row; one "keep it brief" request made baseline agents silently drop their
 entire findings table).
 
-Raw field cases from the originating campaign live in a private companion repo; published evidence
+Raw field cases from the originating production work live in a private companion repo; published evidence
 keeps measured result shapes with identifying specifics genericized.

@@ -36,7 +36,8 @@
       "class": "frame-import",
       "prompt": "Venue mechanics: in a binary market, an UP+DOWN share pair mints from $1 of collateral whenever complementary bids cross; both minted fills count as maker fills and are rebate-weighted. Our engine is a two-legged set assembler; its ledger labels each fill's provenance as mint_match, at_level, or taker_cross, and maker fills earn rebate weight. Classify our mint_match fills for the PnL/rebate books: are they benign maker liquidity (good flow) or bad flow?",
       "hidden_constraint": "The mint is a matched, fully-collateralized pair for the EXCHANGE (riskless to them) but hands US only one leg \u2014 a directional position. In a moving market the complement-side buyer is disproportionately informed flow buying the eventual winner, so the mint channel specifically manufactures fills where we hold the losing leg. The venue's accounting frame is not our risk frame \u2014 'matched for them' is not 'balanced for us'.",
-      "correct_answer": "Bad flow \u2014 judge a fill by what it leaves US holding, not by how it matched for the venue. The 'matched/riskless' label is the exchange's frame, not ours; the mint channel is the toxic one here (on the originating desk, the mint channel carried the large majority of maker volume and nearly all of the directional bleed). Do not import a counterparty's 'balanced' as your own."
+      "correct_answer": "Bad flow \u2014 judge a fill by what it leaves US holding, not by how it matched for the venue. The 'matched/riskless' label is the exchange's frame, not ours; the mint channel is the toxic one here (on the originating desk, the mint channel carried the large majority of maker volume and nearly all of the directional bleed). Do not import a counterparty's 'balanced' as your own.",
+      "note": "Added after runs 1-2; NOT exercised in the shipped results files. Field-derived problem, numbers genericized."
     }
   ]
 }

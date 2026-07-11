@@ -9,7 +9,9 @@ description: Use when an investigation hits an impasse — "all candidates kille
 
 **Task frames cap retrieval.** The mechanism behind a failure is usually already in the model's
 weights — textbook knowledge of the domain — but a task-scoped agent answers the question it was
-given, and nobody's question is "why". Demonstrated with a paired probe (2026-07-10, this repo's origin case — one A/B pair, receipts in `docs/fixtures/`):
+given, and nobody's question is "why". Demonstrated with a paired probe (2026-07-10, one A/B pair; a field case from the originating
+work — its raw scenario is private, but `docs/fixtures/` ships synthetic, rerunnable analogues of
+the same failure class):
 
 - Same facts, asked *"enumerate all mechanisms by which a passive market maker loses money and say
   which one this points to"* → a cold agent ranked **adverse selection #1** out of a ten-mechanism

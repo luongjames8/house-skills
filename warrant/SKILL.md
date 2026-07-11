@@ -8,8 +8,10 @@ description: Use when an interpretive deliverable is about to ship — a brief, 
 ## The problem this solves
 
 **A polluted context will not run its own discriminating checks — observed in both failure modes.**
-Paired test (2026-07-10, one A/B pair; fixtures in `docs/fixtures/`): an agent handed its own long working notes (wrong hypothesis already
-drafted, raw tape explicitly listed as "haven't touched it yet"), under deadline pressure:
+Paired test (2026-07-10, one A/B pair; a field case — its raw tape is private, but
+`docs/fixtures/` ships synthetic, rerunnable analogues of the same failure class): an agent handed
+its own long working notes (wrong hypothesis already drafted, raw tape explicitly listed as
+"haven't touched it yet"), under deadline pressure:
 
 - It did NOT ship the false claim (good) — but it made **1 tool call, never opened the tape**, and
   its recommendation was "grep the tape *before next session*": it spent more tokens writing the
