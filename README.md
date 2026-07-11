@@ -27,12 +27,30 @@ That's it. Works in every project, every session. Re-run the loop after pulling 
 
 ---
 
-## Details (for the curious)
+## Genesis
 
-**Where they came from.** Built inside a live algorithmic-trading campaign run by a fleet of AI
-agents. Each skill exists because a specific expensive failure happened, was reproduced with a
-baseline agent (RED), and was fixed by the change that made the reproduction pass (GREEN). Rules
-that refused to fail a test were *not* shipped — they're recorded as negative results in
+These came out of a live algorithmic-trading operation run by a fleet of AI agents, where the
+operator kept catching the agents fooling themselves — the same few ways, over and over. Instead
+of complaining at them (which doesn't survive a long session), every catch was reproduced with a
+baseline agent (RED), fixed with the smallest rule that made the reproduction pass (GREEN), and
+shipped as a skill. Each one has a specific incident behind it:
+
+- **elucidate** — an analyst booked a venue's "matched, riskless" fills as benign, importing the
+  exchange's risk frame as its own; the desk was actually holding the losing leg. The entire fix
+  was one sentence said out loud — so the skill exists to force those sentences into text *before*
+  the analysis.
+- **differential** — weeks of "all candidates killed" verdicts while the actual loss mechanism sat
+  unasked; a cold agent named it in under a minute once someone finally asked *why* instead of
+  *whether*. Its PROVE-IT gate was added after a data field literally named `maker` was read as
+  the maker *role* — and every re-read of the same feed "confirmed" it.
+- **warrant** — an agent with a wrong hypothesis in its own notes spent more tokens writing a
+  hedge paragraph than the thirty-second check it was deferring "to next session" would have
+  cost. Verification had to stop being the author's job.
+- **tabletop** — a production button handler validated before acking and blew the vendor's
+  3-second callback window; the error was swallowed, the user saw nothing, and 405 unit tests had
+  passed. The design was written against a contract nobody had read.
+
+Rules that refused to fail a test were *not* shipped — they're recorded as negative results in
 [`warrant/docs/`](warrant/docs/). Eval data for elucidate is in
 [`elucidate/docs/experiment-results.md`](elucidate/docs/experiment-results.md).
 
