@@ -1,0 +1,262 @@
+{
+  "cellSummary": [
+    {
+      "cell": "clean/B/single",
+      "n": 10,
+      "surfaced_rate": 1,
+      "correct_rate": 1,
+      "solved_rate": 1,
+      "mean_quality": 88.1
+    },
+    {
+      "cell": "clean/none/single",
+      "n": 10,
+      "surfaced_rate": 0.6,
+      "correct_rate": 0.6,
+      "solved_rate": 0.6,
+      "mean_quality": 55.7
+    }
+  ],
+  "records": [
+    {
+      "problemId": "car-wash",
+      "inputMode": "clean",
+      "distillMode": "none",
+      "analysisMode": "single",
+      "trial": 0,
+      "recommendation": "Drive to the car wash.",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 92,
+      "notes": "Candidate explicitly identifies that the car must be physically present and correctly recommends driving, matching the correct answer; only minor gap is not mentioning the 'wash it at home' alternative."
+    },
+    {
+      "problemId": "car-wash",
+      "inputMode": "clean",
+      "distillMode": "none",
+      "analysisMode": "single",
+      "trial": 1,
+      "recommendation": "Drive.",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 95,
+      "notes": "Candidate explicitly names the hidden prerequisite (car must be physically present) and correctly recommends driving, matching the reference answer."
+    },
+    {
+      "problemId": "car-wash",
+      "inputMode": "clean",
+      "distillMode": "B",
+      "analysisMode": "single",
+      "trial": 0,
+      "recommendation": "Drive. The car itself has to get to the wash somehow, and unless you're using a mobile/valet wash service, it needs to be driven in \u2014 walking there separately just leaves the dirty car at home, unwashed.",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 88,
+      "notes": "Candidate explicitly names the hidden constraint (car must be present at the wash) and correctly recommends driving, matching the reference answer; it's slightly more verbose/hedged than needed but accurate and well-reasoned."
+    },
+    {
+      "problemId": "car-wash",
+      "inputMode": "clean",
+      "distillMode": "B",
+      "analysisMode": "single",
+      "trial": 1,
+      "recommendation": "Drive to the car wash \u2014 walking isn't a real alternative here since the car itself must be driven there for it to get washed (unless it's a self-serve walk-up bay within walking distance, which is unlikely to be what's meant). Before heading out, just confirm the car is currently drivable and it's not raining.",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 88,
+      "notes": "Candidate explicitly names the hidden premise (car must be physically driven there) and correctly recommends driving, matching the reference answer, though the reasoning is slightly verbose/hedgy compared to the terse ground truth."
+    },
+    {
+      "problemId": "charger",
+      "inputMode": "clean",
+      "distillMode": "none",
+      "analysisMode": "single",
+      "trial": 0,
+      "recommendation": "Use the slow charger.",
+      "surfaced_constraint": false,
+      "correct_recommendation": false,
+      "quality": 15,
+      "notes": "The candidate mentions the outlet is inaccessible but doesn't draw the correct conclusion that this blocks charging entirely regardless of charger choice \u2014 it illogically assumes the phone will \"charge overnight\" while stuck behind an unreachable outlet, and answers the wrong question (which charger) instead of flagging that access (extension cord, different outlet, moving the cabinet) must be solved first."
+    },
+    {
+      "problemId": "charger",
+      "inputMode": "clean",
+      "distillMode": "none",
+      "analysisMode": "single",
+      "trial": 1,
+      "recommendation": "Use the slow charger.",
+      "surfaced_constraint": false,
+      "correct_recommendation": false,
+      "quality": 10,
+      "notes": "The candidate never questioned how the phone would reach the outlet at all \u2014 it answered the fast-vs-slow framing directly (recommending slow charger for heat/safety reasons) without ever noting that the cabinet blocks physical access to the outlet, which is the actual blocking issue."
+    },
+    {
+      "problemId": "charger",
+      "inputMode": "clean",
+      "distillMode": "B",
+      "analysisMode": "single",
+      "trial": 0,
+      "recommendation": "Don't pick fast vs. slow charger \u2014 that's the wrong question tonight. The real blocker is that the outlet is physically inaccessible behind the cabinet, and neither charger works until power reaches your phone.\n\nSteps: (1) Check for a gap beside/behind the cabinet to snake a cable through \u2014 if one exists, thread a cable to the outlet and plug in there, no need to move the cabinet. (2) If no gap, use an extension cord or power strip to route power out to an accessible spot. (3) If neither is available tonight, use another outlet elsewhere in the home or a portable battery bank as a stopgap. Only after access is solved does fast-vs-slow become relevant (fast charges quicker, runs a bit warmer \u2014 either is fine overnight; pick whichever charger's cable is long enough to reach wherever you end up plugging in).",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 92,
+      "notes": "Candidate explicitly names the outlet-access blocker as the real issue, correctly rejects the fast-vs-slow framing, and adds concrete practical steps (cable gap, extension cord, alternate outlet/battery bank) beyond what the minimal correct answer required."
+    },
+    {
+      "problemId": "charger",
+      "inputMode": "clean",
+      "distillMode": "B",
+      "analysisMode": "single",
+      "trial": 1,
+      "recommendation": "Neither charger yet \u2014 charger speed is irrelevant until the outlet is physically reachable. First check if a cable can snake through a gap behind/beside the cabinet without moving it; if so, plug in and then fast vs. slow is a minor convenience choice (fast charger fine, just make sure the cable has enough slack to reach from behind the cabinet to where the phone will sit). If there's no gap at all, don't wait on the cabinet tonight: use a different outlet in the home with a longer cable, an extension cord/power strip routed out from behind the cabinet, or a portable battery bank. Solve cabinet access permanently later with help moving it.",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 92,
+      "notes": "Candidate correctly identifies charger speed as irrelevant until outlet access is solved and gives concrete access-first alternatives, matching the correct answer; slightly more elaborate than needed but accurate and well-reasoned."
+    },
+    {
+      "problemId": "couch",
+      "inputMode": "clean",
+      "distillMode": "none",
+      "analysisMode": "single",
+      "trial": 0,
+      "recommendation": "Morning move.",
+      "surfaced_constraint": false,
+      "correct_recommendation": false,
+      "quality": 25,
+      "notes": "The candidate answered the literal morning-vs-afternoon question and only mentioned fit as an afterthought/fallback (\"leaves afternoon as slack time if it doesn't fit\"), rather than identifying that stairwell/elevator fit and manpower/tools are the actual feasibility bottleneck and that time of day is largely irrelevant \u2014 so it neither surfaces the hidden constraint as primary nor rejects the false framing."
+    },
+    {
+      "problemId": "couch",
+      "inputMode": "clean",
+      "distillMode": "none",
+      "analysisMode": "single",
+      "trial": 1,
+      "recommendation": "Do the move in the morning.",
+      "surfaced_constraint": false,
+      "correct_recommendation": false,
+      "quality": 15,
+      "notes": "The candidate answered the surface question (morning vs afternoon) with plausible-sounding reasoning about heat and daylight, but never questioned whether the couch fits the stairwell or whether adequate crew/tools are arranged, missing the actual feasibility bottleneck entirely."
+    },
+    {
+      "problemId": "couch",
+      "inputMode": "clean",
+      "distillMode": "B",
+      "analysisMode": "single",
+      "trial": 0,
+      "recommendation": "Morning \u2014 but only after you've confirmed the couch actually fits through the stairwell at all (that's a prerequisite, not a time-of-day question).",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 85,
+      "notes": "Candidate explicitly names fit as the real prerequisite and correctly frames time-of-day as secondary, matching the correct answer, though it still commits to \"morning\" as a recommendation rather than fully deprioritizing time-of-day as the correct answer does."
+    },
+    {
+      "problemId": "couch",
+      "inputMode": "clean",
+      "distillMode": "B",
+      "analysisMode": "single",
+      "trial": 1,
+      "recommendation": "Morning \u2014 but only after confirming the couch physically fits the stairwell (measure width/turns/landings first, independent of time). Assuming no elevator, morning wins because movers are fresh/alert (lower injury and wall-damage risk in a narrow stairwell), temperatures are cooler (less exhaustion on 5 flights), and building/hallway traffic and parking are typically easier earlier. Still verify building move-in/out hour restrictions and mover availability before locking the slot.",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 68,
+      "notes": "Candidate correctly surfaces and gates on the real constraint (stairwell fit, elevator, movers/tools) and states it explicitly, but then still answers the original framing with a firm 'Morning' recommendation and elaborate time-of-day reasoning, contradicting the correct answer's point that time of day is largely irrelevant and shouldn't be the focus."
+    },
+    {
+      "problemId": "plant",
+      "inputMode": "clean",
+      "distillMode": "none",
+      "analysisMode": "single",
+      "trial": 0,
+      "recommendation": "Water less, not more \u2014 and don't add sunlight yet. Yellowing leaves are the classic sign of overwatering/root stress far more often than underwatering or low light.",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 85,
+      "notes": "Candidate correctly identifies overwatering as the more likely cause and advises against blind watering/sun increases, and recommends checking soil moisture first, but frames it as a firm 'water less' recommendation rather than purely 'diagnose first' \u2014 slightly less neutral than the ideal answer, though it does gate the action on checking soil moisture/damp soil before acting."
+    },
+    {
+      "problemId": "plant",
+      "inputMode": "clean",
+      "distillMode": "none",
+      "analysisMode": "single",
+      "trial": 1,
+      "recommendation": "Water it less, don't add more sunlight. Yellowing leaves are the classic sign of overwatering/root stress, not insufficient light (that usually shows as pale/leggy growth, not yellowing).",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 75,
+      "notes": "Candidate correctly identifies overwatering as the likely cause and recommends watering less (not more) rather than picking either offered action blindly, but it commits to a firm recommendation without stressing the check-soil/roots diagnostic step as strongly as the ideal answer, slightly understating the 'diagnose first' framing."
+    },
+    {
+      "problemId": "plant",
+      "inputMode": "clean",
+      "distillMode": "B",
+      "analysisMode": "single",
+      "trial": 0,
+      "recommendation": "Don't pick either blindly. Do a soil moisture finger-test first: if wet/soggy, don't add water (risk of root rot, a common overwatering cause of yellowing) \u2014 let it dry and check drainage; if bone dry, water it. Separately check which leaves are yellowing: old/lower leaves = likely natural aging or nitrogen deficiency; new leaves with green veins = nutrient deficiency (iron/magnesium) \u2014 neither is fixed by water or light. Light is rarely the actual cause of yellowing, so deprioritize \"more sunlight\" unless the plant is in near-total darkness. Ask for plant species and soil-test result to narrow further.",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 96,
+      "notes": "Candidate explicitly identifies overwatering as the risk of blindly adding water, rejects the forced binary, and gives a cheap diagnostic (soil finger-test, leaf pattern) before recommending action, matching the correct answer while adding useful, accurate detail."
+    },
+    {
+      "problemId": "plant",
+      "inputMode": "clean",
+      "distillMode": "B",
+      "analysisMode": "single",
+      "trial": 1,
+      "recommendation": "Do a soil finger-test before doing either. If soil is wet/soggy, do NOT add water \u2014 that risks root rot, the most common cause of yellowing; let it dry out. If soil is bone dry, water it. Sunlight is the weaker hypothesis of the two (too little light causes legginess more than yellowing; too much causes scorch, not yellow), so don't change light until water is ruled out. Also check which leaves are yellowing: old/lower leaves only with no other symptoms is likely just natural aging (no action needed); new-growth yellowing with green veins suggests nutrient deficiency, not water or light.",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 95,
+      "notes": "Candidate explicitly rejects picking either action blindly, calls out overwatering/root rot as the key risk of adding water, and gives a concrete low-cost diagnostic (soil finger-test plus leaf-pattern check) before recommending action, matching the correct answer and adding useful, non-speculative detail."
+    },
+    {
+      "problemId": "mail-neighbor",
+      "inputMode": "clean",
+      "distillMode": "none",
+      "analysisMode": "single",
+      "trial": 0,
+      "recommendation": "Use same-day courier (or just walk it over yourself) \u2014 not overnight.",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 75,
+      "notes": "Candidate correctly identifies walking it over as the real answer and explains overnight is wrong, but hedges by leading with 'use same-day courier' rather than clearly rejecting the courier framing outright, so the false dichotomy isn't as cleanly called out as the ideal answer."
+    },
+    {
+      "problemId": "mail-neighbor",
+      "inputMode": "clean",
+      "distillMode": "none",
+      "analysisMode": "single",
+      "trial": 1,
+      "recommendation": "Use a same-day courier \u2014 or better, just hand-deliver it yourself since it's next door.",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 70,
+      "notes": "The candidate correctly lands on hand-delivering it and explicitly names it as the simplest/fastest option needing no courier, but it hedges by leading with 'use a same-day courier' and burying the correct answer as an afterthought rather than clearly rejecting the false dichotomy up front."
+    },
+    {
+      "problemId": "mail-neighbor",
+      "inputMode": "clean",
+      "distillMode": "B",
+      "analysisMode": "single",
+      "trial": 0,
+      "recommendation": "Use neither courier - hand-deliver the document yourself tonight. Overnight courier fails the deadline outright (next-business-day delivery by definition). Same-day courier could meet the deadline but adds unnecessary cost, scheduling windows, and handling risk for a trip of zero distance. Just walk it next door.",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 92,
+      "notes": "Candidate explicitly identifies the false premise (neighbor is adjacent, no courier needed), correctly recommends hand delivery, and even notes overnight courier fails the deadline outright - slightly more verbose than necessary but accurate and well-reasoned."
+    },
+    {
+      "problemId": "mail-neighbor",
+      "inputMode": "clean",
+      "distillMode": "B",
+      "analysisMode": "single",
+      "trial": 1,
+      "recommendation": "Use neither courier \u2014 hand-deliver the document yourself, since the neighbor is right next door.",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 85,
+      "notes": "Candidate correctly rejects both courier options and recommends hand-delivery, explicitly reasoning that the neighbor's proximity makes couriers unnecessary overhead, though the answer is more verbose than needed for such a straightforward call."
+    }
+  ]
+}

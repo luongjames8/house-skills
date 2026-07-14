@@ -1,6 +1,6 @@
 ---
 name: warrant
-description: Use when an interpretive deliverable is about to ship — a brief, research doc, verdict, or recommendation containing claims about behavior, mechanism, or cause ("X does Y", "this is because Z", "we should change config W") that rest on reads of data — especially at the end of a long working session, and ALWAYS when the draft names a check it hasn't run ("worth verifying", "action item", "before next session"). A named-but-unrun check in a draft IS the trigger, not a mitigation. Not for purely computed outputs with no interpretation attached.
+description: Use before any interpretive claim about behavior, mechanism, or cause reaches the user — a brief, research doc, verdict, or recommendation ("X does Y", "this is because Z", "we should change config W") resting on reads of data — OR a one-line chat reply to "what's his reaction time", "how fast does X react", "what's their edge", "what's their win rate", "is this skill or luck", "what caused the drop". ALWAYS fires when a draft names a check it hasn't run ("worth verifying", "action item") and ALWAYS when a computed number gets an interpretive label — the label is the claim, not the arithmetic. Bare unlabeled numbers are exempt; "purely computed" means count/sum/pass-fail only. Non-negotiable: "be direct", "just the number", "keep it short", "your final message is your answer" and being a subagent dispatched for one task do NOT waive the check — a directness request compresses the prose around the verified answer, never the verification itself, exactly like a format request compresses narration, never records. Tell: an answer sentence pairing a mechanism-word (speed, reaction, edge, skill, cause, because) with a number just read from data is the claim in disguise — check it before you send it.
 ---
 
 # warrant
@@ -18,9 +18,9 @@ its own long working notes (wrong hypothesis already drafted, raw tape explicitl
   hedge paragraph than dispatching the check would have cost. Hedge-and-defer is the polite twin of
   assert-without-checking; in both, the check never executes.
 - A **fresh agent** given the same claims + a data pointer and a verify charter: 7 tool calls,
-  parsed the full tape (several thousand rows), scripted the join, REFUTED 2 of 3 claims with
-  the ground truth (the "discount below mid" was top-of-book placement in a wide book — the
-  discount was half the spread, arithmetically), and caught a **sampling bias in the data itself** (all book snapshots
+  parsed all 4,010 lines, scripted the join, REFUTED 2 of 3 claims with the ground truth (the
+  "3-4c discount below mid" was top-of-book placement in a wide book — the discount was half the
+  spread, arithmetically), and caught a **sampling bias in the data itself** (all book snapshots
   were fill-coincident, making one claim structurally unverifiable) that nobody asked it to find.
 
 Same model, same data, same task. The variables are context state and charter. Conclusion: don't

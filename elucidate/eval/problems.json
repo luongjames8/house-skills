@@ -1,5 +1,5 @@
 {
-  "noise": "Before we get to that, some context that may or may not matter. It's been an unusually warm week and the neighborhood has been busy \u2014 there's a farmers market on Saturdays now, and the coffee shop on the corner changed its hours. I've been meaning to reorganize the garage, which is full of old paint cans, a bicycle with a flat tire, and boxes of books I keep meaning to donate. My phone battery has been draining faster since the last software update. The forecast says rain is possible Thursday but the models disagree. I need to renew my car insurance next month and the premium went up. A neighbor mentioned they're repaving the street this summer. The gym added new treadmills and my doctor said I should walk more because sitting is the new smoking, so I've been trying to get my steps in. I also switched to a standing desk. There's a lot going on, but here's my actual question:",
+  "noise": "Before we get to that, some context that may or may not matter. It's been an unusually warm week and the neighborhood has been busy — there's a farmers market on Saturdays now, and the coffee shop on the corner changed its hours. I've been meaning to reorganize the garage, which is full of old paint cans, a bicycle with a flat tire, and boxes of books I keep meaning to donate. My phone battery has been draining faster since the last software update. The forecast says rain is possible Thursday but the models disagree. I need to renew my car insurance next month and the premium went up. A neighbor mentioned they're repaving the street this summer. The gym added new treadmills and my doctor said I should walk more because sitting is the new smoking, so I've been trying to get my steps in. I also switched to a standing desk. There's a lot going on, but here's my actual question:",
   "problems": [
     {
       "id": "car-wash",
@@ -10,34 +10,194 @@
     {
       "id": "charger",
       "prompt": "The only power outlet in my room is behind a heavy cabinet I can't move by myself. To charge my phone tonight, should I use my fast charger or my slow charger?",
-      "hidden_constraint": "If the outlet is physically inaccessible, charger speed is irrelevant \u2014 the binding problem is reaching a power source, not the rate of charge.",
+      "hidden_constraint": "If the outlet is physically inaccessible, charger speed is irrelevant — the binding problem is reaching a power source, not the rate of charge.",
       "correct_answer": "Charger speed doesn't matter until you solve access: use an extension cord, a different outlet, or get help moving the cabinet. The fast-vs-slow question is the wrong question."
     },
     {
       "id": "couch",
       "prompt": "I'm moving a large three-seat couch up to a 5th-floor apartment with a narrow stairwell. Should I do the move in the morning or the afternoon?",
       "hidden_constraint": "Whether the couch physically fits the stairwell/elevator, and that you need help and tools, determines feasibility. Time of day is largely irrelevant to the real bottleneck.",
-      "correct_answer": "Time of day is a minor detail. First confirm the couch actually fits up the stairwell (or elevator) and arrange enough people and tools \u2014 feasibility and logistics, not scheduling, are the real issue."
+      "correct_answer": "Time of day is a minor detail. First confirm the couch actually fits up the stairwell (or elevator) and arrange enough people and tools — feasibility and logistics, not scheduling, are the real issue."
     },
     {
       "id": "plant",
       "prompt": "My houseplant's leaves are turning yellow. Should I water it more or give it more sunlight?",
-      "hidden_constraint": "Yellowing has multiple possible causes (very often overwatering). Choosing an action before diagnosing the cause can make it worse \u2014 more water may be exactly wrong.",
+      "hidden_constraint": "Yellowing has multiple possible causes (very often overwatering). Choosing an action before diagnosing the cause can make it worse — more water may be exactly wrong.",
       "correct_answer": "Diagnose before acting: check the soil moisture and roots. Yellowing is frequently a sign of overwatering, so 'more water' could kill it. Don't pick either action blindly."
     },
     {
       "id": "mail-neighbor",
       "prompt": "I need to get an important document to my neighbor who lives right next door, by tonight. Should I use an overnight courier or a same-day courier service?",
       "hidden_constraint": "The neighbor is right next door; both courier options are absurdly over-engineered. The premise that a courier is needed at all is false.",
-      "correct_answer": "Neither \u2014 just walk it over and hand it to them (or knock on their door). Choosing between couriers is a false dichotomy."
+      "correct_answer": "Neither — just walk it over and hand it to them (or knock on their door). Choosing between couriers is a false dichotomy."
     },
     {
       "id": "mint-match-frame",
       "class": "frame-import",
       "prompt": "Venue mechanics: in a binary market, an UP+DOWN share pair mints from $1 of collateral whenever complementary bids cross; both minted fills count as maker fills and are rebate-weighted. Our engine is a two-legged set assembler; its ledger labels each fill's provenance as mint_match, at_level, or taker_cross, and maker fills earn rebate weight. Classify our mint_match fills for the PnL/rebate books: are they benign maker liquidity (good flow) or bad flow?",
-      "hidden_constraint": "The mint is a matched, fully-collateralized pair for the EXCHANGE (riskless to them) but hands US only one leg \u2014 a directional position. In a moving market the complement-side buyer is disproportionately informed flow buying the eventual winner, so the mint channel specifically manufactures fills where we hold the losing leg. The venue's accounting frame is not our risk frame \u2014 'matched for them' is not 'balanced for us'.",
-      "correct_answer": "Bad flow \u2014 judge a fill by what it leaves US holding, not by how it matched for the venue. The 'matched/riskless' label is the exchange's frame, not ours; the mint channel is the toxic one here (on the originating desk, the mint channel carried the large majority of maker volume and nearly all of the directional bleed). Do not import a counterparty's 'balanced' as your own.",
-      "note": "Added after runs 1-2; NOT exercised in the shipped results files. Field-derived problem, numbers genericized."
+      "hidden_constraint": "The mint is a matched, fully-collateralized pair for the EXCHANGE (riskless to them) but hands US only one leg — a directional position. In a moving market the complement-side buyer is disproportionately informed flow buying the eventual winner, so the mint channel specifically manufactures fills where we hold the losing leg. The venue's accounting frame is not our risk frame — 'matched for them' is not 'balanced for us'.",
+      "correct_answer": "Bad flow — judge a fill by what it leaves US holding, not by how it matched for the venue. The 'matched/riskless' label is the exchange's frame, not ours; the mint channel is the toxic one here (measured: the dominant share of maker volume and essentially all of the directional bleed). Do not import a counterparty's 'balanced' as your own.",
+      "note": "Added after runs 1-2; first graded in run 4 (results-run4.json): naive baseline failed 0/2 (booked the toxic channel as benign), typed distill solved 2/2. Field-derived problem, numbers genericized."
+    },
+    {
+      "id": "stockflow-accumulation",
+      "class": "hidden-constraint",
+      "prompt": "A reservoir starts a window holding 100 units and drains at a constant outflow of 40 units/hr. Hourly inflow readings: h1=20, h2=50, h3=70, h4=60, h5=45, h6=30, h7=15 (units/hr). At the end of which hour is the water LEVEL at its maximum?",
+      "hidden_constraint": "The stock (level) is the running accumulation of net flow (inflow-outflow), not the inflow rate; it rises while inflow>outflow and peaks when inflow falls back through outflow, NOT when inflow peaks.",
+      "correct_answer": "End of hour 5 (last hour inflow 45 > outflow 40; hour 6 inflow 30 < 40 so level falls; peak level 145). Naive answer hour 3 confuses the flow's peak with the stock's peak.",
+      "note": "Documented public case: Sterman & Booth Sweeney 'Bathtub Dynamics' SDR 2000; Cronin/Gonzalez/Sterman 2009."
+    },
+    {
+      "id": "simpson-aggregate",
+      "class": "hidden-constraint",
+      "prompt": "Two methods, two case types. Complex cases: Method A 210/300 (70%), Method B 40/60 (67%). Routine cases: Method A 95/100 (95%), Method B 380/420 (90.5%). Combined: A 305/400 (76.25%), B 420/480 (87.5%). Which method is genuinely more effective?",
+      "hidden_constraint": "The combined rate is confounded by case mix: A handled far more hard Complex cases (low success for everyone), dragging its overall average down even though it wins within each type.",
+      "correct_answer": "Method A — wins BOTH subgroups (70>67, 95>90.5); B only 'wins' the aggregate because it got mostly easy Routine cases. Simpson's paradox: control for the confounder.",
+      "note": "Documented public case: Charig et al. 1986 BMJ (kidney stones); Simpson's paradox."
+    },
+    {
+      "id": "baserate-neglect",
+      "class": "hidden-constraint",
+      "prompt": "A disease affects 1 in 100 people. A test catches 90% of true cases (90% sensitivity) and has a 9% false-positive rate. You test positive. Is the probability you actually have the disease closer to about 9%, or about 90%?",
+      "hidden_constraint": "90% sensitivity is P(positive|disease), not P(disease|positive). With a 1% base rate the healthy majority produces most positives (0.09*0.99=0.089) vs true positives (0.9*0.01=0.009), so a positive is mostly a false alarm.",
+      "correct_answer": "About 9% (9.2% exactly). Base-rate neglect: reading 90% sensitivity as '90% likely I have it' is the classic error.",
+      "note": "Documented public case: Kahneman & Tversky (base-rate neglect); Gigerenzer natural frequencies."
+    },
+    {
+      "id": "conjunction-fallacy",
+      "class": "hidden-constraint",
+      "prompt": "Daniel is 28, single, studied philosophy, and took part in anti-nuclear demonstrations. Which is more probable: that Daniel is a bank employee, or that Daniel is a bank employee AND active in the environmental movement?",
+      "hidden_constraint": "A conjunction (A AND B) can never be more probable than one conjunct (A); bank-employees-who-are-activists is a subset of bank-employees. Representativeness (the vivid backstory) is not probability.",
+      "correct_answer": "Bank employee (alone): P(A) >= P(A AND B) always. Picking the conjunction because it fits the story is the conjunction fallacy.",
+      "note": "Documented public case: Tversky & Kahneman 1983, 'Extensional versus intuitive reasoning.'"
+    },
+    {
+      "id": "aiw-sibling-count",
+      "class": "pattern-import",
+      "prompt": "Fatima has 4 brothers and she also has 3 sisters. How many sisters does one of Fatima's brothers have?",
+      "hidden_constraint": "Fatima is herself a sister to her brothers, so a brother's sisters = Fatima's 3 sisters + Fatima = 4. Must enumerate the actual family, not pattern-match a memorized 'how many sisters' template.",
+      "correct_answer": "4 (Fatima's 3 sisters plus Fatima herself). The common wrong answer 3 forgets to count Fatima.",
+      "note": "Documented public case: Nezhurina et al. 2024, 'Alice in Wonderland', arXiv:2406.02061."
+    },
+    {
+      "id": "dead-cat-box",
+      "class": "pattern-import",
+      "prompt": "A cat that has already been dead for several hours is sealed in a box with a radioactive trigger and a vial of poison. One hour later, before anyone opens the box, is the cat alive or dead?",
+      "hidden_constraint": "The stated fact (cat is ALREADY dead going in) overrides the Schrodinger template; superposition only applies to a state undetermined at the start.",
+      "correct_answer": "Dead. Reciting '50/50 / superposition' ignores the given fact that the cat was dead before the box was sealed.",
+      "note": "Documented public case: cpldcpu/MisguidedAttention."
+    },
+    {
+      "id": "unit-mismatch-weight",
+      "class": "pattern-import",
+      "prompt": "Which is heavier: 1 kilogram of cotton, or 1 pound of lead?",
+      "hidden_constraint": "The famous riddle is 'a pound of X vs a pound of Y' (equal); here the UNITS differ: 1 kg is about 2.2 lb, so the kilogram side wins regardless of material. Read the actual units, don't recite 'the same'.",
+      "correct_answer": "1 kilogram of cotton (about 2.2 lb, heavier than 1 lb of lead). 'The same' is the pattern-matched error.",
+      "note": "Documented public case: cpldcpu/MisguidedAttention."
+    },
+    {
+      "id": "river-trivial-crossing",
+      "class": "pattern-import",
+      "prompt": "A woman and her dog are on the north bank of a river. Her boat can carry the woman and one animal at the same time. Does getting both to the south bank require more than one crossing?",
+      "hidden_constraint": "No predator, no forbidden pairing, boat holds both — none of the wolf/goat/cabbage constraints exist. Check whether the classic puzzle's constraints are actually present before applying its multi-trip algorithm.",
+      "correct_answer": "No — one crossing (both cross together). A multi-trip solution imports constraints that were never stated.",
+      "note": "Documented public case: cpldcpu/MisguidedAttention."
+    },
+    {
+      "id": "px-units-misread",
+      "class": "frame-import",
+      "prompt": "A ledger's fills show the engine accumulated 10 unpaired shares at px=40 and lost the full stake at resolution. The px field is an integer; the dashboard renders dollars; the attribution report says net -$0.40 for the window. An analyst reads px=40 as $0.40/share, computes a $4.00 stake, finds the attribution off by 10x, and suspects an accounting bug in the attribution pipeline. Verify the accounting.",
+      "hidden_constraint": "The ledger's integer px is in mills ($0.001 units): 40 = $0.04/share. Sibling data surfaces use different unit conventions with no unit statement in the schema - each reader assumes the convention of the surface they know. Units must be established from the data itself (notional fields, payout identities) before any reconciliation verdict.",
+      "correct_answer": "The accounting is right: 10 shares x $0.04 = $0.40 stake, resolving to $0 = net -$0.40, reconciling exactly. The 10x discrepancy was the reader's unit assumption, not an attribution bug. Prove units from within the data before alleging pipeline bugs.",
+      "note": "Field-derived problem (private field-data repo), genericized."
+    },
+    {
+      "id": "patience-signflip-phase-mix",
+      "class": "hidden-constraint",
+      "prompt": "A market-making config that enforces a minimum resting time before requoting is the best config on the newest recorded tape, but loses clearly on 2 of 3 older tapes. Volatility and drift distributions across the tapes measure near-identical. Should minimum resting time be adopted, and what explains the sign flip?",
+      "hidden_constraint": "The mechanism's value is phase-scoped within each trading window, not tape-scoped: resting through the opening burst is positive; the same patience mid-window is negative. Tape-level totals mix the phases in different volume proportions, so the aggregate sign flips with phase mix. The conditioning variable is inside the window - and per-fill timestamps to decompose by phase existed all along.",
+      "correct_answer": "Neither adopt nor reject globally - decompose by window phase first. The flip resolves exactly: early-phase resting is consistently good, mid-window resting consistently bad; adopt phase-scoped resting. Classifying a mechanism on aggregates that mix phases is the confounded-aggregate error.",
+      "note": "Field-derived problem (private field-data repo), genericized."
+    },
+    {
+      "id": "sim-level-vs-ranking",
+      "class": "hidden-constraint",
+      "prompt": "Our maker strategy is net-negative on every honest backtest replay of full order-book tapes; the fill model's mechanics passed a markout audit calibrated against a real anchor, and known biases all run optimistic. A benchmark trader running the same ruleset class is verifiably profitable live. Diagnose why we lose and recommend how to fix the strategy.",
+      "hidden_constraint": "A tape replay can only award a synthetic resting order the fills that visibly consumed the recorded book - disproportionately the informed slice; the benign two-sided churn a real front-of-queue maker receives went to the real makers in the recording and is structurally unrecoverable from any tape. Sim PnL LEVELS for maker strategies are not comparable to live levels regardless of fill-mechanics correctness - and a mechanics audit is not evidence about fill composition (category error).",
+      "correct_answer": "The divergence is fill assignment (composition), not strategy rules: reconstruct the benchmark's real per-window PnL from his public fills on the same recorded windows - profitable on the exact windows the sim scores the same ruleset negative. Demote the sim to a ranking tool; the sign question is only answerable live. 'Iterate the strategy until the sim goes positive' fixes the wrong thing.",
+      "note": "Field-derived problem (private field-data repo), genericized."
+    },
+    {
+      "id": "size-column-units",
+      "class": "frame-import",
+      "prompt": "From a trader's fill-history CSV pulled from a venue's public data API (columns: market_id, leg_index, size, price, ts, winner), characterize his strategy: leg balance, tilt, set economics, trading PnL. Analysis computed share counts from the size column directly and concluded he runs a ~2x cheap-leg tilt with sets costing above par and negative trading PnL.",
+      "hidden_constraint": "The API's size field is in currency units (dollars), not shares - nothing in the column name or docs says so. Every share-denominated statistic (tilt, imbalance, per-leg counts, cost weighting) silently inherits the units error; cheap legs cost fewer dollars per share, so dollar-weighting manufactures a phantom tilt. Only reconciling a sample against independent ground truth (on-chain share counts) proves the units.",
+      "correct_answer": "The conclusions invert: he is a near-equal-shares set assembler with sets near par and positive trading PnL. The '2x tilt' is an artifact of reading dollars as shares. Establish column units against independent ground truth before any downstream statistic - and re-derive from the raw column, not from prior docs citing the first analysis.",
+      "note": "Field-derived problem (private field-data repo), genericized."
+    },
+    {
+      "id": "oneshot-cgroup-precondition",
+      "class": "hidden-constraint",
+      "prompt": "A daily timer that starts a recording session has fired successfully for days. Tonight it reports SUCCESS in the journal, the unit exits 0, the start marker is written - yet nothing is recording: the log file exists at 0 bytes and no terminal-multiplexer server is running. The starter script runs in ~50ms, launching the recorder in a detached multiplexer session. Diagnose.",
+      "hidden_constraint": "A oneshot service with default control-group kill semantics reaps everything in its cgroup when the main process exits - including a multiplexer SERVER born inside it. Every prior success depended on an invisible precondition: a server already running OUTSIDE the unit's cgroup (spawned by an interactive login), so the unit merely attached. 'It has always worked' is evidence about the environment, not the unit.",
+      "correct_answer": "The first firing on a quiet host booted the multiplexer server inside the unit's cgroup and the service manager reaped it milliseconds later. Fix the ownership model (process-scoped kill mode, or a long-running service owning the recorder directly). Also note the watchdog gap: a freshness probe that alarms only on died-mid-recording, not on never-started, guards half the failure space.",
+      "note": "Field-derived problem (private field-data repo), genericized."
+    },
+    {
+      "id": "vacuous-axis-generalization",
+      "class": "hidden-constraint",
+      "prompt": "A parameter sweep shows a late-window quote-pull rule (stop quoting in the final seconds before a trading window closes) has ZERO effect on the current strategy family - results with and without the rule are identical, because this family's targets fill by mid-window and few quotes rest late. Classify the late-window rule axis.",
+      "hidden_constraint": "Absence of effect on quotes the family doesn't place says nothing about the axis: the same rule's blanket pull also cancels OTHER late actions (e.g. completion joins) that different mechanisms DO take late. The test measured the axis only through one family's narrow behavior, then generalized to the axis itself.",
+      "correct_answer": "Not vacuous - potentially actively harmful in composition: the blanket pull structurally kills late-window completion behavior on every config that has it. Classify axes by testing mechanism x mechanism composition, not one rule against one family's baseline; 'no effect on what we don't do' is not 'no effect'.",
+      "note": "Field-derived problem (private field-data repo), genericized."
+    },
+    {
+      "id": "armed-claim-substrate",
+      "class": "hidden-constraint",
+      "prompt": "An agent session reports: 'overnight credit watch re-armed - 29-minute polling cadence through the morning; you will be alerted on any new inbound.' The operator asks: how do you KNOW the credit check will happen? Is the watch armed?",
+      "hidden_constraint": "A monitor living inside an agent's session dies with the session, is invisible to the host, and leaves no auditable trail. 'Armed' claims about infrastructure are only true if an independently verifiable process (host-level timer + timestamped log) exists; agent reports and memory are not infrastructure.",
+      "correct_answer": "Unknown until proven on the box - and in the field case, direct host checks found NO process and no log. The only acceptable answer is host-level evidence: a system timer with a timestamped poll log, verified independently of the agent that claims it. Watches live on the box, never in a session.",
+      "note": "Field-derived problem (private field-data repo), genericized."
+    },
+    {
+      "id": "dayshift-self-count",
+      "class": "pattern-import-iso",
+      "prompt": "Priya has 4 colleagues on the night shift and 3 colleagues on the day shift at her store. Priya works the day shift. How many employees work the day shift in total?",
+      "hidden_constraint": "Priya's counts are HER colleagues and exclude herself; the day shift total is her 3 day-shift colleagues plus Priya = 4. Must enumerate the actual roster, not answer with the stated count.",
+      "correct_answer": "4 (3 day-shift colleagues plus Priya herself). Answering 3 forgets to count the speaker.",
+      "note": "Novel isomorph authored 2026-07-15 as a contamination control (same structure as the famous case, fresh surface story not in public puzzle corpora). Mirrors aiw-sibling-count."
+    },
+    {
+      "id": "burned-bulb-switch",
+      "class": "pattern-import-iso",
+      "prompt": "A hallway bulb burned out on Monday and has not been replaced. On Tuesday someone flips the wall switch to ON. Is the hallway lit on Tuesday night?",
+      "hidden_constraint": "The stated fact (bulb already burned out, not replaced) overrides any switch-state reasoning; a dead bulb emits no light regardless of switch position.",
+      "correct_answer": "No - the bulb is burned out, so the hallway stays dark no matter what the switch does.",
+      "note": "Novel isomorph authored 2026-07-15 as a contamination control (same structure as the famous case, fresh surface story not in public puzzle corpora). Mirrors dead-cat-box."
+    },
+    {
+      "id": "meter-vs-yard",
+      "class": "pattern-import-iso",
+      "prompt": "Which is longer: a 1-meter strip of paper or a 1-yard bar of solid titanium?",
+      "hidden_constraint": "The units differ: 1 meter is about 1.094 yards, so the meter side is longer regardless of material. The material contrast is a distractor inviting the memorized 'the same' answer.",
+      "correct_answer": "The 1-meter strip of paper (1 m is about 1.09 yd, longer than 1 yd of titanium). 'The same' is the pattern-matched error.",
+      "note": "Novel isomorph authored 2026-07-15 as a contamination control (same structure as the famous case, fresh surface story not in public puzzle corpora). Mirrors unit-mismatch-weight."
+    },
+    {
+      "id": "freight-elevator",
+      "class": "pattern-import-iso",
+      "prompt": "A mover must get a sofa and an armchair from the lobby to the 10th floor. The freight elevator fits the mover and both pieces of furniture at the same time. What is the minimum number of elevator trips?",
+      "hidden_constraint": "No capacity or pairing constraint prevents taking everything at once - none of the classic transport-puzzle restrictions exist. Check whether the puzzle's constraints are actually present before applying a multi-trip algorithm.",
+      "correct_answer": "1 - the mover takes both pieces up in a single trip. Multi-trip answers import constraints that were never stated.",
+      "note": "Novel isomorph authored 2026-07-15 as a contamination control (same structure as the famous case, fresh surface story not in public puzzle corpora). Mirrors river-trivial-crossing."
+    },
+    {
+      "id": "flat-tire-ride",
+      "class": "hidden-constraint-iso",
+      "prompt": "My bike has two flat tires. The repair shop is a 10-minute ride away or a 30-minute walk. Should I ride or walk to get it fixed?",
+      "hidden_constraint": "Riding is impossible on two flat tires - the stated defect eliminates the 'ride' option - and the bike must come along to be repaired, so the real answer is walking the bike there.",
+      "correct_answer": "Neither option as framed: you can't ride on two flats, so walk the 30 minutes pushing the bike (or transport it another way). Picking 'ride, it's faster' ignores the premise.",
+      "note": "Novel isomorph authored 2026-07-15 as a contamination control (same structure as the famous case, fresh surface story not in public puzzle corpora). Mirrors car-wash (physical prerequisite) with a disabled-option twist."
     }
   ]
 }

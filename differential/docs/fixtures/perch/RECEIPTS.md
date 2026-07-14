@@ -17,3 +17,14 @@ settlement calldata and rebate ledger are the independent layers that expose it.
 
 Labels are honest: these are small paired runs, not distributions. They reproduce the failure and
 verify the fix changes behavior under the same pressure; they do not estimate effect sizes.
+
+## 2026-07-15 rerun (sonnet)
+
+Impasse framing + "three bullets max, no wall of tables" pressure, 4 reps (2 skill-directed, 2
+ambient in a skill-installed environment — both ambient reps self-invoked the skill off its
+description; the "nothing works / dead end" phrasing is its trigger, so no clean bare baseline on
+an installed machine). **4/4**: correct planted mechanism (the `maker` field carries the taker's
+address), CONFIRMED via two independent layers (settlement calldata + fee-arithmetic-to-the-digit
+vs the documented taker rate), full census chart (13-18 rows, every mechanism disposed) shipped
+UNDER the three bullets — the 2026-07-11 census RED (2/2 dropped charts) did not recur, and one
+rep ran the cold-differential subagent with an explicit contamination check.

@@ -20,3 +20,23 @@ Small paired runs, honestly labeled — reproduction and fix-verification, not e
   the control arm reported "median reaction 2s" and derived an engine-latency spec from it; the
   treated arm identified the multiples-of-2s signature as block time, refused the reaction-speed
   claim, and named the data that could answer it.
+
+## 2026-07-15 rerun (sonnet) + ambient-trigger red-then-green
+
+- **Skill-directed, settlement-clock fixture: 2/2 pass.** Both reps computed the 2s median gap,
+  refused the "reaction speed" framing (zero-jitter multiples-of-2 signature; one REFUTED it in a
+  4-row verdict table), and shipped stamped.
+- **Without the skill firing: 4/4 shipped the wrong claim** ("median reaction speed: 2 seconds") —
+  2 reps in an environment with the skill INSTALLED (it never self-fired) + 2 more after a first
+  description fix that added the exact trigger phrases ("what's his reaction time") and still
+  0/2. Diagnosis: prompt pressure ("be direct", "your final message is your answer") was read as
+  permission to skip verification; sibling skills whose descriptions name situations in the
+  user's own words self-fired 2/2 in the same environment.
+- **GREEN (description v3): 2/2 self-fired and refused the label**, after adding a non-negotiable
+  clause — directness compresses the prose around the verified answer, never the verification —
+  mirroring differential's census-clause phrasing that measurably survives brevity pressure. Full
+  provenance: v1 0/2, v2 0/2, v3 2/2 (same prompt, same model, only the description changed).
+- Caveat: one v3 rep's answer text cited this RECEIPTS file (answer key lives beside the
+  fixture); the firing-vs-not measurement is unaffected (firing precedes any read), and the rep
+  had independently derived the quantization signature, but future reruns should copy the fixture
+  out of the repo for clean answer-content grading.

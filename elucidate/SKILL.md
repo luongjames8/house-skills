@@ -13,8 +13,13 @@ description: >-
   "walk or drive to wash my car?" ignores that the car must be present) and FRAME-IMPORT (a metric
   stated in a counterparty's frame read as yours — an exchange's "matched, riskless" fill booked as
   benign when it actually hands you a directional loser). Also fires on user phrases like "help me
-  decide", "what am I missing", "brainstorm angles", "analyze this". NOT for quantitative or verifiable
+  decide", "what am I missing", "brainstorm angles", "analyze this". A third class, PATTERN-IMPORT: the
+  problem resembles a famous puzzle (Schrodinger's cat, the river crossing, 'a pound of feathers') but
+  differs from it in a stated fact, and the model answers the remembered template instead of the words
+  in front of it — distilling the literal FACTS breaks the template. NOT for quantitative or verifiable
   work (a backtest number, a test result, a typecheck, a lookup) — that is not analysis; skip it there.
+  Caveat: a question that merely RESEMBLES a known riddle or puzzle is NOT a lookup — answering it from
+  the remembered template is exactly the pattern-import failure; distill first.
 ---
 
 ## When to fire (you are the actor)
@@ -30,7 +35,11 @@ muddied one.
 
 The only carve-out is the negative trigger: a purely **quantitative or verifiable** call — a number, a
 test result, a lookup — is not analysis. Skip it there. Everything else that is ideation or analysis:
-distill first.
+distill first. One boundary case the carve-out must NOT swallow: a question that merely *resembles* a
+famous puzzle or riddle ("which is heavier…", "how many sisters…", a cat in a box) looks like a trivial
+lookup but is the **pattern-import** class below — the lookup exemption applies only when you actually
+compute or verify the answer from the stated facts, never when you'd answer from the remembered
+template.
 
 One exception lives inside the carve-out: if the quantitative result is an IMPASSE — repeated
 negative results, an unexplained anomaly, a diagnostic firing inverted/opposite-to-hypothesis — that
@@ -44,11 +53,13 @@ accepting the impasse is not.
 AI ideation and analysis fail not because the model reasons badly, but because the **inputs** are wrong in two ways:
 
 1. **Context pollution.** After long research, the working context is muddied (high signal/noise). The model can no longer enumerate new surfaces or reason cleanly.
-2. **The mental-model gap.** Subjective decisions rest on tacit models with *no textual basis*. Two canonical classes:
+2. **The mental-model gap.** Subjective decisions rest on tacit models with *no textual basis*. Three canonical classes:
    - **Physical-prerequisite** — **the car-wash problem**: "Should I walk or drive to wash my car?" A model answers *walk* (exercise) because nothing in context states the tacit prerequisite *"the car must be present to be washed."*
-   - **Frame-import** — a figure or label read in the wrong perspective. Field case (from a live trading campaign): for days a model booked "mint-match" fills as *benign maker liquidity* because the venue calls them *matched/riskless* — importing the **exchange's** risk frame as **ours**. The mint actually hands the desk one directional leg, disproportionately the losing one — the large majority of maker volume and nearly all of the bleed. The fix was one sentence the operator said aloud — *"matched for the exchange is a directional play for us"* — exactly the tacit line a CONSTRAINTS slot is meant to force into text. *"Whose frame is this stated in, and is it ours?"*
+   - **Frame-import** — a figure or label read in the wrong perspective. Field case (raw record in the private field-data repo): for days a model booked "mint-match" fills as *benign maker liquidity* because the venue calls them *matched/riskless* — importing the **exchange's** risk frame as **ours**. The mint actually hands us one directional leg, disproportionately the losing one — the dominant share of maker volume and essentially all of the directional bleed. The fix was one sentence the operator said aloud — *"matched for the exchange is a directional play for us"* — exactly the tacit line a CONSTRAINTS slot is meant to force into text. *"Whose frame is this stated in, and is it ours?"*
 
-The fix for both is the same move: **force the tacit into explicit text, then reason in a fresh context seeded only with it.**
+   - **Pattern-import** — the problem *resembles* a famous template (Schrodinger's box, wolf/goat/cabbage, "a pound of feathers vs a pound of lead", Alice-style sibling riddles) but differs from it in a stated fact, and the model answers the remembered template instead of the words in front of it. Sibling of frame-import: there the wrong frame comes from a counterparty in the context; here it comes from training-data memory. Eval problems `aiw-sibling-count`, `dead-cat-box`, `unit-mismatch-weight`, `river-trivial-crossing` (documented public cases — sources in `eval/problems.json`). The distiller's **FACTS** slot breaks each one: writing the literal facts down ("the cat was already dead before sealing", "1 kg vs 1 lb — units differ") contradicts the template's setup before the reasoner ever sees the question. *"Is the famous puzzle's setup actually the setup in front of you?"* Evidence status (run 4, `docs/experiment-results.md`): the published failures are from earlier-generation models — current solvers passed these graded problems even without distillation, so they ship as regression sentinels and class examples, not as a red-then-green-validated rescue (frame-import, by contrast, got exactly that in the same run).
+
+The fix for all three is the same move: **force the tacit into explicit text, then reason in a fresh context seeded only with it.**
 
 ## What the evidence says (see `docs/experiment-results.md`)
 

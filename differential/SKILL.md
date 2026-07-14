@@ -15,14 +15,14 @@ the same failure class):
 
 - Same facts, asked *"enumerate all mechanisms by which a passive market maker loses money and say
   which one this points to"* → a cold agent ranked **adverse selection #1** out of a ten-mechanism
-  taxonomy, read the evidence's shape as that mechanism's textbook signature, and named the right
+  taxonomy, read the longer-resting-loses-more loss gradient as its textbook signature, and named the right
   remedy family — in under a minute, with no project data.
 - Same facts, asked *"write the kill verdict per the frozen spec"* → the same model filed the same
   mechanism as a **non-blocking Notes footnote** and concluded "no re-opening required."
 
-In the live campaign, that second frame cost weeks: a pre-registered diagnostic that fired
-opposite to its hypothesis — unanimously across cells — was filed as "exploratory residue", and the
-mechanism it was pointing at only surfaced when the operator forced an out-of-frame comparison.
+In the live campaign, that second frame cost weeks: an inverted duration kill ("longer-resting =
+more adverse" = getting run over while resting, unanimous across cells) was filed as "exploratory residue"
+and the mechanism only surfaced when the operator forced an out-of-frame comparison.
 
 The failure is ASKING, not knowing. The fix is a **question swap into a subtracted context**: strip
 your frame, ask the mechanism question cold, and let the domain's standard failure taxonomy come out.

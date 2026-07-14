@@ -1,7 +1,11 @@
 # house-skills
 
-**Four drop-in files that make your AI catch itself before it hands you a confident wrong answer.**
-Install in 30 seconds; they fire themselves; they work for any analysis, not just code.
+**Four drop-in files that make your AI catch itself before it hands you a confident wrong answer —
+on everyday questions as much as deep work.**
+Install in 30 seconds; they fire themselves when their moment appears. This is for thinking
+clearly, autonomously: a casual "what's his reaction time?" in chat, a "fast charger or slow
+charger?" decision, a stuck investigation, a design against an API you don't have docs for — not
+just code, and not just big analyses.
 
 Because here's the failure they're built for:
 
@@ -47,6 +51,154 @@ Both demos condense tests we actually ran; the synthetic data and results ship i
 | [**tabletop**](tabletop/SKILL.md) | building on someone else's API, vendor, or data feed | guessing an external system's rules and finding out in production | turns every unread rule into an explicit UNKNOWN that blocks shipping |
 | [**differential**](differential/SKILL.md) | stuck — "nothing works", a result nobody can explain | giving up, or latching onto the first plausible cause | lists every possible cause like a doctor, then proves the winner two independent ways |
 | [**warrant**](warrant/SKILL.md) | about to hand you a conclusion | shipping a confident claim it never actually checked | has a fresh AI re-derive every claim from raw data — verified answer, or honest UNVERIFIED |
+
+## What it fixes — and what it doesn't (measured, July 2026)
+
+"Don't better models just figure it out?" We tested that directly: the same problems, three Claude
+tiers (haiku 4.5, sonnet 4.6, opus), bare model vs. the same model with the skill, graded
+independently, everything rerunnable from the fixtures in this repo. These are small paired
+trials — a handful of runs per condition — so treat the numbers as *shapes*, not precise rates. Every
+count below is written as "X of Y trials," never a bare percentage, so you can see exactly what ran.
+
+### elucidate — decisions hiding a blocker, and numbers read in the wrong frame
+
+#### Hidden prerequisite
+
+**The trap:** the question offers two options, but a fact already on the table makes both of them
+beside the point.
+
+> Asked "fast charger or slow charger?" about an outlet stated to be blocked by a cabinet nobody
+> can move: sonnet and opus both answered "Use the slow charger," on both trials; haiku said
+> "fast" once and "slow" once. Every tier picked a charger speed for an outlet nobody can reach.
+> With the skill, every tier gave a version of opus's answer: *"Neither charger matters yet —
+> outlet access is the real blocker. Solve access first: extension cord, different outlet, or help
+> moving the cabinet."*
+
+That charger question is one of five "hidden prerequisite" problems (a couch that may not fit the
+stairwell, a plant that may be overwatered rather than under-lit). Every tier failed the same two
+problems bare, then the skill fixed them:
+
+| Model | Bare (no skill) | With the skill |
+|---|---|---|
+| haiku 4.5 | 6/10 correct | 10/10 |
+| sonnet 4.6 | 6/10 correct | 10/10 |
+| opus | 6/10 correct | 9/10 |
+
+(5 problems × 2 trials each = 10 trials per model. "Correct" = named the real blocker instead of
+picking a side.)
+
+A related isomorph on fresh material makes the same point: asked "ride or walk?" about a bike with
+two flat tires, sonnet answered "ride" — the wrong call, since a fully flat tire can't be ridden —
+on both trials; the skill fixed it, 2 of 2.
+
+#### Frame-import — a number read in someone else's frame
+
+**The trap:** a fact framed as safe by one party isn't safe for you just because they said so.
+
+A mint mechanic crosses an UP leg against a DOWN leg in one trade; the venue tags both legs
+"maker" and rebate-eligible because together the pair is fully collateralized — riskless for the
+venue. (maker = the resting order that supplies liquidity and earns a rebate; taker = the order
+that crosses it and pays a fee.) But the mint hands OUR desk only one of the two legs — a real
+directional bet — and the trader who took the other leg tends to be the informed side, holding the
+eventual winner. "Riskless for the venue" quietly got read as "riskless for us":
+
+> *"Classify mint_match fills as benign maker liquidity (good flow)"* — bare haiku, both trials,
+> booking a directional bet as safe. With the skill: *"Do not book mint_match as uniformly 'good
+> flow' ... that's the venue's crossing-mechanics frame, not our risk frame,"* correctly splitting
+> the exposure, 2 of 2 trials.
+
+(Haiku only, frame-import case derived from a real production incident: 0/2 bare → 2/2 with the
+skill.)
+
+### tabletop — designing against a vendor whose contract you don't actually hold
+
+**The trap:** an unread rule gets waved through as "confirm while building," not treated as a
+blocker.
+
+> A chat platform invalidates a button's callback token if your server doesn't answer within
+> 2500 ms; the internal policy check that flow depends on has a documented p99 of 3.8 seconds
+> under load — and load spikes exactly when the flow is busiest. Without the skill, the design
+> shipped code that just waits inside that 2500 ms window with no bound on how long, and wrote
+> off the mismatch as "confirm while building — not a blocker": 0 of 2 trials caught it. With the
+> skill: 4 of 4 produced a table marking the timing gap UNKNOWN, an ack-first design that answers
+> within budget regardless of how long the policy check takes, and a named checklist of what must
+> be verified before shipping.
+
+(Sonnet only. Bare: 0/2, 2026-07-10. With the skill: 4/4, 2026-07-15 — 2 trials where it was asked
+for directly, 2 more where the agent recognized the situation from the skill's own description and
+used it unprompted.)
+
+### differential — "nothing works," under pressure to keep it short
+
+**The trap:** told to keep the answer brief, the model drops the evidence along with the words.
+
+> A different fixture: a fill-feed field literally named `maker` that actually carries the
+> *taker's* address — a mislabel built into this synthetic venue's data on purpose. Asked to
+> explain why "rebate income won't reconcile," under a "three bullets max" limit, bare sonnet
+> reached the right prose conclusion but silently deleted its entire list of ruled-out causes — 0
+> of 2 trials kept it. With the skill: 4 of 4 kept a 13-to-18-row table of every cause considered,
+> each marked confirmed or refuted, confirmed the real one two independent ways (the settlement
+> calldata and the fee arithmetic), and still fit the three-bullet summary on top.
+
+(Sonnet only. Bare: 0/2 kept the analysis, 2026-07-11. With the skill: 4/4, 2026-07-15.)
+
+### warrant — the number is right, the label is the lie
+
+**The trap:** a claim about *what a number means* slides through unchecked because computing it
+looked like a simple lookup.
+
+> Asked casually for a trader's "median reaction speed," the gaps between his two trade legs
+> (across 8 trade pairs) were 0, 0, 2, 2, 2, 4, 4, and 6 seconds — every one an exact multiple of
+> 2. Without the skill firing,
+> every trial shipped *"median reaction speed: 2 seconds"* — the arithmetic is correct, the claim
+> is not: those timestamps are snapped to a coarse settlement clock and can't measure reaction time
+> at all. With the skill, every trial refused the label, named the clock-quantization pattern, and
+> said what data could actually answer the question.
+
+(Sonnet only. Without the skill firing: 0/4 refused the label. With the skill: 4/4 refused.)
+
+### Where bare models already win — you don't need this
+
+Famous trick puzzles (the already-dead cat in the box, comparing 1 kg of cotton to 1 lb of
+lead) *and* freshly written variants no training set has seen:
+
+| Model | Bare (no skill) | With the skill |
+|---|---|---|
+| haiku 4.5 | 16/16 correct | 16/16 |
+| sonnet 4.6 | 15/16 correct | 16/16 |
+
+(8 problems × 2 trials each = 16 trials per model — 4 famous puzzles, 4 fresh variants of the same
+templates. The flat-tire prerequisite problem above is deliberately excluded here: it's a
+hidden-prerequisite decision, not a trick-puzzle template, and sonnet failed it bare.) If your use
+of AI is Q&A over well-known gotchas, current models already handle it — this table exists so
+that's on the record, not hidden.
+
+### Where no prompt-side skill is enough
+
+Some constraints live only in your head, never in anything you handed the model — a company's
+undocumented ledger units, a simulator's unstated bias. On seven real (anonymized) cases like this,
+the bare model and the skill-equipped model solved the exact same 6 of 13 trials — the skill moved
+nothing. The fix isn't a better prompt; it's handing the model the document that actually states
+the constraint, which is a different job than these skills do. Tracked as future work in
+[`elucidate/docs/experiment-results.md`](elucidate/docs/experiment-results.md) (run 5).
+
+### Installed skills fire themselves — sometimes without being asked
+
+On a machine with house-skills already installed, tabletop and differential fired themselves during
+what were meant to be "bare" (no-skill) test runs: the agent recognized "no docs" or "nothing
+works" straight from the skill's own trigger description and used it unprompted, 2 of 2 times each.
+
+warrant's didn't (0 of 2) — its old trigger was written for "a deliverable about to ship," and a
+casual chat question plus "be direct" slipped past it. We rewrote the trigger and tested the fix
+the same way the skills test everything: version 1 still didn't fire (0/2), version 2 didn't
+either (0/2), version 3 — which states plainly that "be direct" shortens the explanation, never
+the check — fired 2 of 2 on the same prompt. Everyday phrasing turned out to be a first-class
+trigger; the full history is in warrant's receipts.
+
+Every number above is rerunnable: elucidate's from `elucidate/eval/`, the rest from each skill's
+`docs/fixtures/`. Full run-by-run detail in
+[`elucidate/docs/experiment-results.md`](elucidate/docs/experiment-results.md) and the RECEIPTS
+file in each skill's `docs/fixtures/` directory.
 
 ## Install — 30 seconds, Claude Code
 
@@ -125,8 +277,8 @@ for CI, and tabletop's contract table works as a design-review template for huma
   recorded as negative results instead of shipped ([`warrant/docs/`](warrant/docs/)). If you read
   one thing to judge this repo, read those.
 - **Honest limits, stated:** small paired tests, not big-n studies; elucidate has the only graded
-  eval (0.60 → 0.90 on hidden-constraint decisions, small n); every skill says what it's *not*
-  for.
+  eval (six runs: the 0.60 → 0.90 rescue, a three-tier model matrix, contamination controls, and
+  two classes recorded as *not* needing the skill); every skill says what it's *not* for.
 
 ## Genesis
 

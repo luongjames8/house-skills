@@ -1,0 +1,262 @@
+{
+  "cellSummary": [
+    {
+      "cell": "clean/B/single",
+      "n": 10,
+      "surfaced_rate": 1,
+      "correct_rate": 1,
+      "solved_rate": 1,
+      "mean_quality": 90.1
+    },
+    {
+      "cell": "clean/none/single",
+      "n": 10,
+      "surfaced_rate": 0.6,
+      "correct_rate": 0.6,
+      "solved_rate": 0.6,
+      "mean_quality": 56.2
+    }
+  ],
+  "records": [
+    {
+      "problemId": "car-wash",
+      "inputMode": "clean",
+      "distillMode": "none",
+      "analysisMode": "single",
+      "trial": 0,
+      "recommendation": "Drive. The question as posed (\"walk or drive\") is a false choice: it omits the hidden prerequisite that the car itself must physically be at the car wash to get washed. Whichever way you personally travel is irrelevant to that requirement \u2014 you have to drive the car there. If you want a walk too, drive it there and walk back, or walk over and drive it home afterward.",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 92,
+      "notes": "Candidate explicitly identifies the false-dichotomy/hidden-prerequisite (car must be at the wash) and correctly recommends driving the car there, matching the reference answer."
+    },
+    {
+      "problemId": "car-wash",
+      "inputMode": "clean",
+      "distillMode": "none",
+      "analysisMode": "single",
+      "trial": 1,
+      "recommendation": "Drive to the car wash \u2014 walking is a false choice here.",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 96,
+      "notes": "Candidate explicitly names the hidden physical prerequisite (car must be present) and correctly recommends driving while rejecting the walk-vs-drive framing as a false choice."
+    },
+    {
+      "problemId": "car-wash",
+      "inputMode": "clean",
+      "distillMode": "B",
+      "analysisMode": "single",
+      "trial": 0,
+      "recommendation": "Drive to the car wash (unless it's a mobile/at-home service, in which case transport mode is irrelevant).",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 95,
+      "notes": "Candidate explicitly identified the physical-presence constraint, recommended driving, and correctly noted the edge case of mobile/at-home services where it doesn't matter, matching the correct answer's reasoning."
+    },
+    {
+      "problemId": "car-wash",
+      "inputMode": "clean",
+      "distillMode": "B",
+      "analysisMode": "single",
+      "trial": 1,
+      "recommendation": "Drive.",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 95,
+      "notes": "Candidate correctly identifies that the car must be physically present and recommends driving, matching the correct answer, with a minor reasonable caveat about at-home/mobile services."
+    },
+    {
+      "problemId": "charger",
+      "inputMode": "clean",
+      "distillMode": "none",
+      "analysisMode": "single",
+      "trial": 0,
+      "recommendation": "Use the fast charger.",
+      "surfaced_constraint": false,
+      "correct_recommendation": false,
+      "quality": 5,
+      "notes": "The candidate never recognizes that an inaccessible outlet means neither charger can be plugged in at all; it dismisses the access problem as irrelevant to charger choice and confidently recommends the fast charger, the opposite of the correct answer."
+    },
+    {
+      "problemId": "charger",
+      "inputMode": "clean",
+      "distillMode": "none",
+      "analysisMode": "single",
+      "trial": 1,
+      "recommendation": "Use the slow charger.",
+      "surfaced_constraint": false,
+      "correct_recommendation": false,
+      "quality": 10,
+      "notes": "The candidate never recognized that the outlet is inaccessible (not just \"hard to access\") and treated the question as answerable by picking a charger, entirely missing that no charger can be plugged in at all without first solving physical access."
+    },
+    {
+      "problemId": "charger",
+      "inputMode": "clean",
+      "distillMode": "B",
+      "analysisMode": "single",
+      "trial": 0,
+      "recommendation": "Don't answer fast-vs-slow yet \u2014 first confirm the outlet is physically reachable. Check for a gap/cable path around the cabinet or use an extension cord/power strip if you own one; slide (don't lift) a corner if needed. If no access is possible tonight, charge in another room or use a power bank instead. Only once the outlet is reachable does charger choice matter, and since it's overnight (time isn't scarce), use the slow charger \u2014 gentler on the battery with no downside given the hours available.",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 92,
+      "notes": "Candidate correctly identifies that outlet access is the binding constraint and rejects the fast-vs-slow framing until access is resolved, matching the correct answer; it adds a reasonable but unrequested tie-breaker (slow charger for overnight longevity) which is extra but not wrong."
+    },
+    {
+      "problemId": "charger",
+      "inputMode": "clean",
+      "distillMode": "B",
+      "analysisMode": "single",
+      "trial": 1,
+      "recommendation": "Neither charger choice matters until outlet access is confirmed. Recommendation: check for a gap/cable route behind the cabinet or use an extension cord/power strip you already own to reach the outlet without fully moving it; if no access exists tonight, use a power bank or another room's outlet instead. Once access is solved, use the slow charger \u2014 overnight has plenty of hours so fast charging's speed advantage is moot, and slow charging is gentler on the battery (less heat/wear).",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 85,
+      "notes": "Candidate correctly surfaces that access is the binding constraint and rejects fast-vs-slow as the wrong question, matching the correct answer, but adds unrequested extra advice (recommending slow charger once access is solved) that goes beyond the scope of the correct answer."
+    },
+    {
+      "problemId": "couch",
+      "inputMode": "clean",
+      "distillMode": "none",
+      "analysisMode": "single",
+      "trial": 0,
+      "recommendation": "Do the move in the morning.",
+      "surfaced_constraint": false,
+      "correct_recommendation": false,
+      "quality": 20,
+      "notes": "The candidate briefly mentions the couch could get stuck and needing extra help/tools, but treats this as a side risk rather than the actual determining factor, and still answers the false-premise question directly by recommending morning instead of flagging that feasibility (fit + manpower/tools) is the real issue and time of day is secondary."
+    },
+    {
+      "problemId": "couch",
+      "inputMode": "clean",
+      "distillMode": "none",
+      "analysisMode": "single",
+      "trial": 1,
+      "recommendation": "Morning",
+      "surfaced_constraint": false,
+      "correct_recommendation": false,
+      "quality": 15,
+      "notes": "The candidate accepted the false premise that time of day is the deciding factor and never mentioned confirming the couch fits the stairwell/elevator or arranging adequate help and tools, which is the actual bottleneck."
+    },
+    {
+      "problemId": "couch",
+      "inputMode": "clean",
+      "distillMode": "B",
+      "analysisMode": "single",
+      "trial": 0,
+      "recommendation": "Morning, contingent on feasibility checks passing first.",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 85,
+      "notes": "Candidate explicitly names feasibility (fit + people/tools) as the hard gate before timing matters, matching the hidden constraint, then reasonably treats time-of-day as a minor secondary consideration rather than the main decision \u2014 consistent with the correct framing, though it spends more words justifying morning than the reference answer implies is warranted."
+    },
+    {
+      "problemId": "couch",
+      "inputMode": "clean",
+      "distillMode": "B",
+      "analysisMode": "single",
+      "trial": 1,
+      "recommendation": "Morning \u2014 conditional on verifying prerequisites first.",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 88,
+      "notes": "Candidate explicitly named the couch-fit/elevator/stairwell feasibility and people/tools as the real gating issue before any time-of-day choice, matching the hidden constraint, then offered a reasonable secondary morning preference conditioned on that check passing."
+    },
+    {
+      "problemId": "plant",
+      "inputMode": "clean",
+      "distillMode": "none",
+      "analysisMode": "single",
+      "trial": 0,
+      "recommendation": "Give it more sunlight, not more water. Check soil moisture first: if soil is still moist 2in down, you're likely overwatering (root suffocation causes yellowing) \u2014 cut back watering. If soil is dry, move to brighter indirect light. Only add more water if soil is bone-dry and leaves are also crispy (underwatering signature).",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 72,
+      "notes": "Candidate explicitly names overwatering/root rot as the likely cause and instructs checking soil moisture before deciding, matching the core diagnose-before-acting constraint, but undercuts this by leading with a blind default recommendation ('give more sunlight, not more water') before the diagnostic step, which is less clean than the correct answer's unconditional 'don't pick either blindly.'"
+    },
+    {
+      "problemId": "plant",
+      "inputMode": "clean",
+      "distillMode": "none",
+      "analysisMode": "single",
+      "trial": 1,
+      "recommendation": "Give it more sunlight (indirect), and check soil moisture before watering more.",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 85,
+      "notes": "Candidate correctly flags that overwatering is the common cause and gates watering behind a soil-moisture check before adding water, matching the core safety requirement, though leading with a firm 'give more sunlight' recommendation is less clean than the ideal 'diagnose first' framing."
+    },
+    {
+      "problemId": "plant",
+      "inputMode": "clean",
+      "distillMode": "B",
+      "analysisMode": "single",
+      "trial": 0,
+      "recommendation": "Neither \"more water\" nor \"more sun\" \u2014 do a 30-second soil-moisture check first. Stick a finger 2in into soil: soggy = overwatered (don't add water, check drainage), bone dry = underwatered (water now). Also note which leaves are yellowing: old/lower leaves = often normal leaf aging (no action needed), new growth = more likely a light/nutrient issue. Acting on the wrong guess (e.g., adding water when it's already overwatered, or adding direct sun when it's already sunburning) can worsen or kill the plant, since overwatering/underwatering look identical on leaves and excess sun itself causes yellowing.",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 85,
+      "notes": "Candidate explicitly rejects the water-vs-sun binary, names overwatering as a likely cause, and gives a concrete diagnostic (soil finger-test, leaf pattern) before acting, matching the correct answer; slightly verbose/meta phrasing (\"the briefing establishes\") is the only minor blemish."
+    },
+    {
+      "problemId": "plant",
+      "inputMode": "clean",
+      "distillMode": "B",
+      "analysisMode": "single",
+      "trial": 1,
+      "recommendation": "Don't pick water or sunlight blindly \u2014 do a 10-second soil-moisture check first (finger 2in into soil): soggy = overwatering/root rot (stop watering, improve drainage), bone dry = underwatering (water it), neither = it's not a water issue, look elsewhere. Also note which leaves are yellowing: old lower leaves fading gradually is normal aging, not a problem; new/widespread yellowing points to stress; yellow leaves with crispy brown edges in direct sun means too much sun, not too little. Acting on the wrong guess (e.g., adding water to soggy soil) can worsen root rot and kill the plant faster than doing nothing.",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 96,
+      "notes": "The candidate explicitly rejects the binary water/sunlight framing, correctly warns that adding water could worsen overwatering/root rot, and gives a concrete, safe diagnostic-first procedure (soil check, leaf pattern) before acting, matching and exceeding the correct answer."
+    },
+    {
+      "problemId": "mail-neighbor",
+      "inputMode": "clean",
+      "distillMode": "none",
+      "analysisMode": "single",
+      "trial": 0,
+      "recommendation": "Neither \u2014 hand-deliver it yourself, or use a same-day/local courier only if you genuinely can't walk it over. Skip overnight courier entirely; it's built for long-distance routing (hub/sort/truck), which is wasteful and often slower than just walking next door.",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 75,
+      "notes": "Correctly leads with \"hand-deliver it yourself\" and rejects overnight courier, but hedges by still treating same-day courier as a legitimate fallback option rather than plainly stating no courier is needed at all, muddying the clean rejection of the false dichotomy."
+    },
+    {
+      "problemId": "mail-neighbor",
+      "inputMode": "clean",
+      "distillMode": "none",
+      "analysisMode": "single",
+      "trial": 1,
+      "recommendation": "Neither, really \u2014 walk it next door yourself. If you truly need a courier, same-day is the only one of the two that can meet a \"tonight\" deadline; overnight courier service routes through a hub and won't arrive until tomorrow, so it fails the requirement outright regardless of cost.",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 92,
+      "notes": "Candidate correctly leads with the walk-it-over recommendation and calls out the false dichotomy, then adds a brief, accurate conditional fallback (same-day beats overnight if a courier were truly needed) without undermining the primary answer."
+    },
+    {
+      "problemId": "mail-neighbor",
+      "inputMode": "clean",
+      "distillMode": "B",
+      "analysisMode": "single",
+      "trial": 0,
+      "recommendation": "Neither courier \u2014 hand-deliver the document yourself (or have it dropped at the neighbor's door). Overnight courier categorically misses \"by tonight\" (it delivers tomorrow, by definition). Same-day courier could theoretically work but only if you're still before its pickup cutoff, and it's grossly disproportionate \u2014 cost, depot routing, and hours of delay \u2014 for a delivery that's literally next door. Only reach for same-day courier if hand delivery is genuinely blocked (you can't leave, the neighbor can't receive it in person tonight, or you need formal tracked/signed proof of delivery) and you're confirmed before the cutoff.",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 92,
+      "notes": "Candidate correctly names the false dichotomy and recommends hand delivery, and its added detail (overnight can't hit tonight, cutoff caveat, fallback only if hand delivery is blocked) is accurate and reasonable, though somewhat more verbose than the minimal correct answer requires."
+    },
+    {
+      "problemId": "mail-neighbor",
+      "inputMode": "clean",
+      "distillMode": "B",
+      "analysisMode": "single",
+      "trial": 1,
+      "recommendation": "Use neither courier \u2014 hand-deliver the document yourself. Overnight courier categorically misses \"by tonight\" (it delivers next day). Same-day courier could technically work but only if you're before its pickup cutoff, and it's needlessly costly/slow for a next-door delivery. Walking it over next door meets the deadline instantly at zero cost with no cutoff risk. Only use a courier if there's an unstated constraint \u2014 you can't go over in person, the neighbor can't receive it tonight, or you need formal tracked/signed proof of delivery \u2014 in which case same-day (not overnight) is the only viable courier option, subject to its cutoff time.",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 88,
+      "notes": "Candidate correctly rejects the false courier dichotomy and recommends hand-delivery, with sound reasoning about deadline/cost, though it's more verbose than needed for the trivial premise."
+    }
+  ]
+}

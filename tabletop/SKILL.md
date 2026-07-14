@@ -82,3 +82,12 @@ Not for single-system refactors, pure functions, or UI-only changes — no forei
 tabletop. Sibling skills: **warrant** checks claims already drafted; tabletop assembles the
 contracts a design's claims will rest on. A finished design that names an unverified contract
 assumption is ALSO a warrant trigger (a named-but-unrun check).
+
+## Honest limits
+
+The table only covers interfaces the author lists — a flow that touches an interface nobody
+enumerated gets no row, so enumeration completeness stays an authorship risk the rule can't see.
+A citation forces a source, not the source's freshness: a stale vendor doc fills the cell and
+still ships the wrong number (a measured value beats a doc when they disagree). And the evidence
+is one fictional fixture (Pigeon) exercised in small paired runs on design-time tasks — it shows
+the failure and the fix flipping it, not effect sizes or coverage of every integration shape.

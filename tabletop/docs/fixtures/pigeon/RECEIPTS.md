@@ -14,3 +14,17 @@ flow is busiest. The trap is derivable from the two docs; nothing here is recall
 GREEN (2/2, same unheld-contract scenario + skill): full UNKNOWN-marked contract table, safe-under-
 all-values design (bounded budgets, fail-closed, dedup on side effects), MUST-VERIFY-BEFORE-SHIP
 gates with named owners. One rep independently derived the TOCTOU re-check with no doc available.
+
+Labels are honest: these are small paired runs, not distributions. They reproduce the failure and
+show the fix flips it under identical pressure — they are not effect-size estimates.
+
+## 2026-07-15 rerun (sonnet)
+
+Skill-directed, unheld-contract condition: 2/2 GREEN — all-UNKNOWN contract tables with per-cell
+sources, safe-under-all-values (ack-first, bounded budgets, fail-closed), ranked
+MUST-VERIFY-BEFORE-SHIP gates; one rep named the one honest exactly-once gap it could not close
+without the vendor. Ambient arm: in an environment with the skill INSTALLED, 2/2 "bare" reps
+self-invoked it off the description alone (verbatim table columns and gate vocabulary in their
+output) and passed — so no clean bare baseline is measurable on an installed machine; the
+2026-07-10 runs above remain the bare baseline. One directed rep surfaced the fixture docs in a
+directory listing and explicitly declined to open them per the no-docs condition.

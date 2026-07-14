@@ -9,7 +9,7 @@ AI ideation and subjective analysis fail in two recurring ways:
 
 > **The car-wash problem** (physical prerequisite). "I want to wash my car. Should I walk or drive?" A model says *walk* (exercise, environment) because nothing in its context states the tacit prerequisite: *the car must be present at the wash to be washed.* There is no sentence to reason against, so it reasons wrong.
 >
-> **The mint-match problem** (frame import). A real field case: for days a model booked an exchange's "matched, riskless" fills as *benign* — importing the *counterparty's* risk frame as its own. The fill actually handed the desk one directional (losing) leg — the large majority of volume and nearly all of the bleed. The missing sentence: *"matched for the exchange is a directional play for us."* Whole classes of analysis error are this — a metric read in the wrong perspective.
+> **The mint-match problem** (frame import). A real field case: for days a model booked an exchange's "matched, riskless" fills as *benign* — importing the *counterparty's* risk frame as its own. The fill actually handed us one directional (losing) leg: the dominant share of volume and essentially all of the bleed. The missing sentence: *"matched for the exchange is a directional play for us."* Whole classes of analysis error are this — a metric read in the wrong perspective.
 
 `elucidate` fixes both with one move: **force the tacit into explicit typed text, then reinject it into a fresh reasoner with a clean context.** It is problem-agnostic — decisions, diagnoses, ideation, strategy.
 
