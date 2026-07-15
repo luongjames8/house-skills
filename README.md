@@ -145,6 +145,15 @@ cat, kg-vs-lb, sibling count, river — /8), fresh isomorphs of those puzzles (/
 frame-import problem (mint-match — /2). Each cell reads **without → with** the skill. Regenerate
 the whole table from the raw result files with `elucidate/eval/tally_master.py`.
 
+One design difference you should know before comparing rows: **who writes the briefing.** In the
+Claude rows the distill step ran on sonnet (the harness default) — so "haiku with the skill" is
+really sonnet spotting the trap and haiku executing, a cheap-solver/smart-distiller pipeline. In
+the non-Claude rows each model distilled *for itself* — those are the honest single-model
+numbers. That's a real deployment choice, not just a test artifact (running a strong distiller in
+front of a cheap solver is exactly how the skill is used in production here), but it means
+haiku's perfect column partly reflects sonnet's work, and cross-row comparisons should keep that
+in mind.
+
 | Model | Decision family /10 | Famous puzzles /8 | Fresh isomorphs /10 | Frame-import /2 | Total /30 |
 |---|---|---|---|---|---|
 | claude haiku 4.5 | 6→10 | 8→8 | 9→10 | 0→2 | **23→30** |
