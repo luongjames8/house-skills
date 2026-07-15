@@ -114,14 +114,13 @@ whether the question's premise even holds. Charger is one of five such problems 
 not fit the stairwell, a plant that may be overwatered not under-lit); every tier failed the same
 two bare, then the skill fixed them:
 
-| Model | Bare (no skill) | With the skill |
+| Model | Without the skill | With the skill |
 |---|---|---|
-| haiku 4.5 | 6/10 correct | 10/10 |
-| sonnet 4.6 | 6/10 correct | 10/10 |
-| opus | 6/10 correct | 9/10 |
+| haiku 4.5 | 6/10† | 10/10 |
+| sonnet 4.6 | 6/10† | 10/10 |
+| opus | 6/10† | 9/10 |
 
-(5 problems × 2 trials each = 10 trials per model. "Correct" = named the real blocker instead of
-picking a side.)
+† pass = named the real blocker instead of picking a side, across 5 problems × 2 trials each.
 
 A related isomorph on fresh material makes the same point: asked "ride or walk?" about a bike with
 two flat tires, sonnet answered "ride" — the wrong call, since a fully flat tire can't be ridden —
@@ -143,15 +142,37 @@ eventual winner. "Riskless for the venue" quietly got read as "riskless for us":
 > flow' ... that's the venue's crossing-mechanics frame, not our risk frame,"* correctly splitting
 > the exposure, 2 of 2 trials.
 
-(Haiku only, from a real production incident: 0/2 bare → 2/2 with the skill — same shape as the
-churn-ticket demo up top, a label trusted instead of checked. The rescue has a ceiling: a same-day
-opus rerun stayed **0/2 bare → 0/2 distilled**, reasoning *around* the written constraint instead
-of heeding it — so far proven at haiku, not guaranteed at every tier.)
+Same shape as the churn-ticket demo up top, a label trusted instead of checked. The rescue has a
+ceiling: a same-day opus rerun couldn't be talked into it, reasoning *around* the written
+constraint instead of heeding it:
 
-**Beyond Claude:** four non-Claude models (glm-5, qwen3.7-plus, kimi-k2.5, MiniMax-M2.5) hit the
-same wall on mint-match, 0/16 bare or distilled. The hidden-prerequisite rescue mostly replicated
-(glm-5: 1/10 → 8/10) — but isn't free: qwen3.7-plus already had charger right bare (2/2), and
-distilling it broke it (0/2). n=2/cell — a shape, not a verdict.
+| Model | Without the skill | With the skill |
+|---|---|---|
+| haiku 4.5 | 0/2† | 2/2† |
+| opus | 0/2† | 0/2‡ |
+
+† pass = correctly split self-mint (riskless) from external-cross mint (a real directional bet)
+instead of booking the whole channel as benign; haiku case derived from a real production incident.
+‡ opus reasoned around the written constraint instead of heeding it — the rescue is proven at
+haiku, not guaranteed at every tier.
+
+**Beyond Claude:** four non-Claude models hit the same wall on mint-match and mostly replicated the
+hidden-prerequisite rescue on the family:
+
+| Model | Without the skill | With the skill |
+|---|---|---|
+| qwen3.7-plus | 20/30† | 21/30† |
+| kimi-k2.5 | 17/30† | 22/30† |
+| glm-5 | 14/30† | 23/30† |
+| MiniMax-M2.5 | 15/30† | 18/30† |
+
+† independent third-provider grader; n=2 trials/cell — a shape, not a verdict. Totals are 5
+family + 4 famous + 5 isomorph + 2 mint-match problems, 2 trials each = 30.
+
+Mint-match (frame-import) was 0/16 for every model, bare and distilled — the universal failure.
+glm-5's family-only rescue was the steepest of any model tested (1/10 → 8/10); qwen3.7-plus
+already had the charger question right bare (2/2), and distilling it broke it (0/2) —
+distillation isn't free on strong-bare cases.
 
 ### tabletop — designing against a vendor whose contract you don't actually hold
 
@@ -167,15 +188,23 @@ blocker.
 > within budget regardless of how long the policy check takes, and a named checklist of what must
 > be verified before shipping.
 
-(Bare: 0/2 on 2026-07-10 — model tier unrecorded, so cross-date bare comparisons are
-environment-confounded. With the skill: 4/4 sonnet, 2026-07-15 — 2 asked directly, 2 more
-self-invoked unprompted.) A same-day tier sweep: haiku and opus also hit 2/2 skill-directed, and
-with the skill explicitly suppressed ("answer as a plain assistant"), neither reproduced the
-2026-07-10 failure — both designed ack-first with unknowns listed on their own. Suggestive, not
-settled, that current models have absorbed the basic instinct; what the skill measurably still
-buys is the enforced paperwork (the UNKNOWN table, sourced MUST-VERIFY gates) that makes unknowns
-reviewable by someone else — the gap between a design that happens to be safe and one that's
-provably safe.
+| Model | Without the skill | With the skill |
+|---|---|---|
+| haiku 4.5 | 2/2‡ | 2/2† |
+| sonnet 4.6 | 0/2§ | 4/4†‖ |
+| opus | 2/2‡ | 2/2† |
+
+† pass = a table marking the timing gap UNKNOWN, an ack-first design, and named
+MUST-VERIFY-BEFORE-SHIP gates.
+‡ suppressed-bare (skill explicitly off): failure did not recur at haiku/opus — both designed
+ack-first with unknowns listed, unprompted.
+§ 2026-07-10 baseline model tier unrecorded; cross-date bare comparison environment-confounded.
+‖ 2 trials asked directly, 2 more self-invoked unprompted.
+
+Suggestive, not settled, that current models have absorbed the basic instinct; what the skill
+measurably still buys is the enforced paperwork (the UNKNOWN table, sourced MUST-VERIFY gates)
+that makes unknowns reviewable by someone else — the gap between a design that happens to be safe
+and one that's provably safe.
 
 ### differential — "nothing works," under pressure to keep it short
 
@@ -189,12 +218,20 @@ provably safe.
 > each marked confirmed or refuted, confirmed the real one two independent ways (the settlement
 > calldata and the fee arithmetic), and still fit the three-bullet summary on top.
 
-(Sonnet only. Bare: 0/2 kept the analysis, 2026-07-11. With the skill: 4/4, 2026-07-15 — same
-shape as the investigation demo up top; the migration-lock walkthrough below shows a differential
-firing end to end.) A same-day tier sweep: the failure is tier-invariant. Haiku and opus also hit
-2/2 skill-directed with full census charts; with the skill explicitly suppressed, all four reps
-found the right mechanism but zero of four kept any record of the causes ruled out. Scale fixes
-the diagnosis, not the reflex that deletes the paper trail.
+Same shape as the investigation demo up top; the migration-lock walkthrough below shows a
+differential firing end to end:
+
+| Model | Without the skill | With the skill |
+|---|---|---|
+| haiku 4.5 | 0/2† | 2/2 |
+| sonnet 4.6 | 0/2† | 4/4 |
+| opus | 0/2† | 2/2 |
+
+† pass = kept the full ruled-out-causes table under the brevity limit. Every suppressed-bare rep
+still found the right mechanism two independent ways — only the paper trail was dropped.
+
+Scale fixes the diagnosis, not the reflex that deletes the paper trail — the census failure is
+tier-invariant.
 
 ### warrant — the number is right, the label is the lie
 
@@ -208,11 +245,20 @@ looked like a simple lookup.
 > clock and can't measure reaction time at all. With the skill, every trial refused the label,
 > named the clock-quantization pattern, and said what data could actually answer the question.
 
-(Sonnet only. Without the skill firing: 0/4 refused the label. With the skill: 4/4 refused.) A
-same-day tier sweep found the same split at every tier: skill-directed, haiku/sonnet/opus each
-refused the label 2/2; left to answer as a plain assistant, sonnet and opus both shipped the wrong
-label anyway (0/2 each) — but haiku refused it unprompted (2/2). Not a capability gradient: the
-two stronger tiers answered exactly as asked; the weakest one hedged correctly on its own.
+| Model | Without the skill | With the skill |
+|---|---|---|
+| haiku 4.5 | 2/2‡ | 2/2† |
+| sonnet 4.6 | 0/2 | 2/2† |
+| opus | 0/2 | 2/2† |
+
+† pass = refused the "reaction speed" label and named the clock-quantization signature instead of
+shipping it.
+‡ haiku bare refused the label unprompted — passed without the skill.
+
+An earlier same-fixture rerun (pre-sanitized schema) found sonnet 0/4 without a directed or
+self-fired invocation, 4/4 once directed or self-fired after the trigger-wording fix — see "The
+honest edges" below. Not a capability gradient: the two stronger tiers answered exactly as asked;
+the weakest one hedged correctly on its own.
 
 ### Where bare models already win — you don't need this
 
@@ -220,29 +266,37 @@ In plain words: even with zero help, models already nail famous trick puzzles (t
 cat in the box, comparing 1 kg of cotton to 1 lb of lead) and freshly written variants no training
 set has seen — this table exists to prove that, not to sell the skill:
 
-| Model | Bare (no skill) | With the skill |
+| Model | Without the skill | With the skill |
 |---|---|---|
-| haiku 4.5 | 16/16 correct | 16/16 |
-| sonnet 4.6 | 15/16 correct | 16/16 |
+| haiku 4.5 | 16/16† | 16/16 |
+| sonnet 4.6 | 15/16† | 16/16 |
 
-(8 problems × 2 trials each = 16 trials per model — 4 famous puzzles, 4 fresh variants of the same
-templates. The flat-tire prerequisite problem above is deliberately excluded here: it's a
-hidden-prerequisite decision, not a trick-puzzle template, and sonnet failed it bare.) If your use
-of AI is Q&A over well-known gotchas, current models already handle it.
+† 4 famous puzzles + 4 fresh variants of the same templates, 2 trials each = 16 trials per model;
+the flat-tire prerequisite problem above is deliberately excluded here — it's a
+hidden-prerequisite decision, not a trick-puzzle template, and sonnet failed it bare.
+
+If your use of AI is Q&A over well-known gotchas, current models already handle it.
 
 ### The honest edges
 
 Two things this skill set can't do. It can't invent a fact that's nowhere in your material: on 7
 real cases where the missing constraint lived only in someone's head (an undocumented ledger unit,
-a simulator's unstated bias), skill and bare model solved the same 6 of 13 trials — that needs the
-document stating the constraint, a different job than this one (run 5,
-[`elucidate/docs/experiment-results.md`](elucidate/docs/experiment-results.md)). And an installed
-skill can fire on its own recognition, which cuts both ways: tabletop and differential
-self-invoked off their own trigger wording during tests meant to be "bare," 2/2 each — no clean
-unprompted baseline exists on a machine where they're already installed. warrant's trigger didn't,
-at first (0/2, then 0/2 again) until one added line — "be direct" shortens the prose, never the
-verification — made it self-fire 2/2 on the same prompt. Every number on this page is rerunnable:
-elucidate's from `elucidate/eval/`, the rest from each skill's `docs/fixtures/RECEIPTS.md`.
+a simulator's unstated bias), skill and bare model solved the exact same trials (run 5,
+[`elucidate/docs/experiment-results.md`](elucidate/docs/experiment-results.md)) — that needs the
+document stating the constraint, a different job than this one:
+
+| | Trials solved |
+|---|---|
+| Without the skill | 6/13 |
+| With the skill | 6/13 |
+
+And an installed skill can fire on its own recognition, which cuts both ways: tabletop and
+differential self-invoked off their own trigger wording during tests meant to be "bare," 2/2
+each — no clean unprompted baseline exists on a machine where they're already installed.
+warrant's trigger didn't, at first (0/2, then 0/2 again) until one added line — "be direct"
+shortens the prose, never the verification — made it self-fire 2/2 on the same prompt. Every
+number on this page is rerunnable: elucidate's from `elucidate/eval/`, the rest from each skill's
+`docs/fixtures/RECEIPTS.md`.
 
 ## What it looks like when one fires
 
