@@ -156,7 +156,7 @@ instead of booking the whole channel as benign; haiku case derived from a real p
 ‡ opus reasoned around the written constraint instead of heeding it — the rescue is proven at
 haiku, not guaranteed at every tier.
 
-**Beyond Claude:** four non-Claude models hit the same wall on mint-match and mostly replicated the
+**Beyond Claude:** five non-Claude models hit the same wall on mint-match and mostly replicated the
 hidden-prerequisite rescue on the family:
 
 | Model | Without the skill | With the skill |
@@ -165,11 +165,15 @@ hidden-prerequisite rescue on the family:
 | kimi-k2.5 | 17/30† | 22/30† |
 | glm-5 | 14/30† | 23/30† |
 | MiniMax-M2.5 | 15/30† | 18/30† |
+| deepseek-v4-pro | 13/30† | 23/30† |
 
-† independent third-provider grader; n=2 trials/cell — a shape, not a verdict. Totals are 5
-family + 4 famous + 5 isomorph + 2 mint-match problems, 2 trials each = 30.
+† independent cross-provider grader (never the model's own family); n=2 trials/cell — a shape,
+not a verdict. Totals are 5 family + 4 famous + 5 isomorph + 2 mint-match problems, 2 trials
+each = 30. deepseek-v4-pro's +10 is the largest lift of any model tested.
 
-Mint-match (frame-import) was 0/16 for every model, bare and distilled — the universal failure.
+Mint-match (frame-import) was 0/20 for every model, bare and distilled — the universal failure
+(deepseek-with-distill reached the right action twice but never named the frame trap, so it
+doesn't count as solved under the strict grader).
 glm-5's family-only rescue was the steepest of any model tested (1/10 → 8/10); qwen3.7-plus
 already had the charger question right bare (2/2), and distilling it broke it (0/2) —
 distillation isn't free on strong-bare cases.

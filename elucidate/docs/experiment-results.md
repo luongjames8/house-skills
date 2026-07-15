@@ -302,6 +302,14 @@ failures). Solved, bare → distill (family/10, famous/8, iso/10, mint/2):
 | kimi-k2.5 | 2→7 | 7→5 | 8→10 | 0→0 | 17→22 |
 | glm-5 | 1→8 | 6→5 | 7→10 | 0→0 | **14→23** |
 | MiniMax-M2.5 | 1→4 | 6→6 | 8→8 | 0→0 | 15→18 |
+| deepseek-v4-pro | 1→6 | 6→7 | 6→10 | 0→0 | **13→23** |
+
+deepseek-v4-pro added same-day (`results-run7-deepseek.json`; solver via its own API, thinking
+off; graded by claude sonnet — the cross-provider never-self-grade principle in the other
+direction). Largest lift of any model tested (+10). Its distill arm reached the correct
+mint-match ACTION on both trials ("bad flow") without ever naming the frame constraint — graded
+unsolved under the strict rubric, but the first non-Claude model to land the right side of the
+decision.
 
 Findings:
 
