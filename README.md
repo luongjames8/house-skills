@@ -145,25 +145,30 @@ cat, kg-vs-lb, sibling count, river — /8), fresh isomorphs of those puzzles (/
 frame-import problem (mint-match — /2). Each cell reads **without → with** the skill. Regenerate
 the whole table from the raw result files with `elucidate/eval/tally_master.py`.
 
-One design difference you should know before comparing rows: **who writes the briefing.** In the
-Claude rows the distill step ran on sonnet (the harness default) — so "haiku with the skill" is
-really sonnet spotting the trap and haiku executing, a cheap-solver/smart-distiller pipeline. In
-the non-Claude rows each model distilled *for itself* — those are the honest single-model
-numbers. That's a real deployment choice, not just a test artifact (running a strong distiller in
-front of a cheap solver is exactly how the skill is used in production here), but it means
-haiku's perfect column partly reflects sonnet's work, and cross-row comparisons should keep that
-in mind.
+One design axis to read the rows by: **who writes the briefing.** The first three Claude rows use
+sonnet as the distiller (the harness default, and the production configuration — one strong
+distillation feeding a cheaper reasoner); the "(self-distilled)" rows and every non-Claude row
+have the model writing its own briefing. Both configurations are measured, so the pipeline effect
+is isolated rather than hidden:
 
 | Model | Decision family /10 | Famous puzzles /8 | Fresh isomorphs /10 | Frame-import /2 | Total /30 |
 |---|---|---|---|---|---|
 | claude haiku 4.5 | 6→10 | 8→8 | 9→10 | 0→2 | **23→30** |
 | claude sonnet 4.6 | 6→10 | 8→8 | 7→10 | 0→1 | **21→29** |
 | claude opus | 6→9 | 8→8 | 9→10 | 0→0 | **23→27** |
+| claude haiku 4.5 (self-distilled) | 6→10 | 8→8 | 9→10 | 0→0 | **23→28** |
+| claude opus (self-distilled) | 6→10 | 8→8 | 9→10 | 0→0 | **23→28** |
 | deepseek-v4-pro | 1→6 | 6→7 | 6→10 | 0→0 | **13→23** |
 | glm-5 | 1→8 | 6→5 | 7→10 | 0→0 | **14→23** |
 | qwen3.7-plus | 5→6 | 5→7 | 10→8 | 0→0 | **20→21** |
 | kimi-k2.5 | 2→7 | 7→5 | 8→10 | 0→0 | **17→22** |
 | MiniMax-M2.5 | 1→4 | 6→6 | 8→8 | 0→0 | **15→18** |
+
+What the self-distilled rows isolate: haiku briefing itself keeps the entire rescue except
+mint-match — the one thing sonnet's brain added was the domain-knowledge case. And opus does
+slightly *better* on its own briefing (28) than on sonnet's (27): it obeys itself where it argued
+with someone else's briefing. The skill's lift is real in every configuration; only the
+frame-import solve depends on who does the distilling.
 
 What the matrix says, in words:
 

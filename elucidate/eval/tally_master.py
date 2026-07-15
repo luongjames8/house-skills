@@ -17,13 +17,15 @@ SETS = {
 ALL = [p for ids in SETS.values() for p in ids]
 
 def claude_records(*sources):
-    """sources: (filename, allowed_problem_ids) pairs — restrict each file to the sets it
-    contributes so overlapping runs never double-count a cell."""
+    """sources: (filename, allowed_problem_ids[, allowed_distill_modes]) — restrict each file to
+    the sets/arms it contributes so overlapping runs never double-count a cell."""
     recs = []
-    for f, allowed in sources:
+    for src in sources:
+        f, allowed = src[0], src[1]
+        modes = src[2] if len(src) > 2 else ('none','B')
         d = json.load(open(os.path.join(H, f)))
         for r in d['records']:
-            if r['problemId'] in allowed and r['distillMode'] in ('none','B'):
+            if r['problemId'] in allowed and r['distillMode'] in modes:
                 recs.append({'problem': r['problemId'],
                              'arm': 'bare' if r['distillMode']=='none' else 'distill',
                              'solved': bool(r['surfaced_constraint'] and r['correct_recommendation'])})
@@ -55,6 +57,18 @@ MODELS = {
     'claude opus':       claude_records(('results-run6c-opus.json', FAM + ['flat-tire-ride']),
                                         ('results-run6f-opus-patterns.json', FAMOUS + MINT +
                                          ['dayshift-self-count','burned-bulb-switch','meter-vs-yard','freight-elevator'])),
+    # self-distilled rows: bare cells are distiller-free so they reuse the runs above;
+    # distill cells come from run 11 where the solver model wrote its own briefing
+    'claude haiku 4.5 (self-distilled)': claude_records(
+        ('results-run6d-haiku-family.json', FAM, ('none',)),
+        ('results-run6a-haiku.json', FAMOUS + ISO, ('none',)),
+        ('results-run4.json', MINT, ('none',)),
+        ('results-run11-haiku-selfdistill.json', FAM + FAMOUS + ISO + MINT, ('B',))),
+    'claude opus (self-distilled)': claude_records(
+        ('results-run6c-opus.json', FAM + ['flat-tire-ride'], ('none',)),
+        ('results-run6f-opus-patterns.json', FAMOUS + MINT +
+         ['dayshift-self-count','burned-bulb-switch','meter-vs-yard','freight-elevator'], ('none',)),
+        ('results-run11-opus-selfdistill.json', FAM + FAMOUS + ISO + MINT, ('B',))),
     'deepseek-v4-pro':   run7_records('results-run7-deepseek.json'),
 }
 MODELS.update(run7_split('results-run7-bailian.json'))

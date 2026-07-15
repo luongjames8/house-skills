@@ -11,7 +11,8 @@ export const meta = {
 const A = typeof args === 'string' ? JSON.parse(args) : args
 const { problems, noise, prompts, cells, trials } = A
 const H = A.solverModel || 'haiku'   // model under test (solver/debaters/judge)
-const S = A.smartModel || 'sonnet'   // distiller + grader
+const S = A.smartModel || 'sonnet'   // grader (and distiller unless distillModel set)
+const D = A.distillModel || S        // distiller — set to solverModel for self-distillation
 
 const DISTILL_SCHEMA = {
   type: 'object', additionalProperties: false,
@@ -58,7 +59,7 @@ const distillResults = await parallel(distillList.map(d => () => {
     : prompts.distill_typed
   return agent(`${promptText}\n\n=== RAW MATERIAL ===\n${materialFor(d.p, d.inputMode)}`, {
     label: `distill:${d.p.id}:${d.inputMode}:${d.dMode}`,
-    phase: 'Distill', model: S, effort: 'medium', schema: DISTILL_SCHEMA,
+    phase: 'Distill', model: D, effort: 'medium', schema: DISTILL_SCHEMA,
   }).then(r => ({ k: d.k, distilled: r ? r.distilled : materialFor(d.p, d.inputMode) }))
 }))
 const distillMap = {}

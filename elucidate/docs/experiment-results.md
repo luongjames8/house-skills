@@ -379,6 +379,22 @@ through the distiller, per run 5's future-work note.
 
 ---
 
+## Run 11 — self-distillation: isolating the who-writes-the-briefing effect
+
+The matrix mixed designs (Claude rows used sonnet as distiller; non-Claude rows self-distilled).
+Run 11 adds the missing cells: haiku-distills-for-haiku and opus-distills-for-opus, full 15
+problems, distill arm, same pre-clause prompt as the other matrix rows, sonnet grading
+(`distillModel` arg added to workflow.js; `results-run11-*-selfdistill.json`).
+
+Both self-distilled Claude rows land **28/30**. Findings: (1) haiku alone keeps the entire rescue
+except mint-match (0/2 self vs 2/2 with sonnet's briefing) — the smart distiller's whole
+contribution was the domain-knowledge case; (2) opus scores higher on its own briefing (28) than
+on sonnet's (27, family 10/10 vs 9/10) — consistent with run 6f's reasoning-around-others'-
+briefings failure; (3) frame-import remains unsolved in every self-distilled configuration,
+reinforcing runs 9-10's conclusion that it is evidence-bound, not prompt-bound.
+
+---
+
 ## Honest caveats
 
 - **Small n** (2 trials/cell, 5 problems). Directional, not publication-grade; the effects are large
