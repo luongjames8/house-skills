@@ -1,6 +1,12 @@
 ---
 name: tabletop
-description: Use when designing, finalizing, or reviewing any flow that crosses a service or vendor boundary — webhook handlers, API integrations, queue consumers, exchange/chain interactions, anything where your code and someone else's system interact under timing, token, retry, or failure semantics — BEFORE the design is handed off or implemented. Fires HARDEST when the counterparty's contract is not in hand ("in-house fork", "no docs", "we're an early customer", "TTL unknown"): an unheld contract is the moment this skill exists for, not a reason to skip it.
+description: >-
+  Use when designing, finalizing, or reviewing any flow that crosses a service or vendor boundary
+  — webhook handlers, API integrations, queue consumers, exchange/chain interactions, anything
+  where your code and someone else's system interact under timing, token, retry, or failure
+  semantics — BEFORE the design is handed off or implemented. Fires HARDEST when the
+  counterparty's contract is not in hand ("in-house fork", "no docs", "we're an early customer",
+  "TTL unknown"): an unheld contract is the moment this skill exists for, not a reason to skip it.
 ---
 
 # tabletop

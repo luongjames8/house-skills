@@ -1,6 +1,13 @@
 ---
 name: differential
-description: Use when an investigation hits an impasse — "all candidates killed", "nothing works", repeated negative results across variants, a chronic unexplained anomaly, losses/failures with no established mechanism, or any "we don't know why X" — BEFORE accepting the impasse or writing the verdict/conclusion. Also fires when a pre-registered diagnostic returns INVERTED or opposite-to-hypothesis results: an inversion is a mechanism knocking, not residue. Not for first-line debugging of a reproducible error (use systematic-debugging) and not when the mechanism is already established and measured.
+description: >-
+  Use when an investigation hits an impasse — "all candidates killed", "nothing works", repeated
+  negative results across variants, a chronic unexplained anomaly, losses/failures with no
+  established mechanism, or any "we don't know why X" — BEFORE accepting the impasse or writing
+  the verdict/conclusion. Also fires when a pre-registered diagnostic returns INVERTED or
+  opposite-to-hypothesis results: an inversion is a mechanism knocking, not residue. Not for
+  first-line debugging of a reproducible error (use systematic-debugging) and not when the
+  mechanism is already established and measured.
 ---
 
 # differential

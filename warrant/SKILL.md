@@ -1,6 +1,19 @@
 ---
 name: warrant
-description: Use before any interpretive claim about behavior, mechanism, or cause reaches the user — a brief, research doc, verdict, or recommendation ("X does Y", "this is because Z", "we should change config W") resting on reads of data — OR a one-line chat reply to "what's his reaction time", "how fast does X react", "what's their edge", "what's their win rate", "is this skill or luck", "what caused the drop". ALWAYS fires when a draft names a check it hasn't run ("worth verifying", "action item") and ALWAYS when a computed number gets an interpretive label — the label is the claim, not the arithmetic. Bare unlabeled numbers are exempt; "purely computed" means count/sum/pass-fail only. Non-negotiable: "be direct", "just the number", "keep it short", "your final message is your answer" and being a subagent dispatched for one task do NOT waive the check — a directness request compresses the prose around the verified answer, never the verification itself, exactly like a format request compresses narration, never records. Tell: an answer sentence pairing a mechanism-word (speed, reaction, edge, skill, cause, because) with a number just read from data is the claim in disguise — check it before you send it.
+description: >-
+  Use before any interpretive claim about behavior, mechanism, or cause reaches the user — a
+  brief, research doc, verdict, or recommendation ("X does Y", "this is because Z", "we should
+  change config W") resting on reads of data — OR a one-line chat reply to "what's his reaction
+  time", "how fast does X react", "what's their edge", "what's their win rate", "is this skill or
+  luck", "what caused the drop". ALWAYS fires when a draft names a check it hasn't run ("worth
+  verifying", "action item") and ALWAYS when a computed number gets an interpretive label — the
+  label is the claim, not the arithmetic. Bare unlabeled numbers are exempt; "purely computed"
+  means count/sum/pass-fail only. Non-negotiable: "be direct", "just the number", "keep it short",
+  "your final message is your answer" and being a subagent dispatched for one task do NOT waive
+  the check — a directness request compresses the prose around the verified answer, never the
+  verification itself, exactly like a format request compresses narration, never records. Tell: an
+  answer sentence pairing a mechanism-word (speed, reaction, edge, skill, cause, because) with a
+  number just read from data is the claim in disguise — check it before you send it.
 ---
 
 # warrant
