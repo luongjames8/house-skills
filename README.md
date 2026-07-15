@@ -111,20 +111,9 @@ beside the point.
 
 In plain words: asked to pick between two offered options, the model picks one instead of asking
 whether the question's premise even holds. Charger is one of five such problems (a couch that may
-not fit the stairwell, a plant that may be overwatered not under-lit); every tier failed the same
-two bare, then the skill fixed them:
-
-| Model | Without the skill | With the skill |
-|---|---|---|
-| haiku 4.5 | 6/10† | 10/10 |
-| sonnet 4.6 | 6/10† | 10/10 |
-| opus | 6/10† | 9/10 |
-
-† pass = named the real blocker instead of picking a side, across 5 problems × 2 trials each.
-
-A related isomorph on fresh material makes the same point: asked "ride or walk?" about a bike with
-two flat tires, sonnet answered "ride" — the wrong call, since a fully flat tire can't be ridden —
-on both trials; the skill fixed it, 2 of 2.
+not fit the stairwell, a plant that may be overwatered not under-lit) — the "decision family"
+column in the matrix below. A fresh isomorph makes the same point: asked "ride or walk?" about a
+bike with two flat tires, sonnet answered "ride" on both trials; the skill fixed it, 2 of 2.
 
 #### Frame-import — a number read in someone else's frame
 
@@ -142,41 +131,44 @@ eventual winner. "Riskless for the venue" quietly got read as "riskless for us":
 > flow' ... that's the venue's crossing-mechanics frame, not our risk frame,"* correctly splitting
 > the exposure, 2 of 2 trials.
 
-Same shape as the churn-ticket demo up top, a label trusted instead of checked. The rescue has a
-ceiling: a same-day opus rerun couldn't be talked into it, reasoning *around* the written
-constraint instead of heeding it:
+Same shape as the churn-ticket demo up top, a label trusted instead of checked. It's the
+"frame-import" column in the matrix below — the hardest column on the board.
 
-| Model | Without the skill | With the skill |
-|---|---|---|
-| haiku 4.5 | 0/2† | 2/2† |
-| opus | 0/2† | 0/2‡ |
+#### The matrix — eight models, one scheme
 
-† pass = correctly split self-mint (riskless) from external-cross mint (a real directional bet)
-instead of booking the whole channel as benign; haiku case derived from a real production incident.
-‡ opus reasoned around the written constraint instead of heeding it — the rescue is proven at
-haiku, not guaranteed at every tier.
+Every model below ran the **same 15 problems** under the **same protocol**: bare model vs. the
+same model with the skill's distill step, naive prompt, 2 trials per problem per arm, solved only
+if the answer both named the hidden issue *and* got the recommendation right, graded by a model
+from a different provider family. Columns are fixed problem sets, identical denominators for every
+row: decision family (charger, couch, plant, mail, car-wash — /10), famous trick puzzles (dead
+cat, kg-vs-lb, sibling count, river — /8), fresh isomorphs of those puzzles (/10), and the
+frame-import problem (mint-match — /2). Each cell reads **without → with** the skill. Regenerate
+the whole table from the raw result files with `elucidate/eval/tally_master.py`.
 
-**Beyond Claude:** five non-Claude models hit the same wall on mint-match and mostly replicated the
-hidden-prerequisite rescue on the family:
+| Model | Decision family /10 | Famous puzzles /8 | Fresh isomorphs /10 | Frame-import /2 | Total /30 |
+|---|---|---|---|---|---|
+| claude haiku 4.5 | 6→10 | 8→8 | 9→10 | 0→2 | **23→30** |
+| claude sonnet 4.6 | 6→10 | 8→8 | 7→10 | 0→1 | **21→29** |
+| claude opus | 6→9 | 8→8 | 9→10 | 0→0 | **23→27** |
+| deepseek-v4-pro | 1→6 | 6→7 | 6→10 | 0→0 | **13→23** |
+| glm-5 | 1→8 | 6→5 | 7→10 | 0→0 | **14→23** |
+| qwen3.7-plus | 5→6 | 5→7 | 10→8 | 0→0 | **20→21** |
+| kimi-k2.5 | 2→7 | 7→5 | 8→10 | 0→0 | **17→22** |
+| MiniMax-M2.5 | 1→4 | 6→6 | 8→8 | 0→0 | **15→18** |
 
-| Model | Without the skill | With the skill |
-|---|---|---|
-| qwen3.7-plus | 20/30† | 21/30† |
-| kimi-k2.5 | 17/30† | 22/30† |
-| glm-5 | 14/30† | 23/30† |
-| MiniMax-M2.5 | 15/30† | 18/30† |
-| deepseek-v4-pro | 13/30† | 23/30† |
+What the matrix says, in words:
 
-† independent cross-provider grader (never the model's own family); n=2 trials/cell — a shape,
-not a verdict. Totals are 5 family + 4 famous + 5 isomorph + 2 mint-match problems, 2 trials
-each = 30. deepseek-v4-pro's +10 is the largest lift of any model tested.
-
-Mint-match (frame-import) was 0/20 for every model, bare and distilled — the universal failure
-(deepseek-with-distill reached the right action twice but never named the frame trap, so it
-doesn't count as solved under the strict grader).
-glm-5's family-only rescue was the steepest of any model tested (1/10 → 8/10); qwen3.7-plus
-already had the charger question right bare (2/2), and distilling it broke it (0/2) —
-distillation isn't free on strong-bare cases.
+- **The decision family is where the skill earns its keep everywhere**: every model improves,
+  and the weakest bare reasoners improve most (deepseek 1→6, glm-5 1→8 — vs Claude's 6→10).
+- **Famous puzzles need nothing**: every Claude tier is perfect bare; non-Claude models miss a
+  few with or without. Don't install this for riddles.
+- **Frame-import is the wall**: 0/16 bare across all eight models; with the skill, only Claude
+  solves it at all (haiku 2/2, sonnet 1/2, opus 0/2 — opus reasons *around* its own briefing).
+  deepseek and sonnet's misses landed the right action for the wrong mechanism — close, not
+  credit.
+- **The skill is not free**: qwen3.7-plus had the isomorphs 10/10 bare and distilling broke two
+  (10→8) — on problems a model already owns, the extra step is noise. Small n throughout: 2
+  trials per cell, shapes not verdicts.
 
 ### tabletop — designing against a vendor whose contract you don't actually hold
 
@@ -268,18 +260,9 @@ the weakest one hedged correctly on its own.
 
 In plain words: even with zero help, models already nail famous trick puzzles (the already-dead
 cat in the box, comparing 1 kg of cotton to 1 lb of lead) and freshly written variants no training
-set has seen — this table exists to prove that, not to sell the skill:
-
-| Model | Without the skill | With the skill |
-|---|---|---|
-| haiku 4.5 | 16/16† | 16/16 |
-| sonnet 4.6 | 15/16† | 16/16 |
-
-† 4 famous puzzles + 4 fresh variants of the same templates, 2 trials each = 16 trials per model;
-the flat-tire prerequisite problem above is deliberately excluded here — it's a
-hidden-prerequisite decision, not a trick-puzzle template, and sonnet failed it bare.
-
-If your use of AI is Q&A over well-known gotchas, current models already handle it.
+set has seen — see the "Famous puzzles" column in the matrix above: every Claude tier is 8/8
+bare. If your use of AI is Q&A over well-known gotchas, current models already handle it, and we
+say so rather than sell you the skill for it.
 
 ### The honest edges
 

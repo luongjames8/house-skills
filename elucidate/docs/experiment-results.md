@@ -329,6 +329,19 @@ Findings:
 
 ---
 
+## Run 8 + the unified matrix
+
+Run 8 filled the last gap (sonnet on mint-match: bare 0/2; distilled 1/2 — one rep genuinely
+surfaced the frame-import and classified bad flow; `results-run8-sonnet-mint.json`). With that,
+every model has complete cells on the same 15 problems / same protocol, and the single
+authoritative cross-model table is generated — not hand-assembled — by
+`eval/tally_master.py` from the raw results files. The README's matrix is that script's output
+verbatim. Any future run that changes a cell should re-run the script rather than edit numbers
+by hand; the script hard-fails a row with a ⚠ flag if any cell has missing trials, so
+inconsistent denominators can't silently reappear.
+
+---
+
 ## Honest caveats
 
 - **Small n** (2 trials/cell, 5 problems). Directional, not publication-grade; the effects are large

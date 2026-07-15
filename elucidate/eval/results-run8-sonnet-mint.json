@@ -1,0 +1,70 @@
+{
+  "cellSummary": [
+    {
+      "cell": "clean/B/single",
+      "n": 2,
+      "surfaced_rate": 0.5,
+      "correct_rate": 1,
+      "solved_rate": 0.5,
+      "mean_quality": 56
+    },
+    {
+      "cell": "clean/none/single",
+      "n": 2,
+      "surfaced_rate": 0,
+      "correct_rate": 0,
+      "solved_rate": 0,
+      "mean_quality": 10
+    }
+  ],
+  "records": [
+    {
+      "problemId": "mint-match-frame",
+      "inputMode": "clean",
+      "distillMode": "none",
+      "analysisMode": "single",
+      "trial": 0,
+      "recommendation": "Classify mint_match as benign maker liquidity (good flow) \u2014 full rebate weight, treat the paired UP+DOWN legs as one flat-inventory unit in the PnL book rather than two independent directional fills.",
+      "surfaced_constraint": false,
+      "correct_recommendation": false,
+      "quality": 10,
+      "notes": "Candidate concluded mint_match is benign/good flow and explicitly argued there is no adverse selection at mint time, missing the core hidden constraint that the mint hands us only one leg while an informed complement-side buyer takes the other \u2014 the exact inverse of the correct 'bad flow' verdict."
+    },
+    {
+      "problemId": "mint-match-frame",
+      "inputMode": "clean",
+      "distillMode": "none",
+      "analysisMode": "single",
+      "trial": 1,
+      "recommendation": "Classify mint_match fills as benign maker liquidity (good flow) \u2014 give them full rebate weight, same as at_level maker fills, no adverse-selection discount.",
+      "surfaced_constraint": false,
+      "correct_recommendation": false,
+      "quality": 10,
+      "notes": "The candidate explicitly classified mint_match as benign/good flow with full rebate weight, reasoning from the venue's 'matched, delta-neutral' framing \u2014 exactly the frame-import error the hidden constraint warns against; it never considered that the mint hands us only one leg while the complement side is likely informed, so it reached the opposite of the correct answer."
+    },
+    {
+      "problemId": "mint-match-frame",
+      "inputMode": "clean",
+      "distillMode": "B",
+      "analysisMode": "single",
+      "trial": 0,
+      "recommendation": "Bad flow (flag/exclude from genuine-maker rebate credit) by default \u2014 unless per-fill order attribution proves the complementary leg was external.\n\nRule: for mint_match fills, check order IDs on both crossed legs.\n- Both legs = our own engine's UP+DOWN orders \u2192 self-crossed. No counterparty risk transferred, no external liquidity served. Book as bad flow / self-generated volume, even though the venue tags it \"maker\" and pays rebate. Track the rebate cash received separately (it's real cash) but do NOT credit it as genuine liquidity-provision PnL \u2014 flag as rebate-farming-adjacent structural harvesting.\n- One leg ours / one leg external \u2192 genuine maker liquidity, good flow, full credit.\n- Neither leg ours \u2192 shouldn't appear in our ledger at all (investigate if it does).\n\nGiven the engine's architecture (\"two-legged set assembler\" that places and manages both the UP and DOWN leg itself), mint_match fills should be presumed both-legs-ours by default \u2014 that's the whole point of the strategy. Do not default to \"good flow\" just because the venue calls it maker/rebate-weighted; that's importing the venue's accounting frame onto our own economics. Only promote a mint_match fill to \"good flow\" when the ledger can positively attribute the opposing leg to an external account.\n\nPractically: extend the ledger to record counterparty/order-owner on each side of a mint_match fill (if not already captured) so the self-crossed vs. externally-crossed split can be made per-fill rather than assumed. Until that attribution exists, treat all mint_match volume as bad flow / excluded from genuine-maker-rebate PnL as the conservative default, since misclassifying self-crossed mints as organic maker flow overstates real liquidity-provision revenue and risks a wash-trading characterization.",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 72,
+      "notes": "The candidate correctly names the core insight (don't import the venue's matched/riskless frame onto our own economics) and defaults mint_match to bad flow, but it reframes the hidden constraint as a self-crossing/wash-trading risk rather than the actual mechanism described (informed complement-side flow disproportionately buying the eventual winner, leaving us the losing leg) \u2014 its proposed remedy (promote to good flow once external counterparty is attributed) is actually wrong under the true constraint, since even externally-crossed mint fills are toxic due to adverse selection, not neutral 'genuine liquidity.'"
+    },
+    {
+      "problemId": "mint-match-frame",
+      "inputMode": "clean",
+      "distillMode": "B",
+      "analysisMode": "single",
+      "trial": 1,
+      "recommendation": "Classify mint_match fills as BAD FLOW (self-generated/self-crossed volume) by default for PnL/rebate bookkeeping \u2014 do not credit them as genuine maker liquidity \u2014 unless per-fill order/account attribution positively confirms the complementary crossing leg belonged to an external counterparty, in which case only that subset gets \"good flow\" credit.",
+      "surfaced_constraint": false,
+      "correct_recommendation": true,
+      "quality": 40,
+      "notes": "Candidate lands on the right final classification (bad flow, don't import the venue's frame) and correctly names \"frame-import error\" as the meta-risk, but its causal mechanism is wrong: it assumes mint_match fills are the engine self-crossing its own two legs (wash-trading risk), whereas the actual hidden constraint is that the mint hands the firm only ONE leg while an external, disproportionately-informed counterparty takes the complement \u2014 a directional adverse-selection risk, not a self-match/no-risk-transfer issue; the candidate never identifies that the firm ends up holding a directional position against informed flow."
+    }
+  ]
+}
