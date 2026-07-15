@@ -1,13 +1,10 @@
 # house-skills
 
-**Four drop-in files that make your AI catch itself before it hands you a confident wrong answer —
-on everyday questions as much as deep work.**
-Install in 30 seconds; they fire themselves when their moment appears. This is for thinking
-clearly, autonomously: a casual "what's his reaction time?" in chat, a "fast charger or slow
-charger?" decision, a stuck investigation, a design against an API you don't have docs for — not
-just code, and not just big analyses.
-
-Because here's the failure they're built for:
+**Your AI has probably already done this to you this week: dropped findings to keep an answer
+brief, or shipped a number whose label was wrong — and said nothing.** Four drop-in files catch it
+in the act, on everyday questions ("fast charger or slow charger?") as much as deep work (a stuck
+investigation, a design against an API you don't have docs for). Install in 30 seconds; they fire
+themselves when their moment appears.
 
 Not because the model is weak — because nothing makes it *check*. It reads a column named `maker`
 and assumes that's what the column means. You say "keep it brief" and it silently deletes seven of
@@ -40,8 +37,47 @@ reviews, due diligence, engineering.
   set by staff not customers, and flags that the label **doesn't mean what the analysis assumed** —
   before it reaches your deck.
 
-Both demos condense tests we actually ran; the synthetic data and results ship in this repo
-(`warrant/docs/fixtures/`, `differential/docs/fixtures/`), rerunnable.
+The first demo condenses tests that ship in this repo, rerunnable
+(`differential/docs/fixtures/`); the second is an everyday translation of a failure class we
+measured on other data — the same label-means-something-else trap as warrant's settlement-clock
+fixture and elucidate's mint-match problem, both rerunnable below.
+
+## Install — 30 seconds, Claude Code
+
+```bash
+git clone https://github.com/luongjames8/house-skills ~/code/house-skills
+mkdir -p ~/.claude/skills
+for d in ~/code/house-skills/*/; do
+  [ -f "$d/SKILL.md" ] && ln -sfn "$d" ~/.claude/skills/"$(basename "$d")"
+done
+```
+
+Not on Claude Code, or not technical? Copy the text of any `SKILL.md` into your AI's system prompt
+or a Claude Project's custom instructions — the skills are plain instructions; this script just
+automates placing them. On Claude Code itself, it loads each skill's `description:` — its trigger
+conditions — into every session, and invokes the skill when the moment matches. `/warrant` etc.
+works as a manual fallback.
+
+**How often does it fire?** By design, rarely — each trigger carves out what it must NOT fire on,
+so the default is silence. tabletop and differential wait for genuinely uncommon moments (a
+cross-system design, a stuck investigation); elucidate and warrant fire a few times per
+analysis-heavy session, not at all in routine back-and-forth. A firing costs one bounded side-task
+— a few model calls, a minute or two. Say so if it fires unwanted; the agent skips it.
+
+### Try it yourself in 2 minutes
+
+The tests in this repo are real files you can rerun. Point your agent at one and watch the skill work:
+
+```
+# in a fresh Claude Code session, from the repo root:
+Read warrant/docs/fixtures/settlement-clock-trades.json and tell me this trader's median
+reaction speed between his two legs.
+```
+
+A bare agent answers "~2 seconds." A warrant-equipped one re-derives it from the raw file, notices
+every gap is an identical rounded interval — the timestamps were snapped to a coarse tick, so they
+can't measure anything finer — and tells you the data *cannot* answer the question as asked. Same
+file, both outcomes, on your own screen.
 
 ## The four skills
 
@@ -54,11 +90,10 @@ Both demos condense tests we actually ran; the synthetic data and results ship i
 
 ## What it fixes — and what it doesn't (measured, July 2026)
 
-"Don't better models just figure it out?" We tested that directly: the same problems, three Claude
-tiers (haiku 4.5, sonnet 4.6, opus), bare model vs. the same model with the skill, graded
-independently, everything rerunnable from the fixtures in this repo. These are small paired
-trials — a handful of runs per condition — so treat the numbers as *shapes*, not precise rates. Every
-count below is written as "X of Y trials," never a bare percentage, so you can see exactly what ran.
+"Don't better models just figure it out?" We tested that directly: same problems, three Claude
+tiers (haiku 4.5, sonnet 4.6, opus), bare vs. skill-equipped, graded independently, all rerunnable
+from the fixtures in this repo. Small paired trials — treat every count below as a *shape*, written
+"X of Y trials," never a bare percentage.
 
 ### elucidate — decisions hiding a blocker, and numbers read in the wrong frame
 
@@ -74,9 +109,10 @@ beside the point.
 > outlet access is the real blocker. Solve access first: extension cord, different outlet, or help
 > moving the cabinet."*
 
-That charger question is one of five "hidden prerequisite" problems (a couch that may not fit the
-stairwell, a plant that may be overwatered rather than under-lit). Every tier failed the same two
-problems bare, then the skill fixed them:
+In plain words: asked to pick between two offered options, the model picks one instead of asking
+whether the question's premise even holds. Charger is one of five such problems (a couch that may
+not fit the stairwell, a plant that may be overwatered not under-lit); every tier failed the same
+two bare, then the skill fixed them:
 
 | Model | Bare (no skill) | With the skill |
 |---|---|---|
@@ -107,8 +143,15 @@ eventual winner. "Riskless for the venue" quietly got read as "riskless for us":
 > flow' ... that's the venue's crossing-mechanics frame, not our risk frame,"* correctly splitting
 > the exposure, 2 of 2 trials.
 
-(Haiku only, frame-import case derived from a real production incident: 0/2 bare → 2/2 with the
-skill.)
+(Haiku only, from a real production incident: 0/2 bare → 2/2 with the skill — same shape as the
+churn-ticket demo up top, a label trusted instead of checked. The rescue has a ceiling: a same-day
+opus rerun stayed **0/2 bare → 0/2 distilled**, reasoning *around* the written constraint instead
+of heeding it — so far proven at haiku, not guaranteed at every tier.)
+
+**Beyond Claude:** four non-Claude models (glm-5, qwen3.7-plus, kimi-k2.5, MiniMax-M2.5) hit the
+same wall on mint-match, 0/16 bare or distilled. The hidden-prerequisite rescue mostly replicated
+(glm-5: 1/10 → 8/10) — but isn't free: qwen3.7-plus already had charger right bare (2/2), and
+distilling it broke it (0/2). n=2/cell — a shape, not a verdict.
 
 ### tabletop — designing against a vendor whose contract you don't actually hold
 
@@ -124,9 +167,15 @@ blocker.
 > within budget regardless of how long the policy check takes, and a named checklist of what must
 > be verified before shipping.
 
-(Sonnet only. Bare: 0/2, 2026-07-10. With the skill: 4/4, 2026-07-15 — 2 trials where it was asked
-for directly, 2 more where the agent recognized the situation from the skill's own description and
-used it unprompted.)
+(Bare: 0/2 on 2026-07-10 — model tier unrecorded, so cross-date bare comparisons are
+environment-confounded. With the skill: 4/4 sonnet, 2026-07-15 — 2 asked directly, 2 more
+self-invoked unprompted.) A same-day tier sweep: haiku and opus also hit 2/2 skill-directed, and
+with the skill explicitly suppressed ("answer as a plain assistant"), neither reproduced the
+2026-07-10 failure — both designed ack-first with unknowns listed on their own. Suggestive, not
+settled, that current models have absorbed the basic instinct; what the skill measurably still
+buys is the enforced paperwork (the UNKNOWN table, sourced MUST-VERIFY gates) that makes unknowns
+reviewable by someone else — the gap between a design that happens to be safe and one that's
+provably safe.
 
 ### differential — "nothing works," under pressure to keep it short
 
@@ -140,7 +189,12 @@ used it unprompted.)
 > each marked confirmed or refuted, confirmed the real one two independent ways (the settlement
 > calldata and the fee arithmetic), and still fit the three-bullet summary on top.
 
-(Sonnet only. Bare: 0/2 kept the analysis, 2026-07-11. With the skill: 4/4, 2026-07-15.)
+(Sonnet only. Bare: 0/2 kept the analysis, 2026-07-11. With the skill: 4/4, 2026-07-15 — same
+shape as the investigation demo up top; the migration-lock walkthrough below shows a differential
+firing end to end.) A same-day tier sweep: the failure is tier-invariant. Haiku and opus also hit
+2/2 skill-directed with full census charts; with the skill explicitly suppressed, all four reps
+found the right mechanism but zero of four kept any record of the causes ruled out. Scale fixes
+the diagnosis, not the reflex that deletes the paper trail.
 
 ### warrant — the number is right, the label is the lie
 
@@ -148,19 +202,23 @@ used it unprompted.)
 looked like a simple lookup.
 
 > Asked casually for a trader's "median reaction speed," the gaps between his two trade legs
-> (across 8 trade pairs) were 0, 0, 2, 2, 2, 4, 4, and 6 seconds — every one an exact multiple of
-> 2. Without the skill firing,
-> every trial shipped *"median reaction speed: 2 seconds"* — the arithmetic is correct, the claim
-> is not: those timestamps are snapped to a coarse settlement clock and can't measure reaction time
-> at all. With the skill, every trial refused the label, named the clock-quantization pattern, and
-> said what data could actually answer the question.
+> (across 8 trade pairs) were 0, 0, 2, 2, 2, 4, 4, and 6 seconds — every one an exact multiple of 2.
+> Without the skill firing, every trial shipped *"median reaction speed: 2 seconds"* — the
+> arithmetic is correct, the claim is not: those timestamps are snapped to a coarse settlement
+> clock and can't measure reaction time at all. With the skill, every trial refused the label,
+> named the clock-quantization pattern, and said what data could actually answer the question.
 
-(Sonnet only. Without the skill firing: 0/4 refused the label. With the skill: 4/4 refused.)
+(Sonnet only. Without the skill firing: 0/4 refused the label. With the skill: 4/4 refused.) A
+same-day tier sweep found the same split at every tier: skill-directed, haiku/sonnet/opus each
+refused the label 2/2; left to answer as a plain assistant, sonnet and opus both shipped the wrong
+label anyway (0/2 each) — but haiku refused it unprompted (2/2). Not a capability gradient: the
+two stronger tiers answered exactly as asked; the weakest one hedged correctly on its own.
 
 ### Where bare models already win — you don't need this
 
-Famous trick puzzles (the already-dead cat in the box, comparing 1 kg of cotton to 1 lb of
-lead) *and* freshly written variants no training set has seen:
+In plain words: even with zero help, models already nail famous trick puzzles (the already-dead
+cat in the box, comparing 1 kg of cotton to 1 lb of lead) and freshly written variants no training
+set has seen — this table exists to prove that, not to sell the skill:
 
 | Model | Bare (no skill) | With the skill |
 |---|---|---|
@@ -170,73 +228,23 @@ lead) *and* freshly written variants no training set has seen:
 (8 problems × 2 trials each = 16 trials per model — 4 famous puzzles, 4 fresh variants of the same
 templates. The flat-tire prerequisite problem above is deliberately excluded here: it's a
 hidden-prerequisite decision, not a trick-puzzle template, and sonnet failed it bare.) If your use
-of AI is Q&A over well-known gotchas, current models already handle it — this table exists so
-that's on the record, not hidden.
+of AI is Q&A over well-known gotchas, current models already handle it.
 
-### Where no prompt-side skill is enough
+### The honest edges
 
-Some constraints live only in your head, never in anything you handed the model — a company's
-undocumented ledger units, a simulator's unstated bias. On seven real (anonymized) cases like this,
-the bare model and the skill-equipped model solved the exact same 6 of 13 trials — the skill moved
-nothing. The fix isn't a better prompt; it's handing the model the document that actually states
-the constraint, which is a different job than these skills do. Tracked as future work in
-[`elucidate/docs/experiment-results.md`](elucidate/docs/experiment-results.md) (run 5).
+Two things this skill set can't do. It can't invent a fact that's nowhere in your material: on 7
+real cases where the missing constraint lived only in someone's head (an undocumented ledger unit,
+a simulator's unstated bias), skill and bare model solved the same 6 of 13 trials — that needs the
+document stating the constraint, a different job than this one (run 5,
+[`elucidate/docs/experiment-results.md`](elucidate/docs/experiment-results.md)). And an installed
+skill can fire on its own recognition, which cuts both ways: tabletop and differential
+self-invoked off their own trigger wording during tests meant to be "bare," 2/2 each — no clean
+unprompted baseline exists on a machine where they're already installed. warrant's trigger didn't,
+at first (0/2, then 0/2 again) until one added line — "be direct" shortens the prose, never the
+verification — made it self-fire 2/2 on the same prompt. Every number on this page is rerunnable:
+elucidate's from `elucidate/eval/`, the rest from each skill's `docs/fixtures/RECEIPTS.md`.
 
-### Installed skills fire themselves — sometimes without being asked
-
-On a machine with house-skills already installed, tabletop and differential fired themselves during
-what were meant to be "bare" (no-skill) test runs: the agent recognized "no docs" or "nothing
-works" straight from the skill's own trigger description and used it unprompted, 2 of 2 times each.
-
-warrant's didn't (0 of 2) — its old trigger was written for "a deliverable about to ship," and a
-casual chat question plus "be direct" slipped past it. We rewrote the trigger and tested the fix
-the same way the skills test everything: version 1 still didn't fire (0/2), version 2 didn't
-either (0/2), version 3 — which states plainly that "be direct" shortens the explanation, never
-the check — fired 2 of 2 on the same prompt. Everyday phrasing turned out to be a first-class
-trigger; the full history is in warrant's receipts.
-
-Every number above is rerunnable: elucidate's from `elucidate/eval/`, the rest from each skill's
-`docs/fixtures/`. Full run-by-run detail in
-[`elucidate/docs/experiment-results.md`](elucidate/docs/experiment-results.md) and the RECEIPTS
-file in each skill's `docs/fixtures/` directory.
-
-## Install — 30 seconds, Claude Code
-
-```bash
-git clone https://github.com/luongjames8/house-skills ~/code/house-skills
-mkdir -p ~/.claude/skills
-for d in ~/code/house-skills/*/; do
-  [ -f "$d/SKILL.md" ] && ln -sfn "$d" ~/.claude/skills/"$(basename "$d")"
-done
-```
-
-Done. The mechanism: Claude Code loads each skill's `description:` — its trigger conditions —
-into every session, and the agent invokes the skill when the moment matches. `/warrant` etc.
-works as a manual fallback.
-
-**How often does it fire?** By design, rarely: each skill's trigger carves out what it must NOT
-fire on, so the default is silence. tabletop and differential wait for genuinely uncommon moments
-(a cross-system design, a stuck investigation — days can pass without one). elucidate and warrant
-fire a few times per analysis-heavy session and not at all in routine back-and-forth. A firing
-costs one bounded side-task — a few model calls, a minute or two — not a re-run of your session.
-If a skill fires when you didn't want it, say so; the agent skips it.
-
-### Try it yourself in 2 minutes
-
-The tests in this repo are real files you can rerun. Point your agent at one and watch the skill work:
-
-```
-# in a fresh Claude Code session, from the repo root:
-Read warrant/docs/fixtures/settlement-clock-trades.json and tell me this trader's median
-reaction speed between his two legs.
-```
-
-A bare agent answers "~2 seconds." A warrant-equipped one re-derives it from the raw file, notices
-every gap is an identical rounded interval — the timestamps were snapped to a coarse tick, so they
-can't measure anything finer — and tells you the data *cannot* answer the question as asked. Same
-file, both outcomes, on your own screen.
-
-### What it looks like when one fires
+## What it looks like when one fires
 
 Nothing to invoke — it just happens inline. You ask a normal question; the agent notices the
 moment, runs the check, and folds the result into its answer:
@@ -253,45 +261,39 @@ AI:   [differential fires — "keeps failing / nobody can explain" is its trigge
       Root cause: lock contention. One untested branch flagged, not hidden.
 ```
 
-You see the extra reasoning in the reply; you don't manage it. If a skill fires when you didn't
-want it, say so and the agent drops it.
-
-**Not on Claude Code?** The skill bodies are plain process text — in three of the four, Claude
-Code appears only as the worked example beside the generic equivalent. Paste them into any system
-prompt, pipeline node, or agent instruction; "fresh subagent" just means a zero-history model
-call. Two pieces need no LLM at all: warrant's `VERIFICATION:` receipt is a one-line grep gate
-for CI, and tabletop's contract table works as a design-review template for humans.
+You see the extra reasoning in the reply; you don't manage it — say so if a skill fires unwanted
+and the agent drops it. The skill bodies are plain process text (Claude Code is just the worked
+example beside a generic equivalent; "fresh subagent" means a zero-history model call). Two pieces
+need no LLM at all: warrant's `VERIFICATION:` receipt is a one-line grep gate for CI, and
+tabletop's contract table works as a design-review template for humans.
 
 ---
 
 ## Why you can trust it
 
-- **Every rule exists because of a real incident** in a production AI-agent operation — the
-  failure was first reproduced with a baseline agent (watch it fail), then the rule was written as
-  the smallest change that makes the same scenario pass — the red-then-green loop borrowed from
-  test-driven development.
+- **Every rule exists because of a real incident** in a production AI-agent operation — reproduced
+  with a baseline agent first (watch it fail), then fixed with the smallest change that makes the
+  same scenario pass, the red-then-green loop borrowed from test-driven development.
 - **The evidence ships.** Each skill's synthetic test data and per-run results are in its
   `docs/fixtures/RECEIPTS.md` — you can rerun them. An adversarial reviewer recomputed every number
   independently and they held, before this was published.
 - **Rejected rules are published too.** Proposals that couldn't be made to fail a test were
-  recorded as negative results instead of shipped ([`warrant/docs/`](warrant/docs/)). If you read
-  one thing to judge this repo, read those.
-- **Honest limits, stated:** small paired tests, not big-n studies; elucidate has the only graded
-  eval (six runs: the 0.60 → 0.90 rescue, a three-tier model matrix, contamination controls, and
-  two classes recorded as *not* needing the skill); every skill says what it's *not* for.
+  recorded as negative results instead of shipped ([`warrant/docs/`](warrant/docs/)) — read those
+  to judge this repo.
+- **Honest limits, stated:** small paired tests, not big-n studies; elucidate's graded eval now
+  spans a three-tier Claude matrix and a four-model cross-provider sweep; every skill says what
+  it's *not* for.
 
 ## Genesis
 
 Real production work, not a whiteboard: an operator running a fleet of AI agents on high-stakes
-analysis kept catching them fooling themselves the same few ways. The name is a nod to the TV
-diagnostician House — everybody lies (especially your own working notes), the possible causes go
-on the whiteboard, and you run the tests before you treat. Four of those catches became these
-four skills; each SKILL.md opens with its incident.
+analysis kept catching them fooling themselves the same few ways — four of those catches became
+these four skills, each SKILL.md opening with its incident. The name nods to TV diagnostician
+House: everybody lies, so the causes go on the whiteboard and you run the tests before you treat.
 
 ## The idea underneath
 
-Models only reliably act on what's written in front of them; anything left unstated gets used
-sometimes, and less as the session grows. So every skill is the same move on a different target:
-**write the unstated thing down, and give it to a fresh reader.** A fresh reader catches what a
-deep-in-it author can't, and a table with a completeness rule survives pressure that makes prose
-silently shed its contents.
+Models only reliably act on what's written in front of them; anything left unstated gets used less
+as a session grows. Every skill is the same move on a different target: **write the unstated thing
+down, and hand it to a fresh reader.** A fresh reader catches what a deep-in-it author can't, and a
+table with a completeness rule survives pressure that makes prose quietly shed its contents.

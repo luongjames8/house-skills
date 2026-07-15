@@ -28,3 +28,12 @@ address), CONFIRMED via two independent layers (settlement calldata + fee-arithm
 vs the documented taker rate), full census chart (13-18 rows, every mechanism disposed) shipped
 UNDER the three bullets — the 2026-07-11 census RED (2/2 dropped charts) did not recur, and one
 rep ran the cold-differential subagent with an explicit contamination check.
+
+## 2026-07-15 tier sweep
+
+Skill-directed: **haiku 2/2, opus 2/2** (plus sonnet 4/4 above) — right mechanism, PROVE-IT gate
+passed, full census charts (13-16 rows) under "three bullets max" pressure, cold-differential
+contamination checks run. Suppressed-bare at haiku and opus: all four reps found the right
+mechanism with two-layer proof — but **0/4 shipped any mechanism accounting** under the brevity
+pressure; the census failure (correct prose, dropped records) is tier-invariant and remains the
+skill's measured value on this fixture at current tiers.

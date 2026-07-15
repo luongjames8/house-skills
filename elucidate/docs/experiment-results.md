@@ -279,6 +279,48 @@ Findings:
 
 ---
 
+## Run 6f — opus on the pattern sets + the frame-import ceiling
+
+Opus, naive prompt, famous-4 + template-isomorph-4 + mint-match (`results-run6f-opus-patterns.json`).
+Templates: 15/16 bare → 16/16 distilled (one bare slip: answered "3" to the self-count isomorph
+while its own reasoning derived 4). **Mint-match: 0/2 bare → 0/2 distilled** — the first problem
+where typed distillation fails to rescue a stronger model that it rescued at a weaker tier (haiku
+0/2 → 2/2, run 4). Opus reasoned *around* the briefing ("split into two books... neutral"),
+re-deriving a sophisticated version of the venue's frame. Sophistication can argue past a surfaced
+constraint; recorded as a negative result bounding the rescue claim by tier.
+
+## Run 7 — cross-provider sweep (Bailian models, independent grader)
+
+Four non-Claude models (glm-5, qwen3.7-plus, kimi-k2.5, MiniMax-M2.5), 15 problems (family-5,
+famous-4, isomorph-5, mint-match), 2 trials, bare vs typed distill, graded by an independent
+third-provider model. Raw records: `results-run7-bailian.json` (240 records, 0 grade-parse
+failures). Solved, bare → distill (family/10, famous/8, iso/10, mint/2):
+
+| model | family | famous | iso | mint | total /30 |
+|---|---|---|---|---|---|
+| qwen3.7-plus | 5→6 | 5→7 | 10→8 | 0→0 | 20→21 |
+| kimi-k2.5 | 2→7 | 7→5 | 8→10 | 0→0 | 17→22 |
+| glm-5 | 1→8 | 6→5 | 7→10 | 0→0 | **14→23** |
+| MiniMax-M2.5 | 1→4 | 6→6 | 8→8 | 0→0 | 15→18 |
+
+Findings:
+
+1. **Frame-import is the universal discriminator.** mint-match: 0/16 across all four models in
+   BOTH arms. Combined with run 4 (haiku 0/2→2/2) and run 6f (opus 0/2→0/2), no model of any
+   provider solves it bare, and the distill rescue has only been observed at one tier.
+2. **The rescue shape replicates cross-provider — where the bare model is weak.** glm-5 goes
+   0.10→0.80 on the family (steeper than Claude's 0.60→1.00); kimi 0.20→0.70. One bare
+   exception: qwen3.7-plus solved charger 2/2 bare — the only model of the seven tested (three
+   Claude tiers + four Bailian) to crack it without the skill.
+3. **Distillation taxes strong-bare cases** — qwen iso 10→8 and charger 2→0, kimi famous 7→5.
+   Same lesson as run 6f from the other direction: distill is a rescue for weak-bare, noise for
+   strong-bare on trivial-twist puzzles. This bounds the run-1/2 "never hurt" finding to the
+   regimes originally tested.
+4. Caveats: n=2 trials per cell (±1 is noise); 3–17% bare refusal rates; grader is a single
+   third-provider model.
+
+---
+
 ## Honest caveats
 
 - **Small n** (2 trials/cell, 5 problems). Directional, not publication-grade; the effects are large
