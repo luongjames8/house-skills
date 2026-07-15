@@ -45,7 +45,7 @@ const materialFor = (p, inputMode) =>
 phase('Distill')
 const distillKeys = new Set()
 for (const p of problems) for (const c of cells) {
-  if (c.distillMode === 'A' || c.distillMode === 'B')
+  if (c.distillMode === 'A' || c.distillMode === 'B' || c.distillMode === 'F')
     distillKeys.add(`${p.id}|${c.inputMode}|${c.distillMode}`)
 }
 const distillList = [...distillKeys].map(k => {
@@ -53,7 +53,9 @@ const distillList = [...distillKeys].map(k => {
   return { k, p: problems.find(x => x.id === id), inputMode, dMode }
 })
 const distillResults = await parallel(distillList.map(d => () => {
-  const promptText = d.dMode === 'A' ? prompts.distill_freeform : prompts.distill_typed
+  const promptText = d.dMode === 'A' ? prompts.distill_freeform
+    : d.dMode === 'F' ? prompts.distill_typed_frame_audit
+    : prompts.distill_typed
   return agent(`${promptText}\n\n=== RAW MATERIAL ===\n${materialFor(d.p, d.inputMode)}`, {
     label: `distill:${d.p.id}:${d.inputMode}:${d.dMode}`,
     phase: 'Distill', model: S, effort: 'medium', schema: DISTILL_SCHEMA,
@@ -77,7 +79,9 @@ async function solve(job) {
     base = `=== BRIEFING ===\n${brief}\n\n=== QUESTION ===\n${p.prompt}`
   }
   if (c.analysisMode === 'single') {
-    const r = await agent(`${prompts.solve_single}\n\n${base}`, {
+    const solvePrompt = (c.distillMode === 'F' && prompts.solve_single_frame_audit)
+      ? prompts.solve_single_frame_audit : prompts.solve_single
+    const r = await agent(`${solvePrompt}\n\n${base}`, {
       label: `solve:${p.id}:${c.inputMode}:${c.distillMode}`,
       phase: 'Solve+Grade', model: H, effort: 'low', schema: SOLVE_SCHEMA,
     })
