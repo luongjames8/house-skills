@@ -1,0 +1,38 @@
+{
+  "cellSummary": [
+    {
+      "cell": "clean/F/single",
+      "n": 2,
+      "surfaced_rate": 0.5,
+      "correct_rate": 1,
+      "solved_rate": 0.5,
+      "mean_quality": 55
+    }
+  ],
+  "records": [
+    {
+      "problemId": "mint-match-frame",
+      "inputMode": "clean",
+      "distillMode": "F",
+      "analysisMode": "single",
+      "trial": 0,
+      "recommendation": "Classify mint_match fills as bad flow (self-cross/wash-equivalent) by default for internal PnL/rebate books \u2014 exclude them from rebate revenue recognition \u2014 until the crossed pair's counterparty origin is verified against our own order IDs.",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 65,
+      "notes": "The candidate correctly ends up classifying mint_match as bad flow / excluded from rebate books, matching the correct answer's conclusion, but it gets there via a different and partly off-target rationale (self-cross/wash-trade suspicion, needing to verify counterparty order IDs) rather than the actual hidden constraint that even a genuinely external, fully-collateralized mint match leaves us holding one directional leg against disproportionately informed complement-side flow; it never articulates the 'venue's matched frame \u2260 our risk frame' insight or the informed-flow/adverse-selection mechanism, so it reaches the right action for a different, less complete reason."
+    },
+    {
+      "problemId": "mint-match-frame",
+      "inputMode": "clean",
+      "distillMode": "F",
+      "analysisMode": "single",
+      "trial": 1,
+      "recommendation": "Classify mint_match as bad flow / flagged-pending-verification, NOT as benign maker liquidity, until counterparty origin per fill is determined.",
+      "surfaced_constraint": false,
+      "correct_recommendation": true,
+      "quality": 45,
+      "notes": "Candidate correctly lands on \"bad flow\" and does gesture at not importing the venue's maker/rebate frame into internal books, but the entire justification is built on a different, speculative mechanism (self-crossing/wash-trading risk from the two-legged assembler) rather than the actual hidden constraint \u2014 that the mint channel hands us the losing leg against informed complement-side flow in a moving market; it never mentions adverse selection or directional risk at all.</notes>\n</invoke>\n"
+    }
+  ]
+}

@@ -1,0 +1,134 @@
+{
+  "cellSummary": [
+    {
+      "cell": "clean/F/single",
+      "n": 10,
+      "surfaced_rate": 0.3,
+      "correct_rate": 0.3,
+      "solved_rate": 0.3,
+      "mean_quality": 49.5
+    }
+  ],
+  "records": [
+    {
+      "problemId": "px-units-misread",
+      "inputMode": "clean",
+      "distillMode": "F",
+      "analysisMode": "single",
+      "trial": 1,
+      "recommendation": "Do not treat this as a confirmed accounting bug yet \u2014 the discrepancy is unresolved, not verified. The analyst's $4.00 stake rests on an unproven assumption (px=40 = $0.40/share); the dashboard rendering px as dollars is a separate surface's conversion and does not establish px's native unit. The attribution report's -$0.40 scope (per-share vs total-position) is likewise unstated. The exact 10x match between the gap and the share count is the key diagnostic clue, but it is consistent with two opposite explanations that look identical from the outside: (a) the analyst wrongly compared a legitimate per-share attribution figure to a total-position manual calc (no bug), or (b) the pipeline genuinely dropped a \u00d710 shares multiplier (real bug). Additionally, \"unpaired\" shares may not carry the same per-share settlement risk as matched shares, which would independently change the correct stake figure. Before escalating as a pipeline bug or dismissing the analyst's concern, pull: (1) the ledger/engine schema's documented unit for px, (2) the attribution report's schema definition of \"net\" (per-share vs total position), and (3) engine documentation on unpaired-share settlement treatment. Only after those three are confirmed can the -$0.40 vs $4.00 gap be correctly attributed to either an analyst unit-convention error or a genuine pipeline defect.",
+      "surfaced_constraint": false,
+      "correct_recommendation": false,
+      "quality": 35,
+      "notes": "Candidate correctly flags that px's unit is an unproven assumption and refuses to accept the analyst's $4.00 framing, but it misses that the data itself already resolves the ambiguity (mills: 10 x $0.04 = $0.40 matches the attribution report's payout identity exactly), wrongly calling the 10x match \"bidirectionally ambiguous\" and punting to external documentation instead of reaching the correct verdict that the accounting reconciles."
+    },
+    {
+      "problemId": "px-units-misread",
+      "inputMode": "clean",
+      "distillMode": "F",
+      "analysisMode": "single",
+      "trial": 2,
+      "recommendation": "Do not file this as an attribution-pipeline bug yet \u2014 the analyst's $4.00 figure and the report's -$0.40 figure have not been reconciled against a confirmed common unit, so the \"10x discrepancy\" is not established as real.\n\nThe crux value, px=40, has an UNRESOLVED unit in this material. The analyst read it as \"$0.40/share\" purely because the dashboard renders px-derived numbers as dollars \u2014 but the dashboard is a different downstream surface from the attribution report, and its rendering convention is not proof of the raw ledger field's native unit or of the report's convention. px=40 could just as plausibly be integer cents, a 0-100 probability/percentage point, or something else; each implies a different stake.\n\nThe fact that the discrepancy is exactly 10x \u2014 the same as the share count \u2014 is the tell here, not confirmation of a bug. It's the signature of a shares-count multiplier being applied twice, applied once where it shouldn't, or omitted where it should be \u2014 and that error is at least as likely to be in the analyst's manual arithmetic (px-as-dollars \u00d7 shares) as in the pipeline. You cannot tell which without knowing whether the report's -$0.40 is a total-position figure or a per-share/per-unit figure, and without confirming \"unpaired\" shares carry full per-share risk in this engine's settlement model rather than reduced/contingent risk.\n\nBefore concluding either way, resolve, from the ledger/engine schema (not by assumption):\n1. The documented native unit of the raw integer px field (cents / probability-points / dollars).\n2. Whether the attribution report's \"net\" is total-position or per-share/per-unit.\n3. Whether unpaired shares settle with full notional risk equal to matched shares.\n\nOnly after those three are pinned down can the analyst's $4.00 and the report's -$0.40 be reconciled from the same raw inputs. Until then, this reads more like a unit-convention misread (dashboard-dollar-rendering treated as proof of px's native unit) than a verified pipeline defect \u2014 but it should be verified via schema/docs, not decided by which number \"seems more official.\"",
+      "surfaced_constraint": false,
+      "correct_recommendation": false,
+      "quality": 30,
+      "notes": "The candidate correctly refused to blindly trust the analyst's dashboard-derived $0.40/share read and correctly demanded the native unit be established from schema/docs before verdict, which is close to the right methodology, but it never actually derives or even hypothesizes the mills convention (40 = $0.04/share) that reconciles the two numbers exactly, so it stops at 'inconclusive, need more info' rather than reaching the correct answer that the accounting is right and the discrepancy is a unit misread \u2014 it treats the 10x match as ambiguous rather than as the signature of the share-count/mills conversion, and never surfaces the actual hidden constraint (mills units) even generically."
+    },
+    {
+      "problemId": "px-units-misread",
+      "inputMode": "clean",
+      "distillMode": "F",
+      "analysisMode": "single",
+      "trial": 3,
+      "recommendation": "Do not confirm the suspected accounting bug. The analyst's $4.00 figure depends on an unverified assumption (px=40 is cents/dollars-per-share) that the material never establishes \u2014 the dashboard rendering px-derived values as dollars proves the dashboard's conversion logic, not px's native storage unit. Similarly, the attribution report's -$0.40 scope (per-share vs. total-position) is unstated and comes from a separate downstream surface than the dashboard, so treating one as \"ground truth\" and the other as \"off by 10x\" is unwarranted. The fact that the discrepancy is exactly 10x the share count is a genuine clue, but it's ambiguous: it could mean the pipeline correctly reports per-share/net figures while the analyst wrongly multiplied by shares, OR it could mean the pipeline dropped a real shares multiplier. Additionally, \"unpaired\" shares may not carry the same settlement/risk treatment as matched shares, which would invalidate simple shares\u00d7price arithmetic regardless of unit. Before declaring a bug, pull: (1) the documented native unit of the px integer field, (2) the attribution report's schema definition of \"net\" (per-share vs total), and (3) the engine's settlement treatment of unpaired vs matched shares. Reconcile both the analyst's manual number and the report's number against these raw definitions \u2014 do not assume either is correct by default.",
+      "surfaced_constraint": false,
+      "correct_recommendation": false,
+      "quality": 35,
+      "notes": "The candidate correctly refused to accept the \"attribution bug\" framing at face value and flagged unit-convention ambiguity as unresolved, but it never did the derivation the problem actually permits \u2014 using the payout identity (10 shares \u00d7 price = $0.40 stake, resolving to $0 = net -$0.40) to establish px is in mills ($0.04/share) and confirm the accounting reconciles exactly; instead it punted to \"pull more schema docs,\" which is not the verification the task asked for and misses that the data given was already sufficient to prove units from within itself."
+    },
+    {
+      "problemId": "size-column-units",
+      "inputMode": "clean",
+      "distillMode": "F",
+      "analysisMode": "single",
+      "trial": 0,
+      "recommendation": "Do not accept the prior analysis's conclusions (~2x cheap-leg tilt, sets above par, negative PnL). The load-bearing unverified assumption is that `size` = share count. Venue public APIs commonly report `size` as notional dollar value instead, and if that's the case here, true shares = size/price, not size. Every downstream metric (leg balance/tilt, set-cost-vs-par, and PnL settlement math) is computed in the wrong space if that assumption is wrong: dividing by price differentially inflates the cheaper leg's implied share count, set-cost summation is only meaningful in $/share space, and PnL payout ($1 or $0 per share on `winner`) is corrupted if notional dollars are treated as shares. Required steps before trusting any conclusion: (1) resolve size's unit via venue API docs or data reconciliation (check size/price for integer-like share counts, or sum(size) per market against plausible volume); (2) compute correct per-leg share counts; (3) recompute leg balance/tilt in share-space; (4) recompute set cost (sum of per-share leg prices vs par=1); (5) recompute PnL matching `winner` to actual shares held; (6) only then restate the strategy narrative, explicitly checking whether the ~2x tilt and negative-PnL conclusions survive or flip under the corrected unit. Also verify `winner` is constant per market_id (true resolution flag) rather than varying per row.",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 90,
+      "notes": "The candidate explicitly identified that `size` may be notional dollars rather than share count, correctly explained the mechanism (dividing by price differentially inflates the cheap leg, manufacturing the phantom tilt), and correctly rejected the prior analysis's conclusions pending unit reconciliation via size/price integrality checks \u2014 matching the hidden constraint and required corrective action almost exactly, though it stopped short of asserting the specific inverted outcome (near-par sets, positive PnL) since no CSV was actually available to recompute."
+    },
+    {
+      "problemId": "size-column-units",
+      "inputMode": "clean",
+      "distillMode": "F",
+      "analysisMode": "single",
+      "trial": 1,
+      "recommendation": "Do not trust the prior analysis. All three conclusions (2x cheap-leg tilt, sets above par, negative PnL) assume raw `size` equals share count, but the venue API's `size` convention is UNRESOLVED \u2014 it may be notional dollar value of the fill rather than shares, common on CLOB-style prediction market APIs. If so, true shares = size/price, and every downstream metric is wrong.\n\nResolve the unit from data first: check whether size/price yields plausible integer-ish share counts (implies notional) vs. size alone looking like round share counts (implies already shares); sanity-check sum(size) vs sum(size*price) per market against typical volume; check venue docs directly if accessible.\n\nOnly after that: recompute leg tilt on correct shares (dollar-based tilt overstates skew toward the cheap leg since a fixed dollar amount buys more cheap shares \u2014 the 2x figure could shrink, disappear, or reverse). Recompute set cost using verified per-share prices summed over quantity-matched complementary legs (confirm sets are actually 1:1 matched, not just price-summed, before calling anything \"above par\"). Recompute PnL as (winning shares x $1 + losing shares x $0) minus true cost basis, with `winner` matched per market_id (verify constant per market) \u2014 sign can flip if notional was mistakenly treated as shares.\n\nReport this as \"prior conclusions unverified pending size-unit reconciliation,\" not as an established strategy characterization, until the unit check is done and metrics re-derived.",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 85,
+      "notes": "Candidate explicitly identified the size-units ambiguity (dollars vs shares), correctly rejected the prior analysis's conclusions as unverified, and correctly diagnosed the mechanism (dollar-weighting inflates apparent cheap-leg tilt) with the right recompute path, though it hedges on the final flipped conclusion rather than stating it outright and doesn't specify on-chain ground-truth reconciliation as the correct proof method."
+    },
+    {
+      "problemId": "size-column-units",
+      "inputMode": "clean",
+      "distillMode": "F",
+      "analysisMode": "single",
+      "trial": 2,
+      "recommendation": "Do not accept the prior analysis. Its core claims (2x cheap-leg tilt, above-par sets, negative PnL) all rest on treating `size` as share count, which is unverified \u2014 the venue's public API may report `size` as notional dollar value rather than contracts, a common convention for CLOB-style prediction markets. This is not resolvable from the column list alone; it must be checked against venue docs or reconciled from the data itself (e.g., does size/price cluster near integers = shares, or does size look like round dollar amounts = notional; does sum(size) per market match known volume conventions in $ or shares).\n\nIf size is actually notional, every downstream metric is wrong: true shares = size/price, so a trader who is notional-balanced across legs (roughly equal $ on cheap and expensive legs) would incorrectly show up as heavily share-tilted toward the cheap leg once mis-converted \u2014 this alone could fully explain the reported \"~2x cheap-leg tilt\" as an artifact, not real behavior. Set economics (sum of per-share leg costs vs par=1) can't be assessed without correct share counts, so \"above par\" isn't established. PnL settles at $1/share on the winning leg per `winner` \u2014 using notional dollars as share counts changes payout by a factor of 1/price per leg and can flip the sign entirely, so \"negative PnL\" is unproven.\n\nRequired sequence before any label is trusted: (1) resolve size's unit via docs or data reconciliation, (2) compute true per-leg share counts (size/price if notional), (3) recompute set cost vs par per market, (4) recompute PnL by matching `winner` to correctly-derived held shares, (5) confirm `winner` is constant per market_id (sanity check, not noise). Only then characterize tilt/set-economics/PnL. Treat all three prior conclusions as conditional-on-an-unverified-frame, not findings, until step 1 is done.",
+      "surfaced_constraint": true,
+      "correct_recommendation": true,
+      "quality": 85,
+      "notes": "Candidate correctly flags the size=shares assumption as unverified, explains the exact notional-vs-shares mechanism that could invert tilt/set-economics/PnL, and refuses to endorse prior conclusions \u2014 matching the correct answer's substance; it loses a few points for suggesting docs or in-data reconciliation as sufficient rather than explicitly requiring independent ground truth (e.g., on-chain shares), which the hidden constraint says is the only reliable check."
+    },
+    {
+      "problemId": "mint-match-frame",
+      "inputMode": "clean",
+      "distillMode": "F",
+      "analysisMode": "single",
+      "trial": 0,
+      "recommendation": "Classify mint_match as its own third bucket in the PnL/rebate book \u2014 do NOT fold it into \"good flow\" alongside at_level. Provisionally treat it as bad flow / unrecognized rebate income until resolved, because the required fact to call it good (whether the complementary bid came from an external counterparty vs. our own engine supplying both legs) is not established in the given material.",
+      "surfaced_constraint": false,
+      "correct_recommendation": false,
+      "quality": 30,
+      "notes": "The candidate never identifies the actual hidden constraint (mint hands the exchange a matched pair but hands US only one directional leg, disproportionately the losing one, against informed complement-side flow); instead it invents a different, unsupported constraint (whether our own engine self-crosses both legs, i.e. wash-trading) and concludes that if the complementary bid came from an external counterparty it should be classified as good flow \"same as at_level\" \u2014 which is the opposite of the correct answer's core insight that external/informed complement flow is precisely what makes mint_match toxic \u2014 so its provisional 'bad flow' label is reached for the wrong reason and is explicitly reversible in the scenario that actually matters.</notes>\n</invoke>\n"
+    },
+    {
+      "problemId": "mint-match-frame",
+      "inputMode": "clean",
+      "distillMode": "F",
+      "analysisMode": "single",
+      "trial": 1,
+      "recommendation": "Classify mint_match as a distinct third bucket, NOT unconditionally \"good flow.\" Do not accept the venue's maker/rebate label at face value \u2014 it's an imported payment-schedule convention, not proof of economic liquidity provision. Structurally, mint_match requires an UP bid and a DOWN bid to cross, and our engine is a \"two-legged set assembler\" that places both legs \u2014 meaning mint_match fills are, absent contrary evidence, self-crosses against our own resting orders, not liquidity provided to an external taker. That fails both prongs of \"good flow\" (real risk-taking/liquidity provision, and durability against a wash-trade/self-match audit). Contrast with at_level (genuine resting maker, hit by an external taker) and taker_cross (genuine taker, no rebate) \u2014 both are clean; mint_match is neither.\n\nAction for the books: bucket mint_match separately from at_level/taker_cross; mark its rebate income as provisional/at-risk rather than clean maker income; exclude it from \"good flow\" totals pending resolution of the crux fact.\n\nUnresolved crux (flagged, not silently assumed): whether the complementary bid in a mint_match event ever comes from an external participant, or whether our own engine always supplies both legs. If always self-supplied, treat as wash-trade-like flow with clawback/audit risk; if sometimes external, only the externally-countered subset is genuine maker flow and can be booked as good flow.</parameter>\n</invoke>\n",
+      "surfaced_constraint": false,
+      "correct_recommendation": false,
+      "quality": 35,
+      "notes": "The candidate correctly refuses to accept the venue's \"matched/riskless\" label at face value, but misdiagnoses the mechanism entirely \u2014 it frames mint_match as a possible wash-trade/self-cross issue (both legs supplied by our own engine) rather than identifying the actual hidden constraint, that the complementary bid is disproportionately informed flow buying the winning leg, leaving us with the directional loser; it never mentions adverse selection or \"holding the losing leg\" at all, and instead of the unconditional \"bad flow\" verdict it lands on a hedged, provisional third bucket pending resolution of the wrong crux fact."
+    },
+    {
+      "problemId": "mint-match-frame",
+      "inputMode": "clean",
+      "distillMode": "F",
+      "analysisMode": "single",
+      "trial": 2,
+      "recommendation": "Do not book mint_match fills as unconditionally good flow. Bucket them as a distinct third category, separate from at_level and taker_cross, and mark them PENDING/unresolved on the PnL and rebate books until you determine, per mint event, whether the complementary bid came from an external counterparty or from our own engine's other leg. If confirmed external, that subset is legitimate maker liquidity (good flow, safe to book as rebate income). If both legs are confirmed ours, that subset is a self-match/bookkeeping artifact (bad flow, exclude from sustainable rebate income, flag as audit/clawback risk). Until that check is done, treat all mint_match rebate income as provisional, not confirmed good flow.",
+      "surfaced_constraint": false,
+      "correct_recommendation": false,
+      "quality": 35,
+      "notes": "The candidate never identifies the actual hidden constraint (that mint fills hand us a single directional leg against disproportionately informed complement-side flow, making the venue's 'riskless/matched' framing the wrong frame for our own risk book); instead it invents and chases a different, unstated issue (whether the complementary bid is internal self-crossing/wash-trading vs. external), and even concludes that if the counterparty is external the fill is legitimate good flow \u2014 which is wrong under the correct answer, since informed-flow toxicity applies regardless of whether the counterparty is external or internal."
+    },
+    {
+      "problemId": "mint-match-frame",
+      "inputMode": "clean",
+      "distillMode": "F",
+      "analysisMode": "single",
+      "trial": 3,
+      "recommendation": "Classify mint_match fills as a distinct, flagged bucket \u2014 NOT unconditionally \"good flow\" \u2014 and do not book their rebate weight as legitimate/sustainable income until self-cross vs. external-counterparty provenance is confirmed per event.",
+      "surfaced_constraint": false,
+      "correct_recommendation": false,
+      "quality": 35,
+      "notes": "Candidate never identifies the real hidden mechanism (mint hands us a single directional leg disproportionately picked off by informed complement-side flow \u2014 venue's 'matched/riskless' frame \u2260 our risk frame); instead it invents an unstated concern about self-crossing/wash-trading and lands on a hedged 'flag it, don't book as clean income yet' rather than the decisive 'bad flow' verdict, so it neither surfaces the actual constraint nor confidently reaches the correct classification."
+    }
+  ]
+}

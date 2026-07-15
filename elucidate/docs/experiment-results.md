@@ -342,6 +342,43 @@ inconsistent denominators can't silently reappear.
 
 ---
 
+## Runs 9-10 — the FRAME AUDIT proposal: harness drift fixed, slot REJECTED (negative result)
+
+A design proposal (2026-07-15) recommended adding a mandatory FRAME AUDIT typed slot to rescue
+the frame-import class. Its grounding work found a real bug first: **`eval/prompts.json`'s
+`distill_typed` never received the frame clause `SKILL.md`'s Step-1 prompt shipped on
+2026-07-11** — the harness reads prompts.json, so every frame-import number in runs 4–8 measured
+the pre-clause prompt. The drift is now closed (prompts synced; the old wording remains in each
+run's args for reproducibility).
+
+**Run 9 (step 0)** — the shipped clause alone, haiku, distill arm: px-units 0/4 (bar 0/4,
+unmoved — mills now appears among its hypotheses but the reconciliation is never run);
+size-column 2/4 and mint 1/3 surfaced (floors wobbled — the hedging tax is real).
+`results-run9-step0-clause.json`.
+
+**Run 10 (steps 1-2)** — FRAME AUDIT implemented as separate distill mode `F`
+(`distill_typed_frame_audit` + `solve_single_frame_audit` in prompts.json, two-line branch in
+workflow.js), tested against the proposal's own gates. haiku
+(`results-run10-frame-audit-haiku.json`): **px-units 0/3 — no rescue** (the slot's "flag as
+unresolved is a valid answer" escape hatch swallowed its own DERIVE instruction; every rep
+punted to external schema docs the fixture says don't exist); **mint-match 0/4 solved AND 0/4
+correct — the regression floor broke**: the slot derailed haiku off the run-4 rescue entirely
+(wash-trade/self-cross misdiagnosis and unresolved-punts replaced the correct bad-flow verdict).
+size-column held 3/3. opus mint with the slot (`results-run10-frame-audit-opus.json`): 1/2
+solved, 2/2 right action — a modest stretch-target gain (bar was 0/2), earned via a partly
+off-target wash-trade rationale; it does not offset breaking the must-hold haiku floor.
+
+**Disposition: FRAME AUDIT is rejected — do not add the slot to SKILL.md.** Third time this
+repo's red-then-green bar has killed an intuitively-appealing addition (see warrant's two
+rejected checklists); the F mode stays in the harness for future iterations. Standing
+conclusion, sharpened: the frame-import residue (px-units; mint at opus and cross-provider) is
+not prompt-shaped. What the failures share is a missing piece of *evidence or expertise* — the
+mills convention, the adverse-selection mechanism — that no slot can conjure from a bare prompt.
+The live fix path remains feeding `raw_material` (the corpus that contains the tacit fact)
+through the distiller, per run 5's future-work note.
+
+---
+
 ## Honest caveats
 
 - **Small n** (2 trials/cell, 5 problems). Directional, not publication-grade; the effects are large
