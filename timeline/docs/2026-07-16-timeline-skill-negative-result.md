@@ -90,9 +90,13 @@ and declined the pressure narrative.
 
 Structural findings (no content): 74/74 retrieved facts carried timestamps — the payloads are
 NOT time-blind; 7 of 10 retrieved nodes were the agent's OWN derived interpretive entities; and
-the "no reply" keyword search returned 101 matches, **every one authored by the user himself** —
-the "silence" frame in the memory is 100% the narrator's own narration, zero counterpart
-behavior records.
+the "no reply" keyword search returned 101 matches, all attributed to the user's side of the
+transcript — per the owner, that keyword is the chat platform's MISSED-CALL system marker, so
+these are likely unanswered-call events (caller-side log lines), not prose narration. Either
+reading, the point stands sharper: the memory's "silence" frame rests on a one-sided sample (his
+unanswered outgoing calls are logged; answered contact and the reverse direction don't match the
+keyword) — a retrieval artifact readable as a behavior pattern unless entries are speaker- and
+type-tagged.
 
 **Final standing conclusion, now field-confirmed:** the failure lives entirely in the
 long-running session evaluating its own stored inferences — even weaker non-Claude models pass
