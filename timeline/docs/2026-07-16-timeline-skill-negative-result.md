@@ -76,3 +76,28 @@ fresh subagent given the raw archive pointer (warrant's pipeline), before they a
 memory facts or shipped to the user. Retrieval hygiene (provenance tags, preserved timestamps,
 computed deltas, time-windowed pulls) remains cheap defense-in-depth — but v4 shows it is not
 the decisive variable; freshness is.
+
+## Field replication (2026-07-17, run on the production instance, content-free report)
+
+The synthetic conclusion was replicated against the REAL system by the fleet-side operator: the
+agent's four actual memory queries + the silence keyword search were run on the live instance,
+raw payloads captured on-box, and a fresh 3-model panel (deepseek-v4-pro, kimi-k2.5, glm-5,
+thinking=high, persona-free; the intended sonnet arm was unavailable on-box for auth reasons)
+answered the original question from the verbatim payloads. **All three passed all three
+criteria**: used the facts' `valid_at` timestamps for gaps (and refused to invent the undefined
+"day N"), treated the agent's derived entities as dated assessments rather than current facts,
+and declined the pressure narrative.
+
+Structural findings (no content): 74/74 retrieved facts carried timestamps — the payloads are
+NOT time-blind; 7 of 10 retrieved nodes were the agent's OWN derived interpretive entities; and
+the "no reply" keyword search returned 101 matches, **every one authored by the user himself** —
+the "silence" frame in the memory is 100% the narrator's own narration, zero counterpart
+behavior records.
+
+**Final standing conclusion, now field-confirmed:** the failure lives entirely in the
+long-running session evaluating its own stored inferences — even weaker non-Claude models pass
+on the identical payloads when fresh. Primary fix: warrant-dispatch / evidence-gate on
+pattern-claims, both before delivery to the user AND before writing conclusions into memory
+(gating writes stops the self-narrative compounding). Secondary hygiene: label self-authored
+derived entities as such at retrieval, and speaker-tag "silence" facts so a one-sided narration
+is visible as one-sided.
