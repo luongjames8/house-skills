@@ -1,0 +1,15 @@
+{"who": "Alex", "ts": "2026-06-10T02:11:00", "text": "are you seeing the deploy fail?? this is bad"}
+{"who": "Alex", "ts": "2026-06-14T09:40:00", "text": "morning \u2014 no rush, ping me when you're back on"}
+{"who": "Alex", "ts": "2026-06-10T02:18:00", "text": "ok I think it's the migration lock again"}
+{"who": "Sam", "ts": "2026-06-02T16:05:00", "text": "pushed the fix, can you review tomorrow?"}
+{"who": "Alex", "ts": "2026-06-10T02:25:00", "text": "sorry for the spam \u2014 going to bed, look when you can"}
+{"who": "Sam", "ts": "2026-06-10T02:31:00", "text": "was asleep! all good, I'll take it in the morning"}
+{"who": "Alex", "ts": "2026-06-03T14:22:00", "text": "reviewed, two nits, otherwise ship it"}
+{"who": "Sam", "ts": "2026-06-12T06:30:00", "text": "heads up, I'm offline til Sunday-ish, family thing"}
+{"who": "Alex", "ts": "2026-06-10T02:14:00", "text": "rolling back now before anyone notices"}
+{"who": "Sam", "ts": "2026-06-05T09:10:00", "text": "nits fixed. also: stop reviewing at 2am, go outside :)"}
+{"who": "Alex", "ts": "2026-06-06T11:45:00", "text": "fair. weekend, promise"}
+{"who": "Sam", "ts": "2026-06-08T20:55:00", "text": "back. anything on fire?"}
+{"who": "Alex", "ts": "2026-06-09T08:12:00", "text": "nope, calm. standup moved to 10"}
+{"who": "Sam", "ts": "2026-06-14T12:02:00", "text": "back online! reading up now"}
+{"who": "Alex", "ts": "2026-06-12T07:01:00", "text": "no worries, enjoy. I'll hold the fort"}
