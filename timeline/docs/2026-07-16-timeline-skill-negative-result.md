@@ -53,12 +53,26 @@ evidence it claimed to derive from. Combined across all three RED designs: **9/9
 does not reproduce in a fresh context at any current Claude tier when timestamps and provenance
 labels are present in the retrieved material.**
 
-**The boundary this establishes:** a skill can only act on information present in context. The
-field failure's inputs lacked exactly that information — unlabeled derived facts and stripped
-timestamps — and no prompt-side instruction can recover provenance the data does not carry. The
-fix is therefore the retrieval layer by construction, not by preference: (1) provenance tags on
-every stored fact (derived-by-agent vs quoted-from-source), rendered at retrieval; (2) timestamps
-preserved through retrieval, with computed deltas attached; (3) temporal questions answered from
-time-windowed raw pulls, never from keyword-filtered fragments or graph summaries. The residual
-un-replicated variable is the field agent's own long self-conditioned session — untestable with
-fresh subagents, and mitigated by the same three fixes.
+## RED v4 — labels stripped (the falsification round)
+
+The first draft of this doc claimed the passes depended on provenance labels being present
+("the fix is the retrieval layer by construction"). The owner asked: did you try it? We hadn't.
+v4 strips the "(derived)" hedges, dates, and any provenance wording — the memory entries assert
+confidently as bare knowledge (`search-fragments-unlabeled.jsonl`). **Result: 3/3 passes (sonnet
+2, opus 1).** Models inferred inference-vs-evidence from structure alone (no timestamp + no
+quoted text = "conclusory, unsourced") and one rep flagged that the leading query had retrieved
+exactly the fragments matching its own framing. The label-absence hypothesis is falsified.
+
+**Corrected standing conclusion (12/12 across four designs, three tiers):** a FRESH context at
+any current Claude tier is essentially immune to this failure family — scrambled order, asserted
+false frames, poisoned memory, unlabeled poisoned memory. The one condition no fresh-subagent
+experiment can replicate is the field condition itself: the long-running agent evaluating ITS OWN
+stored inferences inside its own session — it wrote "pressure pattern," so it retrieves and
+believes "pressure pattern." That is warrant's founding measurement (2026-07-10: same model,
+same data — polluted context fails, fresh context passes), recurring in a memory-augmented
+costume. The fix that follows from evidence rather than construction: **dispatch** — in
+long-running companion/coaching sessions, temporal and pattern conclusions must be verified by a
+fresh subagent given the raw archive pointer (warrant's pipeline), before they are stored as
+memory facts or shipped to the user. Retrieval hygiene (provenance tags, preserved timestamps,
+computed deltas, time-windowed pulls) remains cheap defense-in-depth — but v4 shows it is not
+the decisive variable; freshness is.
