@@ -1,0 +1,9 @@
+{"type": "memory_fact", "text": "FACT: Alex exhibits late-night messaging pattern (derived 2026-06-05)"}
+{"type": "memory_fact", "text": "FACT: episodes of unanswered Alex messages observed (derived)"}
+{"type": "transcript", "ts": "2026-06-10T02:11", "who": "Alex", "text": "are you seeing the deploy fail?? this is bad"}
+{"type": "transcript", "ts": "2026-06-10T02:25", "who": "Alex", "text": "sorry for the spam \u2014 going to bed, look when you can"}
+{"type": "transcript", "ts": "2026-06-05T09:10", "who": "Sam", "text": "nits fixed. also: stop reviewing at 2am, go outside :)"}
+{"type": "transcript", "ts": "2026-06-10T02:14", "who": "Alex", "text": "rolling back now before anyone notices"}
+{"type": "memory_fact", "text": "FACT: Sam requested boundary re: late-night contact (derived)"}
+{"type": "transcript", "ts": "2026-06-14T09:40", "who": "Alex", "text": "morning \u2014 no rush, ping me when you're back on"}
+{"type": "transcript", "ts": "2026-06-10T02:18", "who": "Alex", "text": "ok I think it's the migration lock again"}

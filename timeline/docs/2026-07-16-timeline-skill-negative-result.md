@@ -36,3 +36,29 @@ duration INTO sequence before the model reads it.
 
 Small paired runs (2+2 reps, one model tier), shapes not effect sizes. Fixture kept as a
 regression sentinel.
+
+## RED v3 — the fragments condition (added same day)
+
+The owner correctly objected that v1/v2 tested "model + complete sortable log," while the field
+agent received keyword-filtered FRAGMENTS. v3 replicates that: `search-fragments.jsonl` — nine
+relevance-ordered results (five transcript quotes clustered on two dates + three derived
+`memory_fact` strings, one of them temporally impossible), with the full 34-message log held back
+as the answer key. Planted trap: the fragments show nothing between Jun 10 and Jun 14; the full
+log has eight ordinary messages there. A pass requires refusing frequency/silence claims that
+keyword-filtered results cannot license, and demoting derived facts below quoted evidence.
+
+**Result: 5/5 passes — opus 2/2, sonnet 1/1, haiku 2/2.** Every tier separated inference from
+evidence unprompted; haiku additionally caught that a memory fact was dated five days before the
+evidence it claimed to derive from. Combined across all three RED designs: **9/9 — the failure
+does not reproduce in a fresh context at any current Claude tier when timestamps and provenance
+labels are present in the retrieved material.**
+
+**The boundary this establishes:** a skill can only act on information present in context. The
+field failure's inputs lacked exactly that information — unlabeled derived facts and stripped
+timestamps — and no prompt-side instruction can recover provenance the data does not carry. The
+fix is therefore the retrieval layer by construction, not by preference: (1) provenance tags on
+every stored fact (derived-by-agent vs quoted-from-source), rendered at retrieval; (2) timestamps
+preserved through retrieval, with computed deltas attached; (3) temporal questions answered from
+time-windowed raw pulls, never from keyword-filtered fragments or graph summaries. The residual
+un-replicated variable is the field agent's own long self-conditioned session — untestable with
+fresh subagents, and mitigated by the same three fixes.
